@@ -1,0 +1,8 @@
+.envrc
+.direnv
+.idea
+*.pyc
+*.csv
+.DS_Store
+.coverage
+*.log
