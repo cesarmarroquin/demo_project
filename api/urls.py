@@ -4,6 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 
 urlpatterns = [
+    url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^parents/$', ListParents.as_view(), name='list_parents'),
     url(r'^parents/(?P<pk>\d+)$', DetailParents.as_view(), name='detail_parents'),
     url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),

@@ -97,6 +97,33 @@ DATABASES = {
   }
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.ScopedRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/day',
+        'user': '1000/day',
+        'states': '100000/day'
+    },
+    # 'DEFAULT_FILTER_BACKENDS': (
+    #     'rest_framework_filters.backends.DjangoFilterBackend', ...
+    # ),
+
+
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
