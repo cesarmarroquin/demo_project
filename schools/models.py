@@ -4,9 +4,16 @@ from parents.models import *
 from teachers.models import *
 
 
+class School(models.Model):
+    name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+
 class SchoolClass(models.Model):
     name = models.CharField(max_length=255)
     teacher = models.ForeignKey(Teacher)
+    school = models.ForeignKey(School, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -16,13 +23,6 @@ class SchoolClass(models.Model):
     @property
     def all_teachers(self):
         return self.teacher
-
-
-class School(models.Model):
-    name = models.CharField(max_length=255)
-    school_class = models.ForeignKey(SchoolClass)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
 
 
 class Student(models.Model):
