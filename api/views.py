@@ -44,13 +44,26 @@ class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
     queryset = Parent.objects.all()
 
 #################  SCHOOLS #####################
-class ListSchool(generics.ListCreateAPIView):
+class ListSchools(generics.ListCreateAPIView):
     serializer_class = SchoolSerializer
     queryset = Parent.objects.all()
 
     def perform_create(self, serializer):
         serializer.save()
 
-class DetailSchool(generics.RetrieveUpdateDestroyAPIView):
+class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolSerializer
+    queryset = Parent.objects.all()
+
+
+#################  CLASSES #####################
+class ListClasses(generics.ListCreateAPIView):
+    serializer_class = SchoolClassSerializer
+    queryset = Parent.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SchoolClassSerializer
     queryset = Parent.objects.all()
