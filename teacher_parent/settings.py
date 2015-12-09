@@ -43,9 +43,11 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework.filters',
     'corsheaders',
+    'users',
     'teachers',
     'parents',
     'schools',
+    'api',
 
 )
 
@@ -145,3 +147,5 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+AUTH_USER_MODEL = 'parents.CustomUser'

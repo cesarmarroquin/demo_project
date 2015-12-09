@@ -9,6 +9,9 @@ class School(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "{}".format(self.name)
+
 
 class SchoolClass(models.Model):
     name = models.CharField(max_length=255)
@@ -25,6 +28,7 @@ class SchoolClass(models.Model):
         return self.teacher
 
 
+
 class Student(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -37,3 +41,30 @@ class Student(models.Model):
         return "{}, {}".format(self.last_name, self.first_name)
 
 
+# class Homework(models.Model):
+#     name = models.CharField(max_length=255)
+#     description = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     modified_at = models.DateTimeField(auto_now=True)
+#     
+#     def __str__(self):
+#         return "{}".format(self.name)
+#
+# class Waiver(models.Model):
+#     name = models.CharField(max_length=255)
+#     description = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     modified_at = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return "{}".format(self.name)
+#
+#
+# class Fee(models.Model):
+#     name = models.CharField(max_length=255)
+#     description = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     modified_at = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return "{}".format(self.name)

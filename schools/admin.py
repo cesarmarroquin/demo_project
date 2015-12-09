@@ -9,9 +9,9 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(SchoolClass)
 class SchoolClassAdmin(admin.ModelAdmin):
-    fields = ('name', 'teacher',)
+    fields = ('name', 'teacher', 'school',)
 
 
 @admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
-    fields = ('name', 'school',)
+    fields = ('name',)

@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
+from parents.models import CustomUser
+# from users.models import *
 
-# Create your models here.
-class Teacher(models.Model):
-    user = models.OneToOneField(User)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+
+class Teacher(CustomUser):
+    user_type = "teacher"
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

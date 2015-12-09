@@ -1,11 +1,20 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+# from users.models import CustomUser
 
-# Create your models here.
-class Parent(models.Model):
-    user = models.OneToOneField(User)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+class CustomUser(AbstractUser):
+    type_choices = (
+        ('parent', 'parent user'),
+        ('teacher', 'teacher user'),
+        ('admin', 'admin user'),
+    )
+    user_type = models.CharField(max_length=7,
+                                 choices=type_choices,
+                                 default='parent')
+
+
+class Parent(CustomUser):
+    user_type = "parent"
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
