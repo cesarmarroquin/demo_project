@@ -7,13 +7,63 @@ from schools.models import *
 from teachers.models import *
 from schools.models import *
 
-#################  PARENT #####################
-class ListParents(generics.ListCreateAPIView):
-    serializer_class = ParentSerializer
-    queryset = Parent.objects.all()
+#################  PARENT STUDENTS #####################
+class ListParentStudent(generics.ListCreateAPIView):
+    serializer_class = TeacherSerializer
 
-    def perform_create(self, serializer):
-        serializer.save()
+    def get_queryset(self):
+        queryset = Student.objects.all()
+        user_type = self.request.user.user_type
+        username = self.request.query_params.get('username', None)
+        ############## Get My Children #######################
+        if username is not None and user_type == "parent":
+            queryset = queryset.filter(parent__username=username)
+            print(user_type, username)
+            return queryset
+
+        # elif username is not None and user_type == "teacher":
+        #     queryset = queryset.filter(school_class__teacher__username=username)
+        #     print(user_type, username)
+        #     return queryset
+
+
+# class ListParentStudent(generics.ListCreateAPIView):
+#     serializer_class = TeacherSerializer
+#
+#     def get_queryset(self):
+#         queryset = Student.objects.all()
+#         user_type = self.request.user.user_type
+#         username = self.request.query_params.get('username', None)
+#         ############## Get My Children #######################
+#         if username is not None and user_type == "parent":
+#             queryset = queryset.filter(parent__username=username)
+#             print(user_type, username)
+#             return queryset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class DetailParents(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ParentSerializer
@@ -22,10 +72,44 @@ class DetailParents(generics.RetrieveUpdateDestroyAPIView):
 #################  TEACHERS #####################
 class ListTeachers(generics.ListCreateAPIView):
     serializer_class = TeacherSerializer
-    queryset = Parent.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save()
+    def get_queryset(self):
+        queryset = Teacher.objects.all()
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            queryset = queryset.filter(username=username)
+        return queryset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TeacherSerializer
@@ -34,14 +118,14 @@ class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
 ################# STUDENTS #####################
 class ListStudents(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
-    queryset = Parent.objects.all()
+    queryset = Student.objects.all()
 
     def perform_create(self, serializer):
         serializer.save()
 
 class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer
-    queryset = Parent.objects.all()
+    queryset = Student.objects.all()
 
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
@@ -67,3 +151,16 @@ class ListClasses(generics.ListCreateAPIView):
 class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolClassSerializer
     queryset = Parent.objects.all()
+
+
+
+
+# ############### Parent info ##################
+# class MyStudents(generics.ListCreateAPIView):
+#     serializer_class = ParentSerializer
+#     def get_queryset(self):
+#         queryset = Student.objects.all()
+#         username = self.request.query_params.get('username', None)
+#         if username is not None:
+#             queryset = queryset.filter(username=username)
+#         return queryset

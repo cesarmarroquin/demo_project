@@ -8,8 +8,10 @@ class CustomUser(AbstractUser):
         ('teacher', 'teacher user'),
         ('admin', 'admin user'),
     )
+
     user_type = models.CharField(max_length=7,
-                                 choices=type_choices,
+                                 choices=
+                                 type_choices,
                                  default='parent')
 
 

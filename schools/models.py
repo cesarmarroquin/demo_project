@@ -46,7 +46,7 @@ class Student(models.Model):
 #     description = models.TextField()
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     modified_at = models.DateTimeField(auto_now=True)
-#     
+#
 #     def __str__(self):
 #         return "{}".format(self.name)
 #

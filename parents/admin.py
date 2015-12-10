@@ -5,6 +5,6 @@ from django import forms
 
 @admin.register(Parent)
 class ParentAdmin(admin.ModelAdmin):
-    fields = ('first_name', 'last_name', 'username', 'password')
+    fields = ('id','first_name', 'last_name', 'username', 'password', 'user_type')
 
 
