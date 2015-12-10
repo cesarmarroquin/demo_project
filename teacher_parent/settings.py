@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
         'states': '100000/day'
     },
     # 'DEFAULT_FILTER_BACKENDS': (
-    #     'rest_framework_filters.backends.DjangoFilterBackend', ...
+    #     'rest_framework_filters.backends.DjangoFilterBackend',
     # ),
 
 

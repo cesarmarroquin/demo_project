@@ -20,13 +20,9 @@ class SchoolClass(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return "{}".format(self.name)
-
-    @property
-    def all_teachers(self):
-        return self.teacher
-
 
 
 class Student(models.Model):

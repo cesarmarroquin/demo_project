@@ -5,8 +5,19 @@ from rest_framework.authtoken import views
 
 urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
-    url(r'^parent_students/$', ListParentStudent.as_view(), name='list_parents'),
-    url(r'^parent_students/(?P<pk>\d+)$', DetailParents.as_view(), name='detail_parents'),
+
+
+    url(r'^parent_students/$', ParentStudentList.as_view(), name='list_parents'),
+    url(r'^parent_students/(?P<pk>\d+)$', ParentStudentDetail.as_view(), name='detail_parents'),
+    url(r'^parent_students_classes/$', ParentStudentClassList.as_view(), name='detail_class'),
+
+    url(r'^parents/$', ParentList.as_view(), name='parent_list'),
+    url(r'^parents/(?P<pk>\d+)$', ParentDetail.as_view(), name='parent_detail'),
+
+
+
+
+
     url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),
     url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),
     url(r'^students/$', ListStudents.as_view(), name='list_students'),
