@@ -3,4 +3,4 @@ from teachers.models import *
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    fields = ('id','first_name', 'last_name', 'username', 'password' ,'user_type')
+    fields = ('first_name', 'last_name', 'username', 'password' ,'user_type')

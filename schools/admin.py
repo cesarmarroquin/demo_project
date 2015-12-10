@@ -4,14 +4,14 @@ from schools.models import *
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    fields = ('id','first_name', 'last_name', 'parent', 'school_class')
+    fields = ('first_name', 'last_name', 'parent', 'school_class')
 
 
 @admin.register(SchoolClass)
 class SchoolClassAdmin(admin.ModelAdmin):
-    fields = ('id','name', 'teacher', 'school',)
+    fields = ('name', 'teacher', 'school',)
 
 
 @admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
-    fields = ('id','name',)
+    fields = ('name',)
