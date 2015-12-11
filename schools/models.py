@@ -30,6 +30,8 @@ class Student(models.Model):
     last_name = models.CharField(max_length=255)
     parent = models.ManyToManyField(Parent)
     school_class = models.ManyToManyField(SchoolClass)
+    # school_fee = models.ForeignKey(SchoolFee)
+    # class_fee = models.ForeignKey(ClassFee)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -82,22 +84,44 @@ class ClassEvent(models.Model):
 #         return "{}".format(self.name)
 #
 
-#
+
 # class SchoolFee(models.Model):
+#     school = models.ForeignKey(School)
 #     name = models.CharField(max_length=255)
 #     description = models.TextField()
+#     amount = models.DecimalField(max_digits=9, decimal_places=2)
+#     charge_id = models.CharField(max_length=255, null=True)
+#     refunded = models.BooleanField(default=False)
+#     image = models.ImageField(upload_to='school_fee_images', blank=True, null=True)
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     modified_at = models.DateTimeField(auto_now=True)
 #
 #     def __str__(self):
 #         return "{}".format(self.name)
 
-
-# class ClassFee(models.Model):
-#     name = models.CharField(max_length=255)
-#     description = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modified_at = models.DateTimeField(auto_now=True)
 #
-#     def __str__(self):
-#         return "{}".format(self.name)
+class ClassFee(models.Model):
+    school_class = models.ForeignKey(SchoolClass)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    amount = models.DecimalField(max_digits=9, decimal_places=2)
+    image = models.ImageField(upload_to='class_fee_images', blank=True, null=True)
+    date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+class ClassFeePayment(models.Model):
+    student = models.ForeignKey(Student)
+    class_fee = models.ForeignKey(ClassFee)
+    payment_amount = models.DecimalField(max_digits=9, decimal_places=2)
+    charge_id = models.CharField(max_length=255, null=True)
+    refunded = models.BooleanField(default=False)
+    is_paid = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}, {}, paid = {}".format(self.class_fee, self.payment_amount, self.is_paid)

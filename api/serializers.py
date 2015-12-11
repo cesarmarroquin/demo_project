@@ -7,7 +7,7 @@ from teachers.models import *
 class SchoolClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = SchoolClass
-        fields = ('id','name', 'teacher', 'school', 'classevent_set')
+        fields = ('id','name', 'teacher', 'school', 'classevent_set', 'classfee_set')
 
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +17,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','first_name', 'last_name','parent', 'school_class')
+        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set')
 
 
 class TeacherSerializer(serializers.ModelSerializer):

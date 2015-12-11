@@ -23,3 +23,12 @@ class SchoolEventAdmin(admin.ModelAdmin):
 @admin.register(ClassEvent)
 class ClassEventAdmin(admin.ModelAdmin):
     fields = ('name','school_class', 'description', 'date', 'image')
+
+
+@admin.register(ClassFee)
+class ClassFeeAdmin(admin.ModelAdmin):
+    fields = ('school_class', 'name', 'description','amount', 'date', 'image', )
+
+@admin.register(ClassFeePayment)
+class ClassFeePaymentAdmin(admin.ModelAdmin):
+    fields = ('student', 'class_fee', 'payment_amount','is_paid' )
