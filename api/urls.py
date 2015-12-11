@@ -11,13 +11,14 @@ urlpatterns = [
     url(r'^parent_students/(?P<pk>\d+)$', ParentStudentDetail.as_view(), name='detail_parents'),
     url(r'^parent_students_classes/$', ParentStudentClassList.as_view(), name='detail_class'),
 
+
+
+
+
+
+
     url(r'^parents/$', ParentList.as_view(), name='parent_list'),
     url(r'^parents/(?P<pk>\d+)$', ParentDetail.as_view(), name='parent_detail'),
-
-
-
-
-
     url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),
     url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),
     url(r'^students/$', ListStudents.as_view(), name='list_students'),
@@ -26,6 +27,12 @@ urlpatterns = [
     url(r'^schools/(?P<pk>\d+)$', DetailSchools.as_view(), name='detail_schools'),
     url(r'^classes/$', ListClasses.as_view(), name='list_classes'),
     url(r'^classes/(?P<pk>\d+)$', DetailClasses.as_view(), name='detail_classes'),
+
+    url(r'^school_events/$', ListSchoolEvents.as_view(), name='list_school_events'),
+    url(r'^school_events/(?P<pk>\d+)$', DetailSchoolEvents.as_view(), name='detail_school_events'),
+
+    url(r'^class_events/$', ListClassEvents.as_view(), name='list_class_events'),
+    url(r'^class_events/(?P<pk>\d+)$', DetailClassEvents.as_view(), name='detail_class_events'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

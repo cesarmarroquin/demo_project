@@ -38,6 +38,41 @@ class Student(models.Model):
 
 
 # class Homework(models.Model):
+#     title = models.CharField(max_length=255)
+#     description = models.TextField()
+
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     modified_at = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return "{}".format(self.name)
+
+class SchoolEvent(models.Model):
+    school = models.ForeignKey(School)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateField()
+    image = models.ImageField(upload_to='school_event_images', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
+class ClassEvent(models.Model):
+    school_class = models.ForeignKey(SchoolClass)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateField()
+    image = models.ImageField(upload_to='class_event_images', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+# class Form(models.Model):
 #     name = models.CharField(max_length=255)
 #     description = models.TextField()
 #     created_at = models.DateTimeField(auto_now_add=True)
@@ -46,7 +81,9 @@ class Student(models.Model):
 #     def __str__(self):
 #         return "{}".format(self.name)
 #
-# class Waiver(models.Model):
+
+#
+# class SchoolFee(models.Model):
 #     name = models.CharField(max_length=255)
 #     description = models.TextField()
 #     created_at = models.DateTimeField(auto_now_add=True)
@@ -54,9 +91,9 @@ class Student(models.Model):
 #
 #     def __str__(self):
 #         return "{}".format(self.name)
-#
-#
-# class Fee(models.Model):
+
+
+# class ClassFee(models.Model):
 #     name = models.CharField(max_length=255)
 #     description = models.TextField()
 #     created_at = models.DateTimeField(auto_now_add=True)

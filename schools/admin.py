@@ -15,3 +15,11 @@ class SchoolClassAdmin(admin.ModelAdmin):
 @admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
     fields = ('name',)
+
+@admin.register(SchoolEvent)
+class SchoolEventAdmin(admin.ModelAdmin):
+    fields = ('name','school', 'description', 'date', 'image')
+
+@admin.register(ClassEvent)
+class ClassEventAdmin(admin.ModelAdmin):
+    fields = ('name','school_class', 'description', 'date', 'image')

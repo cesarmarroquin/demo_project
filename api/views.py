@@ -39,17 +39,6 @@ class ParentStudentClassList(generics.ListAPIView):
             return cesar.school_class.all()
 
 
-class ParentList(generics.ListAPIView):
-    serializer_class = ParentSerializer
-    queryset = Parent.objects.all()
-
-
-    def perform_create(self, serializer):
-        serializer.save()
-
-class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ParentSerializer
-    queryset = Parent.objects.all()
 
 
 
@@ -67,31 +56,6 @@ class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-
-
-
-
-
-
-
-        # elif username is not None and user_type == "teacher":
-        #     queryset = queryset.filter(school_class__teacher__username=username)
-        #     print(user_type, username)
-        #     return queryset
-
-
-# class ListParentStudent(generics.ListCreateAPIView):
-#     serializer_class = TeacherSerializer
-#
-#     def get_queryset(self):
-#         queryset = Student.objects.all()
-#         user_type = self.request.user.user_type
-#         username = self.request.query_params.get('username', None)
-#         ############## Get My Children #######################
-#         if username is not None and user_type == "parent":
-#             queryset = queryset.filter(parent__username=username)
-#             print(user_type, username)
-#             return queryset
 
 
 
@@ -121,6 +85,20 @@ class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 #################  TEACHERS #####################
+class ParentList(generics.ListAPIView):
+    serializer_class = ParentSerializer
+    queryset = Parent.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ParentSerializer
+    queryset = Parent.objects.all()
+
+
+#################  TEACHERS #####################
 class ListTeachers(generics.ListCreateAPIView):
     serializer_class = TeacherSerializer
 
@@ -132,36 +110,6 @@ class ListTeachers(generics.ListCreateAPIView):
         return queryset
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TeacherSerializer
     queryset = Parent.objects.all()
@@ -170,10 +118,10 @@ class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
 class ListStudents(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
-    # filter_backends = (filters.DjangoFilterBackend,)
 
     def perform_create(self, serializer):
         serializer.save()
+
 
 class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer
@@ -186,6 +134,7 @@ class ListSchools(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+
 
 class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolSerializer
@@ -200,9 +149,40 @@ class ListClasses(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+
 class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolClassSerializer
     queryset = SchoolClass.objects.all()
+
+
+
+#################  CLASSES #####################
+class ListSchoolEvents(generics.ListCreateAPIView):
+    serializer_class = SchoolEventSerializer
+    queryset = SchoolEvent.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailSchoolEvents(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SchoolEventSerializer
+    queryset = SchoolEvent.objects.all()
+
+
+
+#################  CLASSES #####################
+class ListClassEvents(generics.ListCreateAPIView):
+    serializer_class = ClassEventSerializer
+    queryset = ClassEvent.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ClassEventSerializer
+    queryset = ClassEvent.objects.all()
 
 
 
