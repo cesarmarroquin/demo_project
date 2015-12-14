@@ -6,6 +6,7 @@ from rest_framework.authtoken import views
 urlpatterns = [
     url(r'^api-token-auth/', ObtainAuthToken2.as_view()),
 
+    url(r'^my_info/$', MyInfo.as_view(), name='my_info'),
 
     url(r'^parent_students/$', ParentStudentList.as_view(), name='list_parents'),
     url(r'^parent_students/(?P<pk>\d+)$', ParentStudentDetail.as_view(), name='detail_parents'),

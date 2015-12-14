@@ -16,17 +16,6 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 
 
-# class Authentication(views.obtain_auth_token):
-#
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data['Parent']
-#         token, created = Token.objects.get_or_create(user=user)
-#         return Response({'token': token.key})
-
-
-
 class ObtainAuthToken2(APIView):
     throttle_classes = ()
     permission_classes = ()
@@ -42,14 +31,22 @@ class ObtainAuthToken2(APIView):
         return Response({'token': token.key})
 
 
-# obtain_auth_token = ObtainAuthToken.as_view()
+#################  PARENT'S STUDENTS #####################
+
+class MyInfo(generics.ListCreateAPIView):
+    serializer_class = ParentSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.user_type == "parent":
+            queryset = Parent.objects.filter(id=user.id)
+            return queryset
 
 
 
 
 
 
-#################  PARENT STUDENTS #####################
 class ParentStudentList(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
 
@@ -80,52 +77,7 @@ class ParentStudentClassList(generics.ListAPIView):
             return cesar.school_class.all()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#################  TEACHERS #####################
+#################  PARENTS #####################
 class ParentList(generics.ListAPIView):
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
@@ -197,7 +149,7 @@ class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-#################  CLASSES #####################
+#################  SCHOOL EVENTS #####################
 class ListSchoolEvents(generics.ListCreateAPIView):
     serializer_class = SchoolEventSerializer
     queryset = SchoolEvent.objects.all()
@@ -212,7 +164,7 @@ class DetailSchoolEvents(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-#################  CLASSES #####################
+#################  CLASS EVENTS #####################
 class ListClassEvents(generics.ListCreateAPIView):
     serializer_class = ClassEventSerializer
     queryset = ClassEvent.objects.all()
@@ -228,12 +180,3 @@ class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-# ############### Parent info ##################
-# class MyStudents(generics.ListCreateAPIView):
-#     serializer_class = ParentSerializer
-#     def get_queryset(self):
-#         queryset = Student.objects.all()
-#         username = self.request.query_params.get('username', None)
-#         if username is not None:
-#             queryset = queryset.filter(username=username)
-#         return queryset

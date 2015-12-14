@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from parents.models import *
 from django import forms
+from schools.models import *
 
 # @admin.register(Parent)
 # class ParentAdmin(UserAdmin):
@@ -11,4 +12,6 @@ from django import forms
 class ParentAdmin(UserAdmin):
     pass
 admin.site.register(Parent, ParentAdmin)
+
+
 
