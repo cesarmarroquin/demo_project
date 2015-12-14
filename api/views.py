@@ -6,7 +6,48 @@ from rest_framework import generics
 from schools.models import *
 from teachers.models import *
 from schools.models import *
+from parents.models import *
 from rest_framework import filters
+from rest_framework.authtoken import views
+from rest_framework.views import APIView
+from rest_framework import parsers, renderers
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.response import Response
+
+
+# class Authentication(views.obtain_auth_token):
+#
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['Parent']
+#         token, created = Token.objects.get_or_create(user=user)
+#         return Response({'token': token.key})
+
+
+
+class ObtainAuthToken2(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
+    renderer_classes = (renderers.JSONRenderer,)
+    serializer_class = AuthTokenSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key})
+
+
+# obtain_auth_token = ObtainAuthToken.as_view()
+
+
+
+
+
 
 #################  PARENT STUDENTS #####################
 class ParentStudentList(generics.ListCreateAPIView):

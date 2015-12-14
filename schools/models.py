@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from parents.models import *
 from teachers.models import *
-
+import stripe
 
 class School(models.Model):
     name = models.CharField(max_length=255)
@@ -116,12 +116,16 @@ class ClassFee(models.Model):
 class ClassFeePayment(models.Model):
     student = models.ForeignKey(Student)
     class_fee = models.ForeignKey(ClassFee)
-    payment_amount = models.DecimalField(max_digits=9, decimal_places=2)
+    payment_amount = models.DecimalField(max_digits=9, decimal_places=2, default=0)
     charge_id = models.CharField(max_length=255, null=True)
     refunded = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    def refund(self):
+        re = stripe.Refund.create(charge= self.charge.id)
+        self.refunded = True
 
     def __str__(self):
         return "{}, {}, paid = {}".format(self.class_fee, self.payment_amount, self.is_paid)
