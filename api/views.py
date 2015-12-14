@@ -38,8 +38,15 @@ class MyInfo(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        print(user.user_type)
+
         if user.user_type == "parent":
+            self.serializer_class = ParentSerializer
             queryset = Parent.objects.filter(id=user.id)
+            return queryset
+        elif user.user_type == "teacher":
+            self.serializer_class = TeacherSerializer
+            queryset = Teacher.objects.filter(id=user.id)
             return queryset
 
 
