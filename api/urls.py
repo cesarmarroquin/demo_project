@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^classes/(?P<pk>\d+)$', DetailClasses.as_view(), name='detail_classes'),
     url(r'^classes/(?P<pk>\d+)/events$', ClassEventList.as_view(), name='detail_classes'),
     url(r'^classes/(?P<pk>\d+)/fees$', ClassFeeList.as_view(), name='detail_classes'),
+    url(r'^classes/(?P<pk>\d+)/students$', ClassStudentList.as_view(), name='detail_classes'),
 
 
     url(r'^schools/$', ListSchools.as_view(), name='list_schools'),
