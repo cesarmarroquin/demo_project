@@ -40,3 +40,8 @@ class ClassEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassEvent
         fields = ('id','name','school_class', 'description', 'date', 'image')
+
+class ClassFeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassFee
+        fields = ('id', 'school_class','name','description','amount','date', 'image')

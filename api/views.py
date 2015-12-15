@@ -227,6 +227,16 @@ class ClassEventList(generics.ListCreateAPIView):
         return queryset
 
 
+class ClassFeeList(generics.ListCreateAPIView):
+    serializer_class = ClassFeeSerializer
+
+    def get_queryset(self):
+        class_id = self.kwargs['pk']
+        print(id)
+        queryset = ClassFee.objects.filter(school_class__id = class_id )
+        return queryset
+
+
 
 ################# STUDENTS #####################
 class ListStudents(generics.ListCreateAPIView):
