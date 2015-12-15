@@ -163,7 +163,8 @@ class ParentStudentsList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Student.objects.filter(parent__id=user.id)
+        id = self.kwargs['pk']
+        queryset = Student.objects.filter(parent__id=id)
         return queryset
 
 
@@ -191,11 +192,10 @@ class TeacherClassList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.user_type == "teacher":
-            queryset = SchoolClass.objects.filter(teacher__id=user.id)
-            return queryset
-        else:
-            raise exceptions.AuthenticationFailed('You must be signed in')
+        id = self.kwargs['pk']
+        queryset = SchoolClass.objects.filter(teacher__id=id)
+        return queryset
+       
 
 
 
@@ -273,6 +273,14 @@ class ListSchools(generics.ListCreateAPIView):
 class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolSerializer
     queryset = Parent.objects.all()
+
+class SchoolClassList(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SchoolClassSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['pk']
+        queryset = SchoolClass.objects.filter(school__id = id)
+        return queryset
 
 
 
