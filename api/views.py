@@ -158,6 +158,14 @@ class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
 
+class ParentStudentsList(generics.ListCreateAPIView):
+    serializer_class = StudentSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Student.objects.filter(parent__id=user.id)
+        return queryset
+
 
 
 

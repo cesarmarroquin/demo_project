@@ -23,7 +23,7 @@ urlpatterns = [
 
     url(r'^parents/$', ParentList.as_view(), name='parent_list'),
     url(r'^parents/(?P<pk>\d+)$', ParentDetail.as_view(), name='parent_detail'),
-    url(r'^parents/(?P<pk>\d+)/children$', ParentDetail.as_view(), name='parent_detail'),
+    url(r'^parents/(?P<pk>\d+)/students$', ParentStudentsList.as_view(), name='parent_detail'),
 
     url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),
     url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),
