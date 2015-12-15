@@ -17,6 +17,8 @@ class CustomUser(AbstractUser):
 
 class Parent(CustomUser):
     user_type = "parent"
+    profile_picture = models.ImageField(upload_to='parent_profile_pictures', blank=True, null=True)
+    # phone =
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
