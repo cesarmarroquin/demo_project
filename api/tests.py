@@ -42,4 +42,4 @@ class TeacherTests(TestCase):
         self.assertEqual(response.data['count'], 1)
         response_teacher = response.data['results'][0]
         self.assertEqual(response_teacher['name'], self.teacher.first_name)
-        self.assertEqual(response_teacher['user_type'], self.teacher.user_type)
+        self.assertEqual(response_teacher['user_type'], 'teacher')

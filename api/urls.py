@@ -1,7 +1,8 @@
 from api.views import *
 from django.conf.urls import url, include
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework.authtoken import views
+
 
 urlpatterns = [
     url(r'^api-token-auth/', ObtainAuthToken2.as_view()),
@@ -10,7 +11,9 @@ urlpatterns = [
 
     url(r'^parent_students/$', ParentStudentList.as_view(), name='list_parents'),
     url(r'^parent_students/(?P<pk>\d+)$', ParentStudentDetail.as_view(), name='detail_parents'),
-    url(r'^parent_students_classes/$', ParentStudentClassList.as_view(), name='detail_class'),
+
+    url(r'^parent_students_classes/$', ParentStudentClassList.as_view(), name='list_students_classes'),
+    url(r'^parent_students_classes/(?P<pk>\d+)$', ParentStudentClassDetail.as_view(), name='detail_classes'),
 
 
 
@@ -20,12 +23,17 @@ urlpatterns = [
 
     url(r'^parents/$', ParentList.as_view(), name='parent_list'),
     url(r'^parents/(?P<pk>\d+)$', ParentDetail.as_view(), name='parent_detail'),
+    url(r'^parents/(?P<pk>\d+)/children$', ParentDetail.as_view(), name='parent_detail'),
+
     url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),
     url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),
+
     url(r'^students/$', ListStudents.as_view(), name='list_students'),
     url(r'^students/(?P<pk>\d+)$', DetailStudents.as_view(), name='detail_students'),
+
     url(r'^schools/$', ListSchools.as_view(), name='list_schools'),
     url(r'^schools/(?P<pk>\d+)$', DetailSchools.as_view(), name='detail_schools'),
+
     url(r'^classes/$', ListClasses.as_view(), name='list_classes'),
     url(r'^classes/(?P<pk>\d+)$', DetailClasses.as_view(), name='detail_classes'),
 

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from api.serializers import *
 # Create your views here.
-from rest_framework import generics
+from rest_framework import generics, exceptions
 from schools.models import *
 from teachers.models import *
 from schools.models import *
@@ -28,12 +28,17 @@ class ObtainAuthToken2(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        user_type = user.user_type
+        return Response({'token': token.key, 'user_type': user_type})
 
 
-#################  PARENT'S STUDENTS #####################
+
+#################  PARENTS#####################
 
 class MyInfo(generics.ListCreateAPIView):
+    """
+    This retrieves basic info for a user such as name and user type.
+    """
     serializer_class = ParentSerializer
 
     def get_queryset(self):
@@ -50,21 +55,25 @@ class MyInfo(generics.ListCreateAPIView):
             return queryset
 
 
-
-
-
-
 class ParentStudentList(generics.ListCreateAPIView):
+    """
+    This retrieves a list of all children for a parent
+    """
     serializer_class = StudentSerializer
 
     def get_queryset(self):
         user = self.request.user
         if user.user_type == "parent":
             return Student.objects.filter(parent__id=user.id)
+        else:
+            raise exceptions.AuthenticationFailed('You must be signed in')
 
 
 
 class ParentStudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This retrieves a detail of a child for a parent
+    """
     serializer_class = StudentSerializer
 
     def get_queryset(self):
@@ -72,30 +81,84 @@ class ParentStudentDetail(generics.RetrieveUpdateDestroyAPIView):
         if user.user_type == "parent":
             queryset = Student.objects.filter(parent__id=user.id)
             return queryset
+        else:
+            raise exceptions.AuthenticationFailed('You must be signed in')
 
 class ParentStudentClassList(generics.ListAPIView):
-    serializer_class = ParentSerializer
+    """
+    This retrieves a list of all classes for a child if user is parent
+    """
+    serializer_class = SchoolClassSerializer
 
     def get_queryset(self):
         user = self.request.user
         if user.user_type == "parent":
-            cesar = Student.objects.get(first_name="cesar")
+            queryset = SchoolClass.objects.filter(student__parent__id=user.id)
+        else:
+            raise exceptions.AuthenticationFailed('You must be signed in')
+        return queryset
 
-            return cesar.school_class.all()
+
+class ParentStudentClassDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This retrieves a list of all classes for a child if user is parent
+    Retrives a list of all classes for a teacher if the user is a teacher
+    """
+    serializer_class = SchoolClassSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.user_type == "parent":
+            queryset = SchoolClass.objects.filter(student__parent__id=user.id)
+        elif user.user_type == "teacher":
+            queryset = SchoolClass.objects.filter(teacher__id=user.id)
+        else:
+            queryset = None
+        return queryset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #################  PARENTS #####################
-class ParentList(generics.ListAPIView):
+class ParentList(generics.ListCreateAPIView):
     serializer_class = ParentSerializer
-    queryset = Parent.objects.all()
+    # queryset = Parent.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save()
+    def get_queryset(self):
+        user = self.request.user
+        return Parent.objects.all()
+
 
 
 class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
+
+
 
 
 #################  TEACHERS #####################
