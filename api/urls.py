@@ -27,6 +27,7 @@ urlpatterns = [
 
     url(r'^students/$', ListStudents.as_view(), name='list_students'),
     url(r'^students/(?P<pk>\d+)$', DetailStudents.as_view(), name='detail_students'),
+    url(r'^students/(?P<pk>\d+)/fees$', StudentFeeList.as_view(), name='detail_students'),
 
     url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),
     url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),

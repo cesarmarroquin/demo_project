@@ -45,3 +45,8 @@ class ClassFeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFee
         fields = ('id', 'school_class','name','description','amount','date', 'image')
+
+class ClassFeePaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassFeePayment
+        fields = ('id', 'student','class_fee', 'payment_amount','charge_id','refunded','is_paid',)

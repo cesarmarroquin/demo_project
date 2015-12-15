@@ -262,6 +262,16 @@ class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
 
+
+class StudentFeeList(generics.ListCreateAPIView):
+    serializer_class = ClassFeePaymentSerializer
+
+    def get_queryset(self):
+        fee_id = self.kwargs['pk']
+        print(id)
+        queryset = ClassFeePayment.objects.filter(student__id = fee_id )
+        return queryset
+
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
     serializer_class = SchoolSerializer
