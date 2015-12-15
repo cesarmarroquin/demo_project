@@ -265,7 +265,7 @@ class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
     serializer_class = SchoolSerializer
-    queryset = Parent.objects.all()
+    queryset = School.objects.all()
 
     def perform_create(self, serializer):
         serializer.save()
@@ -273,14 +273,24 @@ class ListSchools(generics.ListCreateAPIView):
 
 class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolSerializer
-    queryset = Parent.objects.all()
+    queryset = School.objects.all()
 
-class SchoolClassList(generics.RetrieveUpdateDestroyAPIView):
+
+class SchoolClassList(generics.ListCreateAPIView):
     serializer_class = SchoolClassSerializer
 
     def get_queryset(self):
         id = self.kwargs['pk']
         queryset = SchoolClass.objects.filter(school__id = id)
+        return queryset
+
+
+class SchoolEventList(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SchoolEventSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['pk']
+        queryset = SchoolEvent.objects.filter(school__id = id)
         return queryset
 
 
