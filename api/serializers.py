@@ -12,7 +12,7 @@ class SchoolClassSerializer(serializers.ModelSerializer):
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
-        fields = ('id','name', 'schoolclass_set')
+        fields = ('id','name', 'schoolclass_set', 'schoolevent_set')
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
