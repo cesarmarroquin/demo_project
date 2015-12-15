@@ -29,7 +29,8 @@ class ObtainAuthToken2(APIView):
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         user_type = user.user_type
-        return Response({'token': token.key, 'user_type': user_type})
+        user_id = user.id
+        return Response({'token': token.key, 'user_type': user_type, 'id': user_id})
 
 
 
@@ -195,7 +196,7 @@ class TeacherClassList(generics.ListCreateAPIView):
         id = self.kwargs['pk']
         queryset = SchoolClass.objects.filter(teacher__id=id)
         return queryset
-       
+
 
 
 
