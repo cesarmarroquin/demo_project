@@ -183,7 +183,50 @@ class ListTeachers(generics.ListCreateAPIView):
 
 class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TeacherSerializer
-    queryset = Parent.objects.all()
+    queryset = Teacher.objects.all()
+
+
+class TeacherClassList(generics.ListCreateAPIView):
+    serializer_class = SchoolClassSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.user_type == "teacher":
+            queryset = SchoolClass.objects.filter(teacher__id=user.id)
+            return queryset
+        else:
+            raise exceptions.AuthenticationFailed('You must be signed in')
+
+
+
+#################  CLASSES #####################
+class ListClasses(generics.ListCreateAPIView):
+    serializer_class = SchoolClassSerializer
+    queryset = SchoolClass.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SchoolClassSerializer
+    def get_queryset(self):
+        id = self.kwargs['pk']
+        print(id)
+        queryset = SchoolClass.objects.all()
+        return queryset
+
+
+class ClassEventList(generics.ListCreateAPIView):
+    serializer_class = ClassEventSerializer
+
+    def get_queryset(self):
+        class_id = self.kwargs['pk']
+        print(id)
+        queryset = ClassEvent.objects.filter(school_class__id = class_id )
+        return queryset
+
+
 
 ################# STUDENTS #####################
 class ListStudents(generics.ListCreateAPIView):
@@ -212,18 +255,6 @@ class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
     queryset = Parent.objects.all()
 
 
-#################  CLASSES #####################
-class ListClasses(generics.ListCreateAPIView):
-    serializer_class = SchoolClassSerializer
-    queryset = SchoolClass.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save()
-
-
-class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = SchoolClassSerializer
-    queryset = SchoolClass.objects.all()
 
 
 
