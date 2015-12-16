@@ -17,7 +17,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set')
+        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set')
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -50,3 +50,15 @@ class ClassFeePaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFeePayment
         fields = ('id', 'student','class_fee', 'payment_amount','charge_id','refunded','is_paid',)
+
+
+class ClassHomeworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassHomework
+        fields = ('school_class','title','description','image','due_date','points')
+
+
+class StudentHomeworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentHomework
+        fields = ('class_homework','student','title','description','image','due_date','points', )
