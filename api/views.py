@@ -14,7 +14,8 @@ from rest_framework import parsers, renderers
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
-
+import stripe
+stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
 
 class ObtainAuthToken2(APIView):
     throttle_classes = ()
@@ -334,6 +335,45 @@ class ListClassEvents(generics.ListCreateAPIView):
 class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ClassEventSerializer
     queryset = ClassEvent.objects.all()
+
+
+
+
+#################  CLASS EVENTS #####################
+class ListClassFees(generics.ListCreateAPIView):
+    serializer_class = ClassFeePaymentSerializer
+    queryset = ClassFeePayment.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ClassFeePaymentSerializer
+    queryset = ClassFeePayment.objects.all()
+
+    def perform_update(self, serializer):
+        token = serializer.initial_data['token']
+        stripe.api_key = 'sk_test_biD58COvD5uBeTpom2jHDsjT'
+        original_object = self.get_object()
+        if original_object.is_paid == True:
+            print("you paid the fee")
+            try:
+                charge = stripe.Charge.create(
+                    amount=original_object.class_fee__amount,
+                    currency="usd",
+                    source=token,
+                    description="fee payment"
+                )
+                stripe_charge_id = charge['id']
+                user = self.request.user
+                serializer.save(charge_id=stripe_charge_id, user=user)
+            except stripe.error.CardError:
+               pass
+            serializer.save()
+        else:
+            print("you didnt pay the fee")
+            serializer.save()
 
 
 

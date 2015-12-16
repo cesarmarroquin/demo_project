@@ -53,6 +53,9 @@ urlpatterns = [
 
     url(r'^class_events/$', ListClassEvents.as_view(), name='list_class_events'),
     url(r'^class_events/(?P<pk>\d+)$', DetailClassEvents.as_view(), name='detail_class_events'),
+
+    url(r'^class_fees/$', ListClassFees.as_view(), name='list_class_fees'),
+    url(r'^class_fees/(?P<pk>\d+)$', DetailClassFees.as_view(), name='detail_class_fees'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

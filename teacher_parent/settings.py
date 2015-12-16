@@ -113,11 +113,11 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle'
     ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '10/day',
-        'user': '1000/day',
-        'states': '100000/day'
-    },
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '10/day',
+    #     'user': '1000/day',
+    #     'states': '100000/day'
+    # },
     # 'DEFAULT_FILTER_BACKENDS': (
     #     'rest_framework_filters.backends.DjangoFilterBackend',
     # ),
