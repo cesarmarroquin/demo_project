@@ -39,15 +39,32 @@ class Student(models.Model):
         return "{}, {}".format(self.last_name, self.first_name)
 
 
-# class Homework(models.Model):
-#     title = models.CharField(max_length=255)
-#     description = models.TextField()
+class ClassHomework(models.Model):
+    school_class = models.ForeignKey(SchoolClass)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to='class_homework_images', blank=True, null=True)
+    due_date = models.DateField()
+    points = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modified_at = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return "{}".format(self.name)
+    def __str__(self):
+        return "{}".format(self.title)
+
+class StudentHomework(models.Model):
+    class_homework = models.ForeignKey(ClassHomework)
+    student = models.ForeignKey(Student)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to='class_homework_images', blank=True, null=True)
+    due_date = models.DateField()
+    points = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.title)
 
 class SchoolEvent(models.Model):
     school = models.ForeignKey(School)
