@@ -59,6 +59,7 @@ class StudentHomework(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='class_homework_images', blank=True, null=True)
     due_date = models.DateField()
+    turned_in = models.DateField(null=True)
     points = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

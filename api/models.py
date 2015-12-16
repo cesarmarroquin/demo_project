@@ -23,3 +23,15 @@ def create_student_fees(sender,instance=None, created=False, **kwargs):
                                           class_fee =instance,
                                           )
 
+@receiver(post_save, sender=ClassHomework)
+def create_student_homework(sender, instance=None, created=False, **kwargs):
+    if created:
+        for student in Student.objects.filter(school_class__name=instance.school_class.name):
+            StudentHomework.objects.create(student=student,
+                                           class_homework = instance,
+                                           title = instance.title,
+                                           description = instance.description,
+                                           image = instance.image,
+                                           due_date = instance.due_date,
+                                           )
+
