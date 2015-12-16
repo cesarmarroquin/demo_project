@@ -49,7 +49,7 @@ class ClassFeeSerializer(serializers.ModelSerializer):
 class ClassFeePaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFeePayment
-        fields = ('id', 'student','class_fee', 'payment_amount','charge_id','refunded','is_paid',)
+        fields = ('id', 'student','class_fee','name','description','payment_amount','amount_needed','date', 'image',  'payment_amount','charge_id','refunded','is_paid',)
 
 
 class ClassHomeworkSerializer(serializers.ModelSerializer):

@@ -134,6 +134,11 @@ class ClassFee(models.Model):
 class ClassFeePayment(models.Model):
     student = models.ForeignKey(Student)
     class_fee = models.ForeignKey(ClassFee)
+    name = models.CharField(max_length=255, null=True)
+    description = models.TextField(null=True)
+    image = models.ImageField(upload_to='class_fee_images', blank=True, null=True)
+    date = models.DateField(null=True)
+    amount_needed = models.DecimalField(max_digits=9, decimal_places=2, default=0, null=True)
     payment_amount = models.DecimalField(max_digits=9, decimal_places=2, default=0)
     charge_id = models.CharField(max_length=255, null=True)
     refunded = models.BooleanField(default=False)
