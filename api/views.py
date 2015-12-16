@@ -388,6 +388,10 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StudentHomeworkSerializer
+    queryset = StudentHomework.objects.all()
+
 
 
 

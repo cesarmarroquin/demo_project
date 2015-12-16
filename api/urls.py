@@ -57,6 +57,11 @@ urlpatterns = [
 
     url(r'^class_fees/$', ListClassFees.as_view(), name='list_class_fees'),
     url(r'^class_fees/(?P<pk>\d+)$', DetailClassFees.as_view(), name='detail_class_fees'),
+
+    url(r'^class_fees/$', ListClassFees.as_view(), name='list_class_fees'),
+    url(r'^student_homework/(?P<pk>\d+)$', DetailStudentHomework.as_view(), name='detail_class_fees'),
+
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
