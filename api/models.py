@@ -40,3 +40,17 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
                                            due_date = instance.due_date,
                                            )
 
+
+@receiver(post_save, sender=ClassForm)
+def create_student_form(sender, instance=None, created=False, **kwargs):
+    if created:
+        for student in Student.objects.filter(school_class__name=instance.school_class.name):
+            StudentForm.objects.create(class_form = instance,
+                                       student=student,
+                                       file = instance.file,
+                                       title = instance.title,
+                                       subject = instance.subject,
+                                       message = instance.message,
+                                       signer = Parent.objects.filter(student=student)[0],
+                                       due_date = instance.due_date,
+                                        )

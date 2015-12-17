@@ -44,9 +44,9 @@ class StudentHomeworkAdmin(admin.ModelAdmin):
 
 @admin.register(ClassForm)
 class ClassFormAdmin(admin.ModelAdmin):
-    fields =('school_class','file','title','subject' ,'message',)
+    fields =('school_class','file','title','subject' ,'message','due_date')
 
 
 @admin.register(StudentForm)
 class StudentFormAdmin(admin.ModelAdmin):
-    fields = ('class_form','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')
+    fields = ('class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')

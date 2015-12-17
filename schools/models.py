@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.db import models
 from parents.models import *
@@ -98,6 +100,7 @@ class ClassForm(models.Model):
     title =  models.CharField(max_length=255)
     subject = models.TextField()
     message = models.TextField()
+    due_date = models.DateField(default=date.today)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -107,10 +110,12 @@ class ClassForm(models.Model):
 
 class StudentForm(models.Model):
     class_form = models.ForeignKey(ClassForm)
+    student = models.ForeignKey(Student, default=1)
     file = models.FileField(upload_to='student_forms/%Y/%m/%d')
     title =  models.CharField(max_length=255)
     subject = models.TextField(default="subject goes here")
     message = models.TextField(default="message goes here")
+    due_date = models.DateField(default=date.today)
     signer = models.CharField(max_length=255)
     viewed = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
