@@ -92,15 +92,17 @@ class ClassEvent(models.Model):
     def __str__(self):
         return "{}".format(self.name)
 
-# class Form(models.Model):
-#     name = models.CharField(max_length=255)
-#     description = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modified_at = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return "{}".format(self.name)
-#
+class Form(models.Model):
+    file = models.FileField(upload_to='class_forms/%Y/%m/%d')
+    title =  models.CharField(max_length=255)
+    subject = models.TextField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
 
 
 # class SchoolFee(models.Model):
