@@ -40,3 +40,13 @@ class ClassHomeworkAdmin(admin.ModelAdmin):
 @admin.register(StudentHomework)
 class StudentHomeworkAdmin(admin.ModelAdmin):
     fields = ('class_homework','student','title','description','image','due_date','points', )
+
+
+@admin.register(ClassForm)
+class ClassFormAdmin(admin.ModelAdmin):
+    fields =('school_class','file','title','subject' ,'message',)
+
+
+@admin.register(StudentForm)
+class StudentFormAdmin(admin.ModelAdmin):
+    fields = ('class_form','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')

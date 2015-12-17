@@ -92,7 +92,8 @@ class ClassEvent(models.Model):
     def __str__(self):
         return "{}".format(self.name)
 
-class Form(models.Model):
+class ClassForm(models.Model):
+    school_class = models.ForeignKey(SchoolClass)
     file = models.FileField(upload_to='class_forms/%Y/%m/%d')
     title =  models.CharField(max_length=255)
     subject = models.TextField()
@@ -101,7 +102,24 @@ class Form(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "{}".format(self.title)
+
+
+class StudentForm(models.Model):
+    class_form = models.ForeignKey(ClassForm)
+    file = models.FileField(upload_to='student_forms/%Y/%m/%d')
+    title =  models.CharField(max_length=255)
+    subject = models.TextField(default="subject goes here")
+    message = models.TextField(default="message goes here")
+    signer = models.CharField(max_length=255)
+    viewed = models.BooleanField(default=False)
+    view_count = models.IntegerField(default=0)
+    signed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.title)
 
 
 
