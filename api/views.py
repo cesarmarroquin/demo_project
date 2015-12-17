@@ -273,6 +273,16 @@ class StudentFeeList(generics.ListCreateAPIView):
         queryset = ClassFeePayment.objects.filter(student__id = fee_id )
         return queryset
 
+#
+# class StudentFeeList(generics.ListCreateAPIView):
+#     serializer_class = ClassFeePaymentSerializer
+#
+#     def get_queryset(self):
+#         fee_id = self.kwargs['pk']
+#         print(id)
+#         queryset = ClassFeePayment.objects.filter(student__id = fee_id )
+#         return queryset
+
 
 class StudentHomeworkList(generics.ListCreateAPIView):
     serializer_class = StudentHomeworkSerializer
