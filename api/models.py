@@ -52,23 +52,35 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
                                        title = instance.title,
                                        subject = instance.subject,
                                        message = instance.message,
-                                       signer = Parent.objects.filter(student=student)[0].email,
+                                       signer = Parent.objects.filter(student=student)[0],
                                        due_date = instance.due_date,
                                         )
 
+        # client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
+        # client.send_signature_request(
+        #         test_mode=True,
+        #         title="title=NDA with Acme Co.",
+        #         subject="The NDA we talked about",
+        #         message="Please sign this NDA and then we can discuss more. Let me know if you have any questions.",
+        #         signers=[{ 'email_address': 'cesarm2333@gmail.com', 'name': 'Cesar Marr' }],
+        #         files=[instance.file.path]
+        #         )
+
+
+
+@receiver(post_save, sender=StudentForm)
+def check_form_signed(sender, instance=None, created=False, **kwargs):
+    client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
+    if created:
+        # client.get_signature_request('f7e9760622363224832f464267ece894fa39a0fd').json_data.get("is_complete")
         client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
         client.send_signature_request(
                 test_mode=True,
-                title="title=NDA with Acme Co.",
-                subject="The NDA we talked about",
-                message="Please sign this NDA and then we can discuss more. Let me know if you have any questions.",
-                signers=[{ 'email_address': 'cesarm2333@gmail.com', 'name': 'Cesar Marr' }],
+                title=instance.title,
+                subject=instance.subject,
+                message=instance.message,
+                signers=[{ 'email_address': instance.signer.email, 'name': instance.signer.first_name }],
                 files=[instance.file.path]
                 )
 
 
-
-# @receiver(post_save, sender=StudentForm)
-# def check_form_signed(sender, instance=None, created=False, **kwargs):
-#     if
-#     # client.get_signature_request('f7e9760622363224832f464267ece894fa39a0fd').json_data
