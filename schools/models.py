@@ -6,6 +6,14 @@ from django.contrib.postgres.fields import JSONField
 from parents.models import *
 from teachers.models import *
 import stripe
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+import os
+# CLOUDINARY_API_KEY = os.environ['CLOUDINARY_API_KEY']
+# CLOUDINARY_SECRET_KEY = os.environ['CLOUDINARY_SECRET_KEY']
+
+
 
 class School(models.Model):
     name = models.CharField(max_length=255)

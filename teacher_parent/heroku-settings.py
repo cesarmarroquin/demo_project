@@ -1,6 +1,8 @@
 from .settings import *
 
 DEBUG=True
+# CLOUDINARY_API_KEY = os.environ['CLOUDINARY_API_KEY']
+# CLOUDINARY_SECRET_KEY = os.environ['CLOUDINARY_SECRET_KEY']
 
 BLACKLIST = ['debug_toolbar', 'django_extensions']
 INSTALLED_APPS = tuple([app for app in INSTALLED_APPS if app not in BLACKLIST])
