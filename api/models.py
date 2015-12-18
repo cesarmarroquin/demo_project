@@ -86,20 +86,20 @@ def check_form_signed(sender, instance=None, created=False, **kwargs):
                 files=[instance.file.path]
                 )
 
-# @receiver(post_save, sender=Parent)
-# def upload_picture_cloudinary(sender,instance=None, created=False, **kwargs):
-#     if created:
-#         # for parent in Parent.objects.all():
-#         #     if parent.profile_picture and hasattr(parent.profile_picture, 'path'):
-#         #         parent.profile_picture.path
-#         #     else:
-#         #         print("has no image")
-#
-#             if instance.profile_picture and hasattr(instance.profile_picture, 'path'):
-#                 print(instance.profile_picture.path)
-#                 print("hello")
-#                 print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
-#                 cloudinary.uploader.upload(instance.profile_picture.path)
-#             else:
-#                 print("has no image")
+@receiver(post_save, sender=Parent)
+def upload_picture_cloudinary(sender,instance=None, created=False, **kwargs):
+    if created:
+        # for parent in Parent.objects.all():
+        #     if parent.profile_picture and hasattr(parent.profile_picture, 'path'):
+        #         parent.profile_picture.path
+        #     else:
+        #         print("has no image")
+
+            if instance.profile_picture and hasattr(instance.profile_picture, 'path'):
+                print(instance.profile_picture.path)
+                # print("it uploaded")
+                # print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
+                cloudinary.uploader.upload(instance.profile_picture.path)
+            else:
+                print("has no image")
 
