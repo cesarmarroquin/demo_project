@@ -89,20 +89,30 @@ def check_form_signed(sender, instance=None, created=False, **kwargs):
 @receiver(post_save, sender=Parent)
 def upload_picture_cloudinary(sender,instance=None, created=False, **kwargs):
     if created:
-        # for parent in Parent.objects.all():
-        #     if parent.profile_picture and hasattr(parent.profile_picture, 'path'):
-        #         parent.profile_picture.path
-        #     else:
-        #         print("has no image")
-
-            if instance.profile_picture and hasattr(instance.profile_picture, 'path'):
-                print(instance.profile_picture.path)
-                print("it uploaded")
-                # print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
+            if instance.profile_picture and (hasattr(instance.profile_picture, 'path')):
                 image = cloudinary.uploader.upload(instance.profile_picture.path)
-                print(image.get('url'))
-                instance.picture_url = image.get('url')
-
+                if instance.profile_picture != "http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png":
+                    print("original url" + instance.picture_url)
+                    instance.picture_url = image.get('url')
+                    print("this is the new url" + instance.picture_url)
+                    instance.save()
             else:
                 print("has no image")
+
+
+
+# @receiver(pre_save, sender=Parent)
+# def upload_picture_cloudinary(sender,instance=None, **kwargs):
+#     if instance:
+#
+#             if instance.profile_picture and hasattr(instance.profile_picture, 'path'):
+#                 print(instance.profile_picture.path)
+#                 print("it uploaded")
+#                 # print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
+#                 image = cloudinary.uploader.upload(instance.profile_picture.path)
+#                 print(image.get('url'))
+#                 instance.picture_url = image.get('url')
+#
+#             else:
+#                 print("has no image")
 

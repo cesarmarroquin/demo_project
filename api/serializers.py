@@ -28,7 +28,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 class ParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parent
-        fields = ('id', 'user_type','first_name', 'last_name', 'student_set', 'profile_picture')
+        fields = ('id', 'user_type','first_name', 'last_name', 'student_set', 'picture_url')
 
 
 class SchoolEventSerializer(serializers.ModelSerializer):
