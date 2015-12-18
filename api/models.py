@@ -65,3 +65,10 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
                 signers=[{ 'email_address': 'cesarm2333@gmail.com', 'name': 'Cesar Marr' }],
                 files=[instance.file.path]
                 )
+
+
+
+# @receiver(post_save, sender=StudentForm)
+# def check_form_signed(sender, instance=None, created=False, **kwargs):
+#     if
+#     # client.get_signature_request('f7e9760622363224832f464267ece894fa39a0fd').json_data

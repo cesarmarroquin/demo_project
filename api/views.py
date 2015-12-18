@@ -178,9 +178,9 @@ class ListTeachers(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Teacher.objects.all()
-        username = self.request.query_params.get('username', None)
-        if username is not None:
-            queryset = queryset.filter(username=username)
+        # username = self.request.query_params.get('username', None)
+        # if username is not None:
+        #     queryset = queryset.filter(username=username)
         return queryset
 
 
@@ -272,17 +272,6 @@ class StudentFeeList(generics.ListCreateAPIView):
         print(id)
         queryset = ClassFeePayment.objects.filter(student__id = fee_id )
         return queryset
-
-#
-# class StudentFeeList(generics.ListCreateAPIView):
-#     serializer_class = ClassFeePaymentSerializer
-#
-#     def get_queryset(self):
-#         fee_id = self.kwargs['pk']
-#         print(id)
-#         queryset = ClassFeePayment.objects.filter(student__id = fee_id )
-#         return queryset
-
 
 class StudentHomeworkList(generics.ListCreateAPIView):
     serializer_class = StudentHomeworkSerializer
