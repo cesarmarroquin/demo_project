@@ -206,8 +206,8 @@ class ListClasses(generics.ListCreateAPIView):
     serializer_class = SchoolClassSerializer
     queryset = SchoolClass.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save()
+    # def perform_create(self, serializer):
+    #     serializer.save()
 
 
 class DetailClasses(generics.RetrieveUpdateDestroyAPIView):

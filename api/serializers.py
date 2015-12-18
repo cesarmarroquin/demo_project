@@ -34,31 +34,31 @@ class ParentSerializer(serializers.ModelSerializer):
 class SchoolEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = SchoolEvent
-        fields = ('id','name','school', 'description', 'date', 'image')
+        fields = ('id','name','school', 'description', 'date', 'picture_url')
 
 class ClassEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassEvent
-        fields = ('id','name','school_class', 'description', 'date', 'image')
+        fields = ('id','name','school_class', 'description', 'date', 'picture_url')
 
 class ClassFeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFee
-        fields = ('id', 'school_class','name','description','amount','date', 'image')
+        fields = ('id', 'school_class','name','description','amount','date', 'picture_url')
 
 class ClassFeePaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFeePayment
-        fields = ('id', 'student','class_fee','name','description','payment_amount','amount_needed','date', 'image',  'payment_amount','charge_id','refunded','is_paid',)
+        fields = ('id', 'student','class_fee','name','description','payment_amount','amount_needed','date', 'picture_url',  'payment_amount','charge_id','refunded','is_paid',)
 
 
 class ClassHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassHomework
-        fields = ('school_class','title','description','image','due_date','points')
+        fields = ('school_class','title','description','picture_url','due_date','points')
 
 
 class StudentHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentHomework
-        fields = ('class_homework','student','title','description','image','due_date','points', )
+        fields = ('class_homework','student','title','description','picture_url','due_date','points', )
