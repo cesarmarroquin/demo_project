@@ -97,9 +97,11 @@ def upload_picture_cloudinary(sender,instance=None, created=False, **kwargs):
 
             if instance.profile_picture and hasattr(instance.profile_picture, 'path'):
                 print(instance.profile_picture.path)
-                # print("it uploaded")
+                print("it uploaded")
                 # print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
-                cloudinary.uploader.upload(instance.profile_picture.path)
+                image = cloudinary.uploader.upload(instance.profile_picture.path)
+                print(image.get('url'))
+
             else:
                 print("has no image")
 
