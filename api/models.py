@@ -101,6 +101,7 @@ def upload_picture_cloudinary(sender,instance=None, created=False, **kwargs):
                 # print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
                 image = cloudinary.uploader.upload(instance.profile_picture.path)
                 print(image.get('url'))
+                instance.picture_url = image.get('url')
 
             else:
                 print("has no image")
