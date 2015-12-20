@@ -9,10 +9,12 @@ class SchoolClassSerializer(serializers.ModelSerializer):
         model = SchoolClass
         fields = ('id','name', 'teacher', 'school', 'classevent_set', 'classfee_set', 'student_set')
 
+
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = ('id','name', 'schoolclass_set', 'schoolevent_set')
+
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +27,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = ('id','user_type','first_name', 'last_name', 'picture_url' )
 
+
 class ParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parent
@@ -36,15 +39,18 @@ class SchoolEventSerializer(serializers.ModelSerializer):
         model = SchoolEvent
         fields = ('id','name','school', 'description', 'date', 'picture_url')
 
+
 class ClassEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassEvent
         fields = ('id','name','school_class', 'description', 'date', 'picture_url')
 
+
 class ClassFeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFee
         fields = ('id', 'school_class','name','description','amount','date', 'picture_url')
+
 
 class ClassFeePaymentSerializer(serializers.ModelSerializer):
     class Meta:
