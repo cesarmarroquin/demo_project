@@ -61,10 +61,10 @@ class ClassFeePaymentSerializer(serializers.ModelSerializer):
 class ClassHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassHomework
-        fields = ('school_class','title','description','picture_url','due_date','points')
+        fields = ('school_class','title','description','picture_url','due_date','points', )
 
 
 class StudentHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentHomework
-        fields = ('class_homework','student','title','description','picture_url','due_date','points', )
+        fields = ('class_homework','student','title','description','picture_url','due_date','points', 'total_points' )
