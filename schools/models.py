@@ -86,11 +86,11 @@ class StudentHomework(models.Model):
     def __str__(self):
         return "{}".format(self.title)
 
-
+#
 # class StudentHomeworkGrade(models.Model):
 #     student_homework = models.ForeignKey(StudentHomework)
-#     points = models.IntegerField(default=0)
-#     grade = models.CharField(default='A')
+#     points = models.IntegerField()
+#     grade = models.CharField(default='F')
 #
 #
 #

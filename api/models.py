@@ -19,6 +19,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         if created:
             Token.objects.create(user=instance)
 
+
 @receiver(post_save, sender=ClassFee)
 def create_student_fees(sender,instance=None, created=False, **kwargs):
     if created:

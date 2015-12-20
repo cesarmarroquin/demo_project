@@ -21,3 +21,4 @@ sendgrid-django
 stripe
 hellosign-python-sdk
 cloudinary
+twilio
