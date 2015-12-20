@@ -79,14 +79,19 @@ class StudentHomework(models.Model):
     due_date = models.DateField()
     turned_in = models.DateField(null=True)
     points = models.IntegerField(default=0)
+    total_points = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.title)
 
 
 # class StudentHomeworkGrade(models.Model):
 #     student_homework = models.ForeignKey(StudentHomework)
-#     points = student_homework.points
+#     points = models.IntegerField(default=0)
 #     grade = models.CharField(default='A')
+#
 #
 #
 #     def __str__(self):

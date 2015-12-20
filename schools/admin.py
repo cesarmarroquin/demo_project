@@ -35,11 +35,11 @@ class ClassFeePaymentAdmin(admin.ModelAdmin):
 
 @admin.register(ClassHomework)
 class ClassHomeworkAdmin(admin.ModelAdmin):
-    fields = ('school_class','title','description','image','due_date','points')
+    fields = ('school_class','title','description','file','due_date','points')
 
 @admin.register(StudentHomework)
 class StudentHomeworkAdmin(admin.ModelAdmin):
-    fields = ('class_homework','student','title','description','image','due_date','points', )
+    fields = ('class_homework','student','title','description','file','due_date','points', )
 
 
 @admin.register(ClassForm)

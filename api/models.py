@@ -41,7 +41,9 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
                                            title = instance.title,
                                            description = instance.description,
                                            image = instance.image,
+                                           file = instance.file,
                                            due_date = instance.due_date,
+                                           total_points = instance.points,
                                            )
 
 
@@ -59,24 +61,11 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
                                        due_date = instance.due_date,
                                         )
 
-        # client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
-        # client.send_signature_request(
-        #         test_mode=True,
-        #         title="title=NDA with Acme Co.",
-        #         subject="The NDA we talked about",
-        #         message="Please sign this NDA and then we can discuss more. Let me know if you have any questions.",
-        #         signers=[{ 'email_address': 'cesarm2333@gmail.com', 'name': 'Cesar Marr' }],
-        #         files=[instance.file.path]
-        #         )
-
-
 
 @receiver(post_save, sender=StudentForm)
 def check_form_signed(sender, instance=None, created=False, **kwargs):
     client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
     if created:
-        # client.get_signature_request('f7e9760622363224832f464267ece894fa39a0fd').json_data.get("is_complete")
-        client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
         client.send_signature_request(
                 test_mode=True,
                 title=instance.title,
@@ -98,21 +87,3 @@ def upload_picture_cloudinary(sender,instance=None, created=False, **kwargs):
                     instance.save()
             else:
                 print("has no image")
-
-
-
-# @receiver(pre_save, sender=Parent)
-# def upload_picture_cloudinary(sender,instance=None, **kwargs):
-#     if instance:
-#
-#             if instance.profile_picture and hasattr(instance.profile_picture, 'path'):
-#                 print(instance.profile_picture.path)
-#                 print("it uploaded")
-#                 # print(cloudinary.CloudinaryImage("http://res.cloudinary.com/dpkceqvfi").image(type="fetch"))
-#                 image = cloudinary.uploader.upload(instance.profile_picture.path)
-#                 print(image.get('url'))
-#                 instance.picture_url = image.get('url')
-#
-#             else:
-#                 print("has no image")
-
