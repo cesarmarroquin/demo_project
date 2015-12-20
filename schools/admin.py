@@ -39,7 +39,7 @@ class ClassHomeworkAdmin(admin.ModelAdmin):
 
 @admin.register(StudentHomework)
 class StudentHomeworkAdmin(admin.ModelAdmin):
-    fields = ('class_homework','student','title','description','file','due_date','points', )
+    fields = ('class_homework','student','title','description','file','due_date','points', 'total_points' )
 
 
 @admin.register(ClassForm)
