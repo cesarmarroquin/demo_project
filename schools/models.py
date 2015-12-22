@@ -86,16 +86,15 @@ class StudentHomework(models.Model):
     def __str__(self):
         return "{}".format(self.title)
 
-#
-# class StudentHomeworkGrade(models.Model):
-#     student_homework = models.ForeignKey(StudentHomework)
-#     points = models.IntegerField()
-#     grade = models.CharField(default='F')
-#
-#
-#
-#     def __str__(self):
-#         return "{}".format(self.title)
+
+class StudentHomeworkGrade(models.Model):
+    student_homework = models.OneToOneField(StudentHomework)
+    grade = models.CharField(default='F', max_length=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}".format(self.title)
 
 class SchoolEvent(models.Model):
     school = models.ForeignKey(School)
