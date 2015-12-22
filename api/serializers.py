@@ -4,34 +4,11 @@ from schools.models import *
 from parents.models import *
 from teachers.models import *
 
-class SchoolClassSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SchoolClass
-        fields = ('id','name', 'teacher', 'school', 'classevent_set', 'classfee_set', 'student_set')
-
-
+############## SCHOOL  #####################
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = ('id','name', 'schoolclass_set', 'schoolevent_set')
-
-
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set')
-
-
-class TeacherSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Teacher
-        fields = ('id','user_type','first_name', 'last_name', 'picture_url' )
-
-
-class ParentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Parent
-        fields = ('id', 'user_type','first_name', 'last_name', 'student_set', 'picture_url')
 
 
 class SchoolEventSerializer(serializers.ModelSerializer):
@@ -39,6 +16,26 @@ class SchoolEventSerializer(serializers.ModelSerializer):
         model = SchoolEvent
         fields = ('id','name','school', 'description', 'date', 'picture_url')
 
+
+############## PARENT  #####################
+class ParentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parent
+        fields = ('id', 'user_type','first_name', 'last_name', 'student_set', 'picture_url')
+
+
+############## TEACHER  #####################
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ('id','user_type','first_name', 'last_name', 'picture_url' )
+
+
+##############  CLASS  #####################
+class SchoolClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SchoolClass
+        fields = ('id','name', 'teacher', 'school', 'classevent_set', 'classfee_set', 'student_set')
 
 class ClassEventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,6 +59,14 @@ class ClassHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassHomework
         fields = ('school_class','title','description','picture_url','due_date','points', )
+
+
+
+############## STUDENT  #####################
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set')
 
 
 class StudentHomeworkSerializer(serializers.ModelSerializer):
