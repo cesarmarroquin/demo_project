@@ -48,6 +48,23 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
                                            )
 
 
+@receiver(post_save, sender=StudentHomework)
+def create_studenthomework(sender, instance=None, created=False, **kwargs):
+    # if created:
+        tenth = instance.total_points * 0.1
+        print(tenth)
+        if instance.points >= instance.total_points - tenth:
+            instance.grade = 'A'
+        elif instance.points >= (instance.total_points-(tenth*2)):
+            instance.grade = 'B'
+        elif instance.points >= (instance.total_points-(tenth*3)):
+            instance.grade = 'C'
+        elif instance.points >= (instance.total_points-(tenth*4)):
+            instance.grade = 'D'
+        else:
+            instance.grade = 'F'
+
+
 @receiver(post_save, sender=ClassForm)
 def create_student_form(sender, instance=None, created=False, **kwargs):
     if created:

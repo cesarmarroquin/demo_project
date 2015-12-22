@@ -42,6 +42,11 @@ class StudentHomeworkAdmin(admin.ModelAdmin):
     fields = ('class_homework','student','title','description','file','due_date','points', 'total_points' )
 
 
+@admin.register(StudentHomeworkGrade)
+class StudentHomeworkGradeAdmin(admin.ModelAdmin):
+    fields = ('student_homework', 'grade')
+
+
 @admin.register(ClassForm)
 class ClassFormAdmin(admin.ModelAdmin):
     fields =('school_class','file','title','subject' ,'message','due_date')
