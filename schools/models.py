@@ -142,7 +142,7 @@ class StudentForm(models.Model):
     class_form = models.ForeignKey(ClassForm)
     student = models.ForeignKey(Student, default=1)
     file = models.FileField(upload_to='student_forms/%Y/%m/%d')
-    title =  models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     subject = models.TextField(default="subject goes here")
     message = models.TextField(default="message goes here")
     due_date = models.DateField(default=date.today)
