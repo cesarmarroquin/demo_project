@@ -61,6 +61,11 @@ class ClassHomeworkSerializer(serializers.ModelSerializer):
         fields = ('school_class','title','description','picture_url','due_date','points', )
 
 
+class ClassFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassForm
+        fields =('school_class','file','title','subject' ,'message','due_date')
+
 
 ############## STUDENT  #####################
 class StudentSerializer(serializers.ModelSerializer):
@@ -73,3 +78,9 @@ class StudentHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentHomework
         fields = ('class_homework','student','title','description','picture_url','due_date','points', 'total_points' )
+
+
+class StudentFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentForm
+        fields = ('class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')
