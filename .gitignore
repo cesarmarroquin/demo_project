@@ -1,6 +1,7 @@
 .envrc
 .direnv
 .idea
+.ipynb
 *.pyc
 *.csv
 .DS_Store
