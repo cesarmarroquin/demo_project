@@ -46,6 +46,10 @@ class StudentHomeworkAdmin(admin.ModelAdmin):
 class StudentHomeworkGradeAdmin(admin.ModelAdmin):
     fields = ('student_homework', 'grade')
 
+@admin.register(StudentAttendance)
+class StudnentAttendanceAdmin(admin.ModelAdmin):
+    fields = ('student', 'date', 'absent', 'tardy')
+
 
 @admin.register(ClassForm)
 class ClassFormAdmin(admin.ModelAdmin):
