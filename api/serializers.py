@@ -84,3 +84,8 @@ class StudentFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentForm
         fields = ('id','class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')
+
+class StudentAttendanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentAttendance
+        fields = ('student', 'date', 'absent', 'tardy')

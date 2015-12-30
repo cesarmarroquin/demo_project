@@ -106,6 +106,9 @@ class StudentAttendance(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "{}, {}".format(self.date, self.student.first_name)
+
 class SchoolEvent(models.Model):
     school = models.ForeignKey(School)
     name = models.CharField(max_length=255)
