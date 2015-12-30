@@ -84,19 +84,6 @@ class StudentHomework(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    # def update_grade(self):
-    #     tenth = self.total_points * 0.1
-    #     if self.points >= self.total_points - tenth:
-    #         self.grade = 'A'
-    #     elif self.points >= 2*(self.total_points-tenth):
-    #         self.grade = 'B'
-    #     elif self.points >= 3*(self.total_points-tenth):
-    #         self.grade = 'C'
-    #     elif self.points >= 4*(self.total_points-tenth):
-    #         self.grade = 'D'
-    #     else:
-    #         self.grade = 'F'
-
 
     def __str__(self):
         return "{}, {}".format(self.title, self.student)
@@ -110,6 +97,13 @@ class StudentHomeworkGrade(models.Model):
 
     def __str__(self):
         return "{}".format(self.student_homework)
+
+class StudentAttendance(models.Model):
+    student = models.ForeignKey(Student)
+    absent = models.BooleanField(default=False)
+    tardy = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
 class SchoolEvent(models.Model):
     school = models.ForeignKey(School)

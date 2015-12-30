@@ -77,10 +77,10 @@ class StudentSerializer(serializers.ModelSerializer):
 class StudentHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentHomework
-        fields = ('class_homework','student','title','description','picture_url','due_date','points', 'total_points','grade', )
+        fields = ('id','class_homework','student','title','description','picture_url','due_date','points', 'total_points','grade', )
 
 
 class StudentFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentForm
-        fields = ('class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')
+        fields = ('id','class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')

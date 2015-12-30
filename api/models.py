@@ -50,7 +50,6 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
 
 @receiver(post_save, sender=StudentHomework)
 def create_studenthomework(sender, instance=None, created=False, **kwargs):
-    # if created:
         tenth = instance.total_points * 0.1
         print(tenth)
         if instance.points >= instance.total_points - tenth:
