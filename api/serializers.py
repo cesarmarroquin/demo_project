@@ -71,7 +71,7 @@ class ClassFormSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set', 'studentform_set')
+        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set', 'studentform_set', 'studentattendance_set')
 
 
 class StudentHomeworkSerializer(serializers.ModelSerializer):
