@@ -88,4 +88,4 @@ class StudentFormSerializer(serializers.ModelSerializer):
 class StudentAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAttendance
-        fields = ('student', 'date', 'absent', 'tardy')
+        fields = ('student', 'school_class', 'date', 'absent', 'tardy')

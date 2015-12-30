@@ -48,7 +48,7 @@ class StudentHomeworkGradeAdmin(admin.ModelAdmin):
 
 @admin.register(StudentAttendance)
 class StudentAttendanceAdmin(admin.ModelAdmin):
-    fields = ('student', 'date', 'absent', 'tardy')
+    fields = ('student','school_class', 'date', 'absent', 'tardy')
 
 @admin.register(ClassForm)
 class ClassFormAdmin(admin.ModelAdmin):

@@ -100,6 +100,7 @@ class StudentHomeworkGrade(models.Model):
 
 class StudentAttendance(models.Model):
     student = models.ForeignKey(Student)
+    school_class = models.ForeignKey(SchoolClass, null=True)
     date = models.DateField(default=date.today)
     absent = models.BooleanField(default=False)
     tardy = models.BooleanField(default=False)
