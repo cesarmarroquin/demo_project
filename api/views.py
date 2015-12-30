@@ -292,6 +292,15 @@ class StudentFormList(generics.ListCreateAPIView):
             queryset = StudentForm.objects.filter(student__id = id )
             return queryset
 
+class StudentAttendanceList(generics.ListCreateAPIView):
+    serializer_class = StudentAttendanceSerializer
+
+    def get_queryset(self):
+            id = self.kwargs['pk']
+            print(id)
+            queryset = StudentAttendance.objects.filter(student__id = id )
+            return queryset
+
 
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
