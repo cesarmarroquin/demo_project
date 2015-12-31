@@ -10,4 +10,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for school_class in SchoolClass.objects.all():
             for student in Student.objects.filter(school_class=school_class):
-                StudentAttendance.objects.create(student=student, school_class=school_class)
+                StudentAttendance.objects.create(student=student,
+                                                 school_class=school_class,
+                                                 )
