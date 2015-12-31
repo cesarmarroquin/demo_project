@@ -50,6 +50,10 @@ class StudentHomeworkGradeAdmin(admin.ModelAdmin):
 class StudentAttendanceAdmin(admin.ModelAdmin):
     fields = ('student','school_class', 'date', 'absent', 'tardy')
 
+@admin.register(StudentBehavior)
+class StudentBehaviorAdmin(admin.ModelAdmin):
+    fields = ('student','school_class', 'date', 'good_behavior', 'description')
+
 @admin.register(ClassForm)
 class ClassFormAdmin(admin.ModelAdmin):
     fields =('school_class','file','title','subject' ,'message','due_date')
