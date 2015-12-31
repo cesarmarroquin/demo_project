@@ -110,6 +110,18 @@ class StudentAttendance(models.Model):
     def __str__(self):
         return "{}, {}".format(self.date, self.student.first_name)
 
+class StudentBehavior(models.Model):
+    student = models.ForeignKey(Student)
+    school_class = models.ForeignKey(SchoolClass, null=True)
+    date = models.DateField(default=date.today)
+    good_behavior = models.BooleanField(default=True)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}, {}".format(self.date, self.student.first_name)
+
 class SchoolEvent(models.Model):
     school = models.ForeignKey(School)
     name = models.CharField(max_length=255)
