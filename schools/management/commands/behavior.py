@@ -11,5 +11,5 @@ class Command(BaseCommand):
         for school_class in SchoolClass.objects.all():
             for student in Student.objects.filter(school_class=school_class):
                 StudentBehavior.objects.create(student=student,
-                                                 school_class=school_class,
-                                                 )
+                                               school_class=school_class,
+                                              )
