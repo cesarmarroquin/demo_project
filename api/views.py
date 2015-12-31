@@ -301,6 +301,15 @@ class StudentAttendanceList(generics.ListCreateAPIView):
             queryset = StudentAttendance.objects.filter(student__id = id )
             return queryset
 
+class StudentBehaviorList(generics.ListCreateAPIView):
+    serializer_class = StudentBehaviorSerializer
+
+    def get_queryset(self):
+            id = self.kwargs['pk']
+            print(id)
+            queryset = StudentBehavior.objects.filter(student__id = id )
+            return queryset
+
 
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
