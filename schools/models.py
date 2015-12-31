@@ -115,7 +115,7 @@ class StudentBehavior(models.Model):
     school_class = models.ForeignKey(SchoolClass, null=True)
     date = models.DateField(default=date.today)
     good_behavior = models.BooleanField(default=True)
-    description = models.TextField()
+    description = models.TextField(default="Behavior was good for today.")
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
