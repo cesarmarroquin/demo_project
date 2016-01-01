@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from schools.models import *
 from django.utils import timezone
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 class Command(BaseCommand):
@@ -10,8 +12,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for attendance in StudentAttendance.objects.all():
             if attendance.absent == True:
-                print("{}, was absent".format(attendance.student))
-                #### send twilio message
-                ### send sendgrid message
+                for parent in attendance.student.parent.filter(student=attendance.student):
+                    print("{}, was absent".format(attendance.student))
+                    #### send twilio message
+                    ### send sendgrid message
+                    send_mail("Your Student was Absent",
+                              "{}, was absent today from {}".format(attendance.student, attendance.school_class),
+                              "Cesar Marroquin <cesarm2333@gmail.com>",
+                              ["{}".format(parent.email)])
             else:
-                 print("{}, was not absent".format(attendance.student))
+                print("{}, was not absent".format(attendance.student))

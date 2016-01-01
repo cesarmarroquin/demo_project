@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from schools.models import *
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 
 
 class Command(BaseCommand):
