@@ -20,5 +20,12 @@ class Command(BaseCommand):
                               "{}, was absent today from {}".format(attendance.student, attendance.school_class),
                               "Cesar Marroquin <cesarm2333@gmail.com>",
                               ["{}".format(parent.email)])
-            else:
-                print("{}, was not absent".format(attendance.student))
+            elif attendance.tardy == True:
+                for parent in attendance.student.parent.filter(student=attendance.student):
+                    print("{}, was tardy".format(attendance.student))
+                    #### send twilio message
+                    ### send sendgrid message
+                    send_mail("Your Student was Tardy",
+                              "{}, was tardy today from {}".format(attendance.student, attendance.school_class),
+                              "Cesar Marroquin <cesarm2333@gmail.com>",
+                              ["{}".format(parent.email)])
