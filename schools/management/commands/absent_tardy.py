@@ -24,7 +24,7 @@ class Command(BaseCommand):
 
                     #### send twilio message
                     client = TwilioRestClient(account, token)
-                    message = client.messages.create(to="+17022095680", from_="+17023235267",
+                    message = client.messages.create(to="+17024434707", from_="+17023235267",
                                                      body="{}, was absent today from {}".format(attendance.student, attendance.school_class))
 
 
