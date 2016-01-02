@@ -51,11 +51,11 @@ def create_student_fees(sender, instance=None, created=False, **kwargs):
 
 
 
-                # message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                #                                  from_="+17023235267",
-                #                                  body="{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(
-                #                                          student.first_name, instance.name, instance.description,
-                #                                          instance.amount, instance.date))
+                message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                                 from_="+17023235267",
+                                                 body="{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(
+                                                         student.first_name, instance.name, instance.description,
+                                                         instance.amount, instance.date))
 
 
 @receiver(post_save, sender=ClassHomework)
