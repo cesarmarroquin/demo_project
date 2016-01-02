@@ -18,6 +18,8 @@ token = "709fd183d70712788b8fc6c1ac045625"
 client = TwilioRestClient(account, token)
 
 
+
+###################   Token Creation #################################
 @receiver(post_save)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     list_of_models = ('Teacher', 'Parent',)
@@ -26,37 +28,59 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
             Token.objects.create(user=instance)
 
 
-@receiver(post_save, sender=ClassFee)
-def create_student_fees(sender, instance=None, created=False, **kwargs):
+
+####################  Users ##########################################
+@receiver(post_save, sender=Parent)
+def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
     if created:
-        for student in Student.objects.filter(school_class__name=instance.school_class.name):
-            ClassFeePayment.objects.create(student=student,
-                                           class_fee=instance,
-                                           name=instance.name,
-                                           description=instance.description,
-                                           image=instance.image,
-                                           date=instance.date,
-                                           amount_needed=instance.amount,
-                                           )
-            for parent in student.parent.filter(student=student):
-                send_mail("new fee",
-                          "{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(student.first_name,
-                                                                                                 instance.name,
-                                                                                                 instance.description,
-                                                                                                 instance.amount,
-                                                                                                 instance.date),
-                          "Cesar Marroquin <cesarm2333@gmail.com>",
-                          ["{}".format(parent.email)])
+        if instance.profile_picture and (hasattr(instance.profile_picture, 'path')):
+            image = cloudinary.uploader.upload(instance.profile_picture.path)
+            if instance.profile_picture != "http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png":
+                print("original url" + instance.picture_url)
+                instance.picture_url = image.get('url')
+                print("this is the new url" + instance.picture_url)
+                instance.save()
+
+####################  Attendance ##########################################
+@receiver(post_save, sender=StudentAttendance)
+def student_absent_tardy(sender, instance=None, created=False, **kwargs):
+    if instance.absent == True:
+        for parent in instance.student.parent.filter(student=instance.student):
+            print("{}, was absent".format(instance.student))
+            ### send email to parent when child is absent
+            send_mail("Your Student was Absent",
+                      "{}, was absent today from {}".format(instance.student, instance.school_class),
+                      "Cesar Marroquin <cesarm2333@gmail.com>",
+                      ["{}".format(parent.email)])
+
+            #### send text to parent when child is absent
+            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number), from_="+17023235267",
+                                             body="{}, your child {}, was absent today from {}".format(parent.first_name, instance.student, instance.school_class))
+
+
+    elif instance.tardy == True:
+        for parent in instance.student.parent.filter(student=instance.student):
+            print("{}, was tardy".format(instance.student))
+            ### send email to parent when child is absent
+            send_mail("Your Student was Tardy",
+                      "{}, was tardy today in {}".format(instance.student, instance.school_class),
+                      "Cesar Marroquin <cesarm2333@gmail.com>",
+                      ["{}".format(parent.email)])
+
+            #### send text to parent when child is absent
+            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number), from_="+17023235267",
+                                             body="{}, was tardy today in {}".format(instance.student, instance.school_class))
+
+
+####################  Behavior ##########################################
 
 
 
-                message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                                                 from_="+17023235267",
-                                                 body="{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(
-                                                         student.first_name, instance.name, instance.description,
-                                                         instance.amount, instance.date))
+####################  Grades ##########################################
 
 
+
+####################  Homework ##########################################
 @receiver(post_save, sender=ClassHomework)
 def create_student_homework(sender, instance=None, created=False, **kwargs):
     if created:
@@ -88,6 +112,42 @@ def update_grades(sender, instance=None, created=False, **kwargs):
         instance.grade = 'F'
 
 
+
+####################  Fees ##########################################
+@receiver(post_save, sender=ClassFee)
+def create_student_fees(sender, instance=None, created=False, **kwargs):
+    if created:
+        for student in Student.objects.filter(school_class__name=instance.school_class.name):
+            ClassFeePayment.objects.create(student=student,
+                                           class_fee=instance,
+                                           name=instance.name,
+                                           description=instance.description,
+                                           image=instance.image,
+                                           date=instance.date,
+                                           amount_needed=instance.amount,
+                                           )
+            for parent in student.parent.filter(student=student):
+                send_mail("new fee",
+                          "{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(student.first_name,
+                                                                                                 instance.name,
+                                                                                                 instance.description,
+                                                                                                 instance.amount,
+                                                                                                 instance.date),
+                          "Cesar Marroquin <cesarm2333@gmail.com>",
+                          ["{}".format(parent.email)])
+                message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                                 from_="+17023235267",
+                                                 body="{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(
+                                                         student.first_name, instance.name, instance.description,
+                                                         instance.amount, instance.date))
+
+
+
+
+
+
+
+####################  Forms ##########################################
 @receiver(post_save, sender=ClassForm)
 def create_student_form(sender, instance=None, created=False, **kwargs):
     if created:
@@ -101,7 +161,19 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
                                        signer=Parent.objects.filter(student=student)[0],
                                        due_date=instance.due_date,
                                        )
-            
+
+            for parent in student.parent.filter(student=student):
+                send_mail("new fee",
+                          "{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(student.first_name,
+                                                                                        instance.message,
+                                                                                        ),
+                          "Cesar Marroquin <cesarm2333@gmail.com>",
+                          ["{}".format(parent.email)])
+                message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                                 from_="+17023235267",
+                                                 body="{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(student.first_name,
+                                                                                                            instance.message,
+                                                                                                            ))
 
 
 @receiver(post_save, sender=StudentForm)
@@ -118,15 +190,5 @@ def check_form_signed(sender, instance=None, created=False, **kwargs):
         )
 
 
-@receiver(post_save, sender=Parent)
-def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
-    if created:
-        if instance.profile_picture and (hasattr(instance.profile_picture, 'path')):
-            image = cloudinary.uploader.upload(instance.profile_picture.path)
-            if instance.profile_picture != "http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png":
-                print("original url" + instance.picture_url)
-                instance.picture_url = image.get('url')
-                print("this is the new url" + instance.picture_url)
-                instance.save()
-        else:
-            print("has no image")
+
+####################  Events ##########################################
