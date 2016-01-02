@@ -12,7 +12,7 @@ from schools.models import *
 class ParentAdmin(UserAdmin):
     UserAdmin.list_display += ('profile_picture',)
     UserAdmin.add_fieldsets += (
-            (None, {'fields': ('profile_picture',)}),
+            (None, {'fields': ('profile_picture','phone_number')}),
     )
 
     # fields = ('user_type','first_name', 'last_name', 'student_set', 'profile_picture')
