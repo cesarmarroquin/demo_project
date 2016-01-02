@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-# from schools.models import Student
 from teachers.models import Teacher
 from parents.models import Parent
 from schools.models import *
@@ -74,7 +73,7 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
 
 
 @receiver(post_save, sender=StudentHomework)
-def create_studenthomework(sender, instance=None, created=False, **kwargs):
+def update_grades(sender, instance=None, created=False, **kwargs):
     tenth = instance.total_points * 0.1
     print(tenth)
     if instance.points >= instance.total_points - tenth:
@@ -102,6 +101,7 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
                                        signer=Parent.objects.filter(student=student)[0],
                                        due_date=instance.due_date,
                                        )
+            
 
 
 @receiver(post_save, sender=StudentForm)

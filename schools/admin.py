@@ -61,4 +61,4 @@ class ClassFormAdmin(admin.ModelAdmin):
 
 @admin.register(StudentForm)
 class StudentFormAdmin(admin.ModelAdmin):
-    fields = ('class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')
+    fields = ('class_form', 'student','file','title','subject' ,'message', 'viewed', 'view_count', 'signed')
