@@ -393,25 +393,19 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         token = serializer.initial_data['token']
         stripe.api_key = 'sk_test_biD58COvD5uBeTpom2jHDsjT'
-        original_object = self.get_object()
-        # if original_object.is_paid == True:
-        #     print("you paid the fee")
+        # if serializer.initial_data['is_paid'] == True:
         try:
             charge = stripe.Charge.create(
-                # amount=original_object.class_fee__amount,
                 amount=serializer.initial_data['amount_needed'],
                 currency="usd",
                 source=token,
                 description="fee payment"
             )
             stripe_charge_id = charge['id']
-            user = self.request.user
-            serializer.save(charge_id=stripe_charge_id, payment_amount = charge['amount'])
+            serializer.save(charge_id=stripe_charge_id, payment_amount = charge['amount'], is_paid = True)
+
         except stripe.error.CardError:
-           pass
-        serializer.save()
-    # else:
-    #     print("you didnt pay the fee")
+            serializer.save(is_paid = False)
 
 
 
