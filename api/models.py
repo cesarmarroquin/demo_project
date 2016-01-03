@@ -91,13 +91,14 @@ def update_grades(sender, instance=None, created=False, **kwargs):
 
 @receiver(post_save, sender=StudentHomework)
 def notify_bad_grade(sender, instance=None, created=False, **kwargs):
-    if instance.grade == 'F':
-        for parent in instance.student.parent.filter(student=instance.student):
-            subject = "Your Child failed an assignment today"
-            message = "{}, your child {}, recieved an F on an assignment. The assignment is titled: {}, and is from his {} class".format(
-                    parent.first_name, instance.student, instance.title,
-                    instance.class_homework.school_class)
-            send_text_email(subject,message,parent)
+    if not created:
+        if instance.grade == 'F':
+            for parent in instance.student.parent.filter(student=instance.student):
+                subject = "Your Child failed an assignment today"
+                message = "{}, your child {}, recieved an F on an assignment. The assignment is titled: {}, and is from his {} class".format(
+                        parent.first_name, instance.student, instance.title,
+                        instance.class_homework.school_class)
+                send_text_email(subject,message,parent)
 
 
 ####################  Homework ##########################################
@@ -105,15 +106,17 @@ def notify_bad_grade(sender, instance=None, created=False, **kwargs):
 def create_student_homework(sender, instance=None, created=False, **kwargs):
     if created:
         for student in Student.objects.filter(school_class__name=instance.school_class.name):
-            StudentHomework.objects.create(student=student,
-                                           class_homework=instance,
-                                           title=instance.title,
-                                           description=instance.description,
-                                           image=instance.image,
-                                           file=instance.file,
-                                           due_date=instance.due_date,
-                                           total_points=instance.points,
+            StudentHomework.objects.create(student=student,class_homework=instance,
+                                           title=instance.title,description=instance.description,
+                                           image=instance.image,file=instance.file,
+                                           due_date=instance.due_date,total_points=instance.points,
                                            )
+
+            for parent in student.parent.filter(student=student):
+                subject = "new homework"
+                message =  "{}, has a new a homework assignment in {}".format(student.first_name,instance.school_class)
+                send_text_email(subject,message,parent)
+
 
 
 ####################  Fees ##########################################
