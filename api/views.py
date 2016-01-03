@@ -393,7 +393,7 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         token = serializer.initial_data['token']
         stripe.api_key = 'sk_test_biD58COvD5uBeTpom2jHDsjT'
-        # if serializer.initial_data['is_paid'] == True:
+        if serializer.initial_data['is_paid'] == True:
         try:
             charge = stripe.Charge.create(
                 amount=serializer.initial_data['amount_needed'],
