@@ -80,7 +80,7 @@ class StudentHomework(models.Model):
     turned_in = models.DateField(null=True)
     points = models.IntegerField(default=0)
     total_points = models.IntegerField(default=0)
-    grade = models.CharField(default='F', max_length=1)
+    grade = models.CharField(default="none", max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

@@ -18,7 +18,6 @@ token = "709fd183d70712788b8fc6c1ac045625"
 client = TwilioRestClient(account, token)
 
 
-
 ###################   Token Creation #################################
 @receiver(post_save)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -26,7 +25,6 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if sender.__name__ in list_of_models:
         if created:
             Token.objects.create(user=instance)
-
 
 
 ####################  Users ##########################################
@@ -41,9 +39,10 @@ def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
                 print("this is the new url" + instance.picture_url)
                 instance.save()
 
+
 ####################  Attendance ##########################################
 @receiver(post_save, sender=StudentAttendance)
-def student_absent_tardy(sender, instance=None, created=False, **kwargs):
+def notify_absent_tardy(sender, instance=None, created=False, **kwargs):
     if instance.absent == True:
         for parent in instance.student.parent.filter(student=instance.student):
             print("{}, was absent".format(instance.student))
@@ -54,9 +53,10 @@ def student_absent_tardy(sender, instance=None, created=False, **kwargs):
                       ["{}".format(parent.email)])
 
             #### send text to parent when child is absent
-            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number), from_="+17023235267",
-                                             body="{}, your child {}, was absent today from {}".format(parent.first_name, instance.student, instance.school_class))
-
+            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                             from_="+17023235267",
+                                             body="{}, your child {}, was absent today from {}".format(
+                                                     parent.first_name, instance.student, instance.school_class))
 
     elif instance.tardy == True:
         for parent in instance.student.parent.filter(student=instance.student):
@@ -68,16 +68,58 @@ def student_absent_tardy(sender, instance=None, created=False, **kwargs):
                       ["{}".format(parent.email)])
 
             #### send text to parent when child is absent
-            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number), from_="+17023235267",
-                                             body="{}, was tardy today in {}".format(instance.student, instance.school_class))
+            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                             from_="+17023235267",
+                                             body="{}, was tardy today in {}".format(instance.student,
+                                                                                     instance.school_class))
 
 
 ####################  Behavior ##########################################
+@receiver(post_save, sender=StudentAttendance)
+def notify_bad_behavior(sender, instance=None, created=False, **kwargs):
+    if instance.good_behavior == False:
+        print("{}, was bad today".format(instance.student))
+        for parent in instance.student.parent.filter(student=instance.student):
+            print("{}, was behaving badly today".format(instance.student))
+            ### send email to parent when child is absent
+            send_mail("Your Student was behaving badly today",
+                      "{}, was behaving badly today in {}".format(instance.student, instance.school_class),
+                      "Cesar Marroquin <cesarm2333@gmail.com>",
+                      ["{}".format(parent.email)])
 
+            #### send text to parent when child is absent
+            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                             from_="+17023235267",
+                                             body="{}, your child {}, was behaving badly today in {}".format(
+                                                     parent.first_name, instance.student, instance.school_class))
 
 
 ####################  Grades ##########################################
+@receiver(post_save, sender=StudentHomework)
+def update_grades(sender, instance=None, created=False, **kwargs):
+    tenth = instance.total_points * 0.1
+    print(tenth)
+    if instance.points >= instance.total_points - tenth:
+        instance.grade = 'A'
+    elif instance.points >= (instance.total_points - (tenth * 2)):
+        instance.grade = 'B'
+    elif instance.points >= (instance.total_points - (tenth * 3)):
+        instance.grade = 'C'
+    elif instance.points >= (instance.total_points - (tenth * 4)):
+        instance.grade = 'D'
+    else:
+        instance.grade = 'F'
 
+
+@receiver(post_save, sender=StudentHomework)
+def notify_bad_grade(sender, instance=None, created=False, **kwargs):
+    if instance.grade == 'F':
+        for parent in instance.student.parent.filter(student=instance.student):
+            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
+                                             from_="+17023235267",
+                                             body="{}, your child {}, recieved an F on an assignment. The assignment is titled: {}, and is from his {} class".format(
+                                                     parent.first_name, instance.student, instance.title,
+                                                     instance.class_homework.school_class))
 
 
 ####################  Homework ##########################################
@@ -94,23 +136,6 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
                                            due_date=instance.due_date,
                                            total_points=instance.points,
                                            )
-
-
-@receiver(post_save, sender=StudentHomework)
-def update_grades(sender, instance=None, created=False, **kwargs):
-    tenth = instance.total_points * 0.1
-    print(tenth)
-    if instance.points >= instance.total_points - tenth:
-        instance.grade = 'A'
-    elif instance.points >= (instance.total_points - (tenth * 2)):
-        instance.grade = 'B'
-    elif instance.points >= (instance.total_points - (tenth * 3)):
-        instance.grade = 'C'
-    elif instance.points >= (instance.total_points - (tenth * 4)):
-        instance.grade = 'D'
-    else:
-        instance.grade = 'F'
-
 
 
 ####################  Fees ##########################################
@@ -142,11 +167,6 @@ def create_student_fees(sender, instance=None, created=False, **kwargs):
                                                          instance.amount, instance.date))
 
 
-
-
-
-
-
 ####################  Forms ##########################################
 @receiver(post_save, sender=ClassForm)
 def create_student_form(sender, instance=None, created=False, **kwargs):
@@ -164,16 +184,18 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
 
             for parent in student.parent.filter(student=student):
                 send_mail("new fee",
-                          "{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(student.first_name,
-                                                                                        instance.message,
-                                                                                        ),
+                          "{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(
+                                  student.first_name,
+                                  instance.message,
+                          ),
                           "Cesar Marroquin <cesarm2333@gmail.com>",
                           ["{}".format(parent.email)])
                 message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
                                                  from_="+17023235267",
-                                                 body="{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(student.first_name,
-                                                                                                            instance.message,
-                                                                                                            ))
+                                                 body="{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(
+                                                         student.first_name,
+                                                         instance.message,
+                                                 ))
 
 
 @receiver(post_save, sender=StudentForm)
@@ -191,4 +213,4 @@ def check_form_signed(sender, instance=None, created=False, **kwargs):
 
 
 
-####################  Events ##########################################
+        ####################  Events ##########################################
