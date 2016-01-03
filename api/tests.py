@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 
 
-class ParentStudentTests(TestCase):
+class ParentTests(TestCase):
 
     def setUp(self):
         self.school = School.objects.create(name="iron yard")
@@ -43,3 +43,18 @@ class TeacherTests(TestCase):
         response_teacher = response.data['results'][0]
         self.assertEqual(response_teacher['name'], self.teacher.first_name)
         self.assertEqual(response_teacher['user_type'], 'teacher')
+
+
+class SchoolClassTests(TestCase):
+    def setUp(self):
+        self.school = School.objects.create(name="iron yard")
+        self.teacher = Teacher.objects.create('jeff', 'jeff@jeff.com', password='123')
+        self.user = Parent.objects.create_user('bob', 'bob@bob.com', password='password')
+        self.school_class = SchoolClass.objects.create(name = "python backend", teacher = self.teacher, school= self.school)
+        self.student = Student.objects.create(first_name="cesar", last_name="marroquin", parent=self.user)
+
+    def test_parent_student_list(self):
+        url = reverse('list_classes')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
