@@ -98,7 +98,6 @@ def notify_bad_behavior(sender, instance=None, created=False, **kwargs):
 @receiver(post_save, sender=StudentHomework)
 def update_grades(sender, instance=None, created=False, **kwargs):
     tenth = instance.total_points * 0.1
-    print(tenth)
     if instance.points >= instance.total_points - tenth:
         instance.grade = 'A'
     elif instance.points >= (instance.total_points - (tenth * 2)):
@@ -115,11 +114,18 @@ def update_grades(sender, instance=None, created=False, **kwargs):
 def notify_bad_grade(sender, instance=None, created=False, **kwargs):
     if instance.grade == 'F':
         for parent in instance.student.parent.filter(student=instance.student):
+            message = "{}, your child {}, recieved an F on an assignment. The assignment is titled: {}, and is from his {} class".format(
+                    parent.first_name, instance.student, instance.title,
+                    instance.class_homework.school_class)
+
+            ### send email to parent when fails and assignment
+            send_mail("Your Student Got An F", message, "Cesar Marroquin <cesarm2333@gmail.com>",
+                      ["{}".format(parent.email)])
+
+            ### send text to parent when fails and assignment
             message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
                                              from_="+17023235267",
-                                             body="{}, your child {}, recieved an F on an assignment. The assignment is titled: {}, and is from his {} class".format(
-                                                     parent.first_name, instance.student, instance.title,
-                                                     instance.class_homework.school_class))
+                                             body=message)
 
 
 ####################  Homework ##########################################
