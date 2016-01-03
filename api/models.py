@@ -18,11 +18,21 @@ token = "709fd183d70712788b8fc6c1ac045625"
 client = TwilioRestClient(account, token)
 
 
+###################  Text/Email Notification Function #################################
 def send_text_email(subject,message,stu_parent):
-        ### send email to parent when child is absent
-        send_mail(subject, message, "Cesar Marroquin <cesarm2333@gmail.com>",["{}".format(stu_parent.email)])
-        #### send text to parent when child is absent
-        text = client.messages.create(to="+1{}".format(stu_parent.phone_number.national_number),from_="+17023235267",body=message)
+    """
+    This function sends out texts and emails to a parent
+
+    :param subject: this will be the subject of the email
+    :param message: this will be the main body of both the email and text message
+    :param stu_parent: this should be the parent it will be sent to
+    :return:
+    """
+    ### send email to parent when child is absent
+    send_mail(subject, message, "Cesar Marroquin <cesarm2333@gmail.com>",["{}".format(stu_parent.email)])
+    #### send text to parent when child is absent
+    text = client.messages.create(to="+1{}".format(stu_parent.phone_number.national_number),from_="+17023235267",body=message)
+
 
 
 ###################   Token Creation #################################
@@ -34,6 +44,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
             Token.objects.create(user=instance)
 
 
+
 ####################  Users ##########################################
 @receiver(post_save, sender=Parent)
 def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
@@ -43,6 +54,7 @@ def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
             if instance.profile_picture != "http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png":
                 instance.picture_url = image.get('url')
                 instance.save()
+
 
 
 ####################  Attendance ##########################################
@@ -95,10 +107,11 @@ def notify_bad_grade(sender, instance=None, created=False, **kwargs):
         if instance.grade == 'F':
             for parent in instance.student.parent.filter(student=instance.student):
                 subject = "Your Child failed an assignment today"
-                message = "{}, your child {}, recieved an F on an assignment. The assignment is titled: {}, and is from his {} class".format(
-                        parent.first_name, instance.student, instance.title,
-                        instance.class_homework.school_class)
+                message = '{}, your child {}, recieved an F on an assignment. The assignment is titled: "{}", and is ' \
+                          'from his {} class'.format(parent.first_name, instance.student,
+                                                     instance.title,instance.class_homework.school_class)
                 send_text_email(subject,message,parent)
+
 
 
 ####################  Homework ##########################################
@@ -114,7 +127,9 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
 
             for parent in student.parent.filter(student=student):
                 subject = "new homework"
-                message =  "{}, has a new a homework assignment in {}".format(student.first_name,instance.school_class)
+                message =  '{}, has a new a homework assignment in {}. It is titled "{}".'.format(student.first_name,
+                                                                                                instance.school_class,
+                                                                                                instance.title)
                 send_text_email(subject,message,parent)
 
 
@@ -124,28 +139,20 @@ def create_student_homework(sender, instance=None, created=False, **kwargs):
 def create_student_fees(sender, instance=None, created=False, **kwargs):
     if created:
         for student in Student.objects.filter(school_class__name=instance.school_class.name):
-            ClassFeePayment.objects.create(student=student,
-                                           class_fee=instance,
-                                           name=instance.name,
-                                           description=instance.description,
-                                           image=instance.image,
-                                           date=instance.date,
+            ClassFeePayment.objects.create(student=student,class_fee=instance,
+                                           name=instance.name,description=instance.description,
+                                           image=instance.image,date=instance.date,
                                            amount_needed=instance.amount,
                                            )
             for parent in student.parent.filter(student=student):
-                send_mail("new fee",
-                          "{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(student.first_name,
+                subject = "new fee"
+                message = "{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(student.first_name,
                                                                                                  instance.name,
                                                                                                  instance.description,
                                                                                                  instance.amount,
                                                                                                  instance.date),
-                          "Cesar Marroquin <cesarm2333@gmail.com>",
-                          ["{}".format(parent.email)])
-                message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                                                 from_="+17023235267",
-                                                 body="{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(
-                                                         student.first_name, instance.name, instance.description,
-                                                         instance.amount, instance.date))
+                send_text_email(subject,message,parent)
+
 
 
 ####################  Forms ##########################################
@@ -153,30 +160,16 @@ def create_student_fees(sender, instance=None, created=False, **kwargs):
 def create_student_form(sender, instance=None, created=False, **kwargs):
     if created:
         for student in Student.objects.filter(school_class__name=instance.school_class.name):
-            StudentForm.objects.create(class_form=instance,
-                                       student=student,
-                                       file=instance.file,
-                                       title=instance.title,
-                                       subject=instance.subject,
-                                       message=instance.message,
-                                       signer=Parent.objects.filter(student=student)[0],
-                                       due_date=instance.due_date,
+            StudentForm.objects.create(class_form=instance,student=student,file=instance.file,title=instance.title,
+                                       subject=instance.subject,message=instance.message,
+                                       signer=Parent.objects.filter(student=student)[0],due_date=instance.due_date,
                                        )
 
             for parent in student.parent.filter(student=student):
-                send_mail("new fee",
-                          "{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(
-                                  student.first_name,
-                                  instance.message,
-                          ),
-                          "Cesar Marroquin <cesarm2333@gmail.com>",
-                          ["{}".format(parent.email)])
-                message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                                                 from_="+17023235267",
-                                                 body="{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign email and sign the form online".format(
-                                                         student.first_name,
-                                                         instance.message,
-                                                 ))
+                subject = "new form"
+                message = "{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign " \
+                          "email and sign the form online".format(student.first_name,instance.message,),
+                send_text_email(subject,message,parent)
 
 
 @receiver(post_save, sender=StudentForm)
@@ -194,4 +187,4 @@ def check_form_signed(sender, instance=None, created=False, **kwargs):
 
 
 
-        ####################  Events ##########################################
+####################  Events ##########################################
