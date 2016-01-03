@@ -18,6 +18,13 @@ token = "709fd183d70712788b8fc6c1ac045625"
 client = TwilioRestClient(account, token)
 
 
+def send_text_email(subject,message,stu_parent):
+        ### send email to parent when child is absent
+        send_mail(subject, message, "Cesar Marroquin <cesarm2333@gmail.com>",["{}".format(stu_parent.email)])
+        #### send text to parent when child is absent
+        text = client.messages.create(to="+1{}".format(stu_parent.phone_number.national_number),from_="+17023235267",body=message)
+
+
 ###################   Token Creation #################################
 @receiver(post_save)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -34,64 +41,36 @@ def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
         if instance.profile_picture and (hasattr(instance.profile_picture, 'path')):
             image = cloudinary.uploader.upload(instance.profile_picture.path)
             if instance.profile_picture != "http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png":
-                print("original url" + instance.picture_url)
                 instance.picture_url = image.get('url')
-                print("this is the new url" + instance.picture_url)
                 instance.save()
 
 
 ####################  Attendance ##########################################
 @receiver(post_save, sender=StudentAttendance)
 def notify_absent_tardy(sender, instance=None, created=False, **kwargs):
-    if instance.absent == True:
-        for parent in instance.student.parent.filter(student=instance.student):
-            print("{}, was absent".format(instance.student))
-            ### send email to parent when child is absent
-            send_mail("Your Student was Absent",
-                      "{}, was absent today from {}".format(instance.student, instance.school_class),
-                      "Cesar Marroquin <cesarm2333@gmail.com>",
-                      ["{}".format(parent.email)])
+        if instance.absent == True:
+            for parent in instance.student.parent.filter(student=instance.student):
+                subject = "Your Student was Absent"
+                message = "{}, was absent today from {}".format(instance.student, instance.school_class)
+                send_text_email(subject,message,parent)
 
-            #### send text to parent when child is absent
-            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                                             from_="+17023235267",
-                                             body="{}, your child {}, was absent today from {}".format(
-                                                     parent.first_name, instance.student, instance.school_class))
+        elif instance.tardy == True:
+            for parent in instance.student.parent.filter(student=instance.student):
+                subject = "Your Student was Tardy"
+                message = "{}, was tardy today in {}".format(instance.student, instance.school_class)
+                send_text_email(subject,message,parent)
 
-    elif instance.tardy == True:
-        for parent in instance.student.parent.filter(student=instance.student):
-            print("{}, was tardy".format(instance.student))
-            ### send email to parent when child is absent
-            send_mail("Your Student was Tardy",
-                      "{}, was tardy today in {}".format(instance.student, instance.school_class),
-                      "Cesar Marroquin <cesarm2333@gmail.com>",
-                      ["{}".format(parent.email)])
-
-            #### send text to parent when child is absent
-            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                                             from_="+17023235267",
-                                             body="{}, was tardy today in {}".format(instance.student,
-                                                                                     instance.school_class))
 
 
 ####################  Behavior ##########################################
-@receiver(post_save, sender=StudentAttendance)
+@receiver(post_save, sender=StudentBehavior)
 def notify_bad_behavior(sender, instance=None, created=False, **kwargs):
     if instance.good_behavior == False:
-        print("{}, was bad today".format(instance.student))
         for parent in instance.student.parent.filter(student=instance.student):
-            print("{}, was behaving badly today".format(instance.student))
-            ### send email to parent when child is absent
-            send_mail("Your Student was behaving badly today",
-                      "{}, was behaving badly today in {}".format(instance.student, instance.school_class),
-                      "Cesar Marroquin <cesarm2333@gmail.com>",
-                      ["{}".format(parent.email)])
+            subject = "Your Student was behaving badly today"
+            message = "{}, was behaving badly today in {}".format(instance.student, instance.school_class)
+            send_text_email(subject,message,parent)
 
-            #### send text to parent when child is absent
-            message = client.messages.create(to="+1{}".format(parent.phone_number.national_number),
-                                             from_="+17023235267",
-                                             body="{}, your child {}, was behaving badly today in {}".format(
-                                                     parent.first_name, instance.student, instance.school_class))
 
 
 ####################  Grades ##########################################
