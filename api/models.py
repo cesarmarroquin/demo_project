@@ -12,7 +12,6 @@ import cloudinary.uploader
 import cloudinary.api
 from django.core.mail import send_mail
 from twilio.rest import TwilioRestClient
-
 account = "ACcc7711574bd107f0b0dca098020b4b67"
 token = "709fd183d70712788b8fc6c1ac045625"
 client = TwilioRestClient(account, token)
@@ -177,14 +176,18 @@ def check_form_signed(sender, instance=None, created=False, **kwargs):
     client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
     if created:
         client.send_signature_request(
-                test_mode=True,
-                title=instance.title,
-                subject=instance.subject,
-                message=instance.message,
-                signers=[{'email_address': instance.signer.email, 'name': instance.signer.first_name}],
-                files=[instance.file.path]
+                test_mode=True,title=instance.title,
+                subject=instance.subject,message=instance.message,
+                signers=[{'email_address': instance.signer.email, 'name': instance.signer.first_name}],files=[instance.file.path]
         )
 
 
 
 ####################  Events ##########################################
+@receiver(post_save, sender=ClassEvent)
+def notify_new_event(sender, instance=None, created=False, **kwargs):
+        for student in Student.objects.filter(school_class=instance.school_class):
+            for parent in student.parent.filter(student=student):
+                subject = "There is a new event"
+                message = "{}, has a new event in {} class".format(student, instance.school_class)
+                send_text_email(subject,message,parent)
