@@ -7,6 +7,21 @@ from teachers.models import Teacher
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 
+#################### USER TESTS #################################
+
+#################### PARENT VIEWS TESTS #################################
+
+
+#################### TEACHER VIEWS TESTS #################################
+
+
+#################### SCHOOL_CLASS VIEWS TESTS #################################
+
+
+#################### SCHOOL VIEWS TESTS #################################
+
+
+#################### SCHOOL VIEWS TESTS #################################
 
 class ParentTests(TestCase):
 
