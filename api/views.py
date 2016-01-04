@@ -20,24 +20,6 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 
 ############## CUSTOM CODE TO SEND BACK USER ID AND USER TYPE BACK WITH A TOKEN ####################
-# class ObtainAuthToken2(APIView):
-#     throttle_classes = ()
-#     permission_classes = ()
-#     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
-#     renderer_classes = (renderers.JSONRenderer,)
-#     serializer_class = AuthTokenSerializer
-#
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data['user']
-#         token, created = Token.objects.get_or_create(user=user)
-#         user_type = user.user_type
-#         user_id = user.id
-#         return Response({'token': token.key, 'user_type': user_type, 'id': user_id})
-
-
-############## CUSTOM CODE TO SEND BACK USER ID AND USER TYPE BACK WITH A TOKEN ####################
 class ObtainAuthToken3(ObtainAuthToken):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -50,8 +32,7 @@ class ObtainAuthToken3(ObtainAuthToken):
 
 
 
-
-#################  PARENTS#####################
+#################  USER INFO  #####################
 class MyInfo(generics.ListCreateAPIView):
     """
     This retrieves basic info for a user such as name and user type.
@@ -73,19 +54,25 @@ class MyInfo(generics.ListCreateAPIView):
 
 #################  PARENTS #####################
 class ParentList(generics.ListCreateAPIView):
+    """
+    endpoint that lists all parents
+    """
     serializer_class = ParentSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Parent.objects.all()
+    queryset = Parent.objects.all()
 
 
 class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view retrieves one specific parent
+    """
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
 
 
 class ParentStudentsList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the students for a parent
+    """
     serializer_class = StudentSerializer
 
     def get_queryset(self):
@@ -97,6 +84,9 @@ class ParentStudentsList(generics.ListCreateAPIView):
 
 #################  TEACHERS #####################
 class ListTeachers(generics.ListCreateAPIView):
+    """
+    This view retrieves all Teachers
+    """
     serializer_class = TeacherSerializer
 
     def get_queryset(self):
@@ -105,11 +95,17 @@ class ListTeachers(generics.ListCreateAPIView):
 
 
 class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
+    """
+     This view retrieves one specific teacher
+    """
     serializer_class = TeacherSerializer
     queryset = Teacher.objects.all()
 
 
 class TeacherClassList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the classes for a teacher
+    """
     serializer_class = SchoolClassSerializer
 
     def get_queryset(self):
@@ -121,16 +117,25 @@ class TeacherClassList(generics.ListCreateAPIView):
 
 #################  CLASSES #####################
 class ListClasses(generics.ListCreateAPIView):
+    """
+    This view lists all classes
+    """
     serializer_class = SchoolClassSerializer
     queryset = SchoolClass.objects.all()
 
 
 class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view retrieves one specific class
+    """
     serializer_class = SchoolClassSerializer
     queryset = SchoolClass.objects.all()
 
 
 class ClassEventList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the events for a class
+    """
     serializer_class = ClassEventSerializer
 
     def get_queryset(self):
@@ -140,6 +145,9 @@ class ClassEventList(generics.ListCreateAPIView):
 
 
 class ClassFeeList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the fees for a class
+    """
     serializer_class = ClassFeeSerializer
 
     def get_queryset(self):
@@ -149,6 +157,9 @@ class ClassFeeList(generics.ListCreateAPIView):
 
 
 class ClassStudentList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the students for a class
+    """
     serializer_class = StudentSerializer
 
     def get_queryset(self):
@@ -160,16 +171,25 @@ class ClassStudentList(generics.ListCreateAPIView):
 
 ################# STUDENTS #####################
 class ListStudents(generics.ListCreateAPIView):
+    """
+    endpoint that lists all students
+    """
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
 
 
 class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view retrieves one specific parent
+    """
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
 
 
 class StudentFeeList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the fees for a student
+    """
     serializer_class = ClassFeePaymentSerializer
 
     def get_queryset(self):
@@ -179,6 +199,9 @@ class StudentFeeList(generics.ListCreateAPIView):
 
 
 class StudentHomeworkList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the homework for a student
+    """
     serializer_class = StudentHomeworkSerializer
 
     def get_queryset(self):
@@ -188,6 +211,9 @@ class StudentHomeworkList(generics.ListCreateAPIView):
 
 
 class StudentFormList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the forms for a student
+    """
     serializer_class = StudentFormSerializer
 
     def get_queryset(self):
@@ -197,6 +223,10 @@ class StudentFormList(generics.ListCreateAPIView):
 
 
 class StudentAttendanceList(generics.ListCreateAPIView):
+
+    """
+    This view retrieves all the attendance objects for a student
+    """
     serializer_class = StudentAttendanceSerializer
 
     def get_queryset(self):
@@ -206,6 +236,9 @@ class StudentAttendanceList(generics.ListCreateAPIView):
 
 
 class StudentBehaviorList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the behavior objects for a student
+    """
     serializer_class = StudentBehaviorSerializer
 
     def get_queryset(self):
@@ -216,16 +249,25 @@ class StudentBehaviorList(generics.ListCreateAPIView):
 
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
+    """
+    endpoint that lists all schools
+    """
     serializer_class = SchoolSerializer
     queryset = School.objects.all()
 
 
 class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
+    """
+    This view retrieves a specific school
+    """
     serializer_class = SchoolSerializer
     queryset = School.objects.all()
 
 
 class SchoolClassList(generics.ListCreateAPIView):
+    """
+    endpoint that lists all classes belonging to a school
+    """
     serializer_class = SchoolClassSerializer
 
     def get_queryset(self):
@@ -235,6 +277,9 @@ class SchoolClassList(generics.ListCreateAPIView):
 
 
 class SchoolEventList(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that lists all events for a specific school
+    """
     serializer_class = SchoolEventSerializer
 
     def get_queryset(self):
@@ -246,11 +291,17 @@ class SchoolEventList(generics.RetrieveUpdateDestroyAPIView):
 
 #################  SCHOOL EVENTS #####################
 class ListSchoolEvents(generics.ListCreateAPIView):
+    """
+    endpoint that lists all school events
+    """
     serializer_class = SchoolEventSerializer
     queryset = SchoolEvent.objects.all()
 
 
 class DetailSchoolEvents(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that retrieves one specific school event
+    """
     serializer_class = SchoolEventSerializer
     queryset = SchoolEvent.objects.all()
 
@@ -258,26 +309,46 @@ class DetailSchoolEvents(generics.RetrieveUpdateDestroyAPIView):
 
 #################  CLASS EVENTS #####################
 class ListClassEvents(generics.ListCreateAPIView):
+    """
+    endpoint that lists all class events
+    """
     serializer_class = ClassEventSerializer
     queryset = ClassEvent.objects.all()
 
 
 class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that retrieves one specific class event
+    """
     serializer_class = ClassEventSerializer
     queryset = ClassEvent.objects.all()
 
 
 #################  CLASS FEES #####################
 class ListClassFees(generics.ListCreateAPIView):
+    """
+    endpoint that lists all class fees
+    """
     serializer_class = ClassFeePaymentSerializer
     queryset = ClassFeePayment.objects.all()
 
 
 class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Endpoint that retrieves one specific class fee and also processes a payment transaction for a fee when the is_paid
+    attribute is marked to true.  If the card does not work, then the is_paid field is reset to false so that the
+    transaction can be attempted again later in the future. It will remain false until the transaction is successfully
+    processed.
+    """
     serializer_class = ClassFeePaymentSerializer
     queryset = ClassFeePayment.objects.all()
 
     def perform_update(self, serializer):
+        """
+
+        :param serializer:
+        :return:
+        """
         token = serializer.initial_data['token']
         stripe.api_key = 'sk_test_biD58COvD5uBeTpom2jHDsjT'
         if serializer.initial_data['is_paid'] == True:
@@ -296,6 +367,9 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that retrieves a specific homework object
+    """
     serializer_class = StudentHomeworkSerializer
     queryset = StudentHomework.objects.all()
 
@@ -303,11 +377,17 @@ class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
 
 #################  FORMS #####################
 class ListStudentForms(generics.ListCreateAPIView):
+    """
+    endpoint that lists all student forms
+    """
     serializer_class = StudentFormSerializer
     queryset = StudentForm.objects.all()
 
 
 class DetailStudentForms(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that retrieves a specific student form
+    """
     serializer_class = StudentFormSerializer
     queryset = StudentForm.objects.all()
 
@@ -315,11 +395,17 @@ class DetailStudentForms(generics.RetrieveUpdateDestroyAPIView):
 
 #################  ATTENDANCE #####################
 class ListStudentAttendance(generics.ListCreateAPIView):
+    """
+    endpoint that lists all attendance objects
+    """
     serializer_class = StudentAttendanceSerializer
     queryset = StudentAttendance.objects.all()
 
 
 class DetailStudentAttendance(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that retrieves a specific attendance object
+    """
     serializer_class = StudentAttendanceSerializer
     queryset = StudentAttendance.objects.all()
 
@@ -327,10 +413,16 @@ class DetailStudentAttendance(generics.RetrieveUpdateDestroyAPIView):
 
 #################  BEHAVIOR #####################
 class ListStudentBehavior(generics.ListCreateAPIView):
+    """
+    endpoint that lists all behavior objects
+    """
     serializer_class = StudentBehaviorSerializer
     queryset = StudentBehavior.objects.all()
 
 
 class DetailStudentBehavior(generics.RetrieveUpdateDestroyAPIView):
+    """
+    endpoint that retrieces a specific attendance object
+    """
     serializer_class = StudentBehaviorSerializer
     queryset = StudentBehavior.objects.all()
