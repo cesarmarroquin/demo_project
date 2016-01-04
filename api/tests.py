@@ -43,6 +43,18 @@ class TeacherTests(TestCase):
 
 
 #################### STUDENT VIEWS TESTS #################################
+class StudentTests(TestCase):
+
+    def setUp(self):
+        self.student = Student.objects.create(first_name='bobby', last_name='hill',)
+
+    def test_student_list(self):
+        url = reverse('student_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+        response_student = response.data['results'][0]
+        self.assertEqual(response_student['first_name'], self.student.first_name)
 
 
 #################### SCHOOL_CLASS VIEWS TESTS #################################

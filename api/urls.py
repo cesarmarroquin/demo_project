@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^teachers/(?P<pk>\d+)/classes$', TeacherClassList.as_view(), name='detail_teachers'),
 
     ###############   STUDENT ENDPOINTS #################
-    url(r'^students/$', ListStudents.as_view(), name='list_students'),
+    url(r'^students/$', ListStudents.as_view(), name='student_list'),
     url(r'^students/(?P<pk>\d+)$', DetailStudents.as_view(), name='detail_students'),
     url(r'^students/(?P<pk>\d+)/fees$', StudentFeeList.as_view(), name='detail_students'),
     url(r'^students/(?P<pk>\d+)/homework$', StudentHomeworkList.as_view(), name='detail_students'),
