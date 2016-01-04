@@ -114,18 +114,15 @@ class ListClasses(generics.ListCreateAPIView):
 
 class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolClassSerializer
-    def get_queryset(self):
-        id = self.kwargs['pk']
-        queryset = SchoolClass.objects.all()
-        return queryset
+    queryset = SchoolClass.objects.all()
 
 
 class ClassEventList(generics.ListCreateAPIView):
     serializer_class = ClassEventSerializer
 
     def get_queryset(self):
-        class_id = self.kwargs['pk']
-        queryset = ClassEvent.objects.filter(school_class__id = class_id )
+        id = self.kwargs['pk']
+        queryset = ClassEvent.objects.filter(school_class__id = id )
         return queryset
 
 
@@ -133,8 +130,8 @@ class ClassFeeList(generics.ListCreateAPIView):
     serializer_class = ClassFeeSerializer
 
     def get_queryset(self):
-        class_id = self.kwargs['pk']
-        queryset = ClassFee.objects.filter(school_class__id = class_id )
+        id = self.kwargs['pk']
+        queryset = ClassFee.objects.filter(school_class__id = id )
         return queryset
 
 
@@ -142,8 +139,8 @@ class ClassStudentList(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
 
     def get_queryset(self):
-        class_id = self.kwargs['pk']
-        queryset = Student.objects.filter(school_class__id = class_id )
+        id = self.kwargs['pk']
+        queryset = Student.objects.filter(school_class__id = id )
         return queryset
 
 
