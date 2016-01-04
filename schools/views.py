@@ -7,6 +7,7 @@ from schools.models import *
 from teachers.models import *
 from schools.models import *
 from parents.models import *
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import filters
 from rest_framework.authtoken import views
 from rest_framework.views import APIView
@@ -39,6 +40,7 @@ class MyInfo(generics.ListCreateAPIView):
     """
     serializer_class = ParentSerializer
 
+
     def get_queryset(self):
         user = self.request.user
         if user.user_type == "parent":
@@ -54,11 +56,13 @@ class MyInfo(generics.ListCreateAPIView):
 
 #################  PARENTS #####################
 class ParentList(generics.ListCreateAPIView):
+
     """
     endpoint that lists all parents
     """
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -67,6 +71,7 @@ class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class ParentStudentsList(generics.ListCreateAPIView):
@@ -74,6 +79,7 @@ class ParentStudentsList(generics.ListCreateAPIView):
     This view retrieves all the students for a parent
     """
     serializer_class = StudentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -88,6 +94,7 @@ class ListTeachers(generics.ListCreateAPIView):
     This view retrieves all Teachers
     """
     serializer_class = TeacherSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         queryset = Teacher.objects.all()
@@ -99,6 +106,7 @@ class DetailTeachers(generics.RetrieveUpdateDestroyAPIView):
      This view retrieves one specific teacher
     """
     serializer_class = TeacherSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Teacher.objects.all()
 
 
@@ -107,6 +115,7 @@ class TeacherClassList(generics.ListCreateAPIView):
     This view retrieves all the classes for a teacher
     """
     serializer_class = SchoolClassSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -121,6 +130,7 @@ class ListClasses(generics.ListCreateAPIView):
     This view lists all classes
     """
     serializer_class = SchoolClassSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = SchoolClass.objects.all()
 
 
@@ -129,6 +139,7 @@ class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
     This view retrieves one specific class
     """
     serializer_class = SchoolClassSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = SchoolClass.objects.all()
 
 
@@ -137,6 +148,7 @@ class ClassEventList(generics.ListCreateAPIView):
     This view retrieves all the events for a class
     """
     serializer_class = ClassEventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -149,6 +161,7 @@ class ClassFeeList(generics.ListCreateAPIView):
     This view retrieves all the fees for a class
     """
     serializer_class = ClassFeeSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -161,6 +174,7 @@ class ClassStudentList(generics.ListCreateAPIView):
     This view retrieves all the students for a class
     """
     serializer_class = StudentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -176,6 +190,7 @@ class ListStudents(generics.ListCreateAPIView):
     """
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
@@ -184,6 +199,7 @@ class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class StudentFeeList(generics.ListCreateAPIView):
@@ -191,6 +207,7 @@ class StudentFeeList(generics.ListCreateAPIView):
     This view retrieves all the fees for a student
     """
     serializer_class = ClassFeePaymentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         fee_id = self.kwargs['pk']
@@ -203,6 +220,7 @@ class StudentHomeworkList(generics.ListCreateAPIView):
     This view retrieves all the homework for a student
     """
     serializer_class = StudentHomeworkSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         homework_id = self.kwargs['pk']
@@ -215,6 +233,7 @@ class StudentFormList(generics.ListCreateAPIView):
     This view retrieves all the forms for a student
     """
     serializer_class = StudentFormSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
             id = self.kwargs['pk']
@@ -228,6 +247,7 @@ class StudentAttendanceList(generics.ListCreateAPIView):
     This view retrieves all the attendance objects for a student
     """
     serializer_class = StudentAttendanceSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
             id = self.kwargs['pk']
@@ -240,6 +260,7 @@ class StudentBehaviorList(generics.ListCreateAPIView):
     This view retrieves all the behavior objects for a student
     """
     serializer_class = StudentBehaviorSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
             id = self.kwargs['pk']
@@ -253,6 +274,7 @@ class ListSchools(generics.ListCreateAPIView):
     endpoint that lists all schools
     """
     serializer_class = SchoolSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = School.objects.all()
 
 
@@ -261,6 +283,7 @@ class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
     This view retrieves a specific school
     """
     serializer_class = SchoolSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = School.objects.all()
 
 
@@ -269,6 +292,7 @@ class SchoolClassList(generics.ListCreateAPIView):
     endpoint that lists all classes belonging to a school
     """
     serializer_class = SchoolClassSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -281,6 +305,7 @@ class SchoolEventList(generics.RetrieveUpdateDestroyAPIView):
     endpoint that lists all events for a specific school
     """
     serializer_class = SchoolEventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         id = self.kwargs['pk']
@@ -295,6 +320,7 @@ class ListSchoolEvents(generics.ListCreateAPIView):
     endpoint that lists all school events
     """
     serializer_class = SchoolEventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = SchoolEvent.objects.all()
 
 
@@ -303,6 +329,7 @@ class DetailSchoolEvents(generics.RetrieveUpdateDestroyAPIView):
     endpoint that retrieves one specific school event
     """
     serializer_class = SchoolEventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = SchoolEvent.objects.all()
 
 
@@ -313,6 +340,7 @@ class ListClassEvents(generics.ListCreateAPIView):
     endpoint that lists all class events
     """
     serializer_class = ClassEventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = ClassEvent.objects.all()
 
 
@@ -321,6 +349,7 @@ class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
     endpoint that retrieves one specific class event
     """
     serializer_class = ClassEventSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = ClassEvent.objects.all()
 
 
@@ -330,6 +359,7 @@ class ListClassFees(generics.ListCreateAPIView):
     endpoint that lists all class fees
     """
     serializer_class = ClassFeePaymentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = ClassFeePayment.objects.all()
 
 
@@ -341,6 +371,7 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
     processed.
     """
     serializer_class = ClassFeePaymentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = ClassFeePayment.objects.all()
 
     def perform_update(self, serializer):
@@ -371,6 +402,7 @@ class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
     endpoint that retrieves a specific homework object
     """
     serializer_class = StudentHomeworkSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentHomework.objects.all()
 
 
@@ -381,6 +413,7 @@ class ListStudentForms(generics.ListCreateAPIView):
     endpoint that lists all student forms
     """
     serializer_class = StudentFormSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentForm.objects.all()
 
 
@@ -389,6 +422,7 @@ class DetailStudentForms(generics.RetrieveUpdateDestroyAPIView):
     endpoint that retrieves a specific student form
     """
     serializer_class = StudentFormSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentForm.objects.all()
 
 
@@ -399,6 +433,7 @@ class ListStudentAttendance(generics.ListCreateAPIView):
     endpoint that lists all attendance objects
     """
     serializer_class = StudentAttendanceSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentAttendance.objects.all()
 
 
@@ -407,6 +442,7 @@ class DetailStudentAttendance(generics.RetrieveUpdateDestroyAPIView):
     endpoint that retrieves a specific attendance object
     """
     serializer_class = StudentAttendanceSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentAttendance.objects.all()
 
 
@@ -417,6 +453,7 @@ class ListStudentBehavior(generics.ListCreateAPIView):
     endpoint that lists all behavior objects
     """
     serializer_class = StudentBehaviorSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentBehavior.objects.all()
 
 
@@ -425,4 +462,5 @@ class DetailStudentBehavior(generics.RetrieveUpdateDestroyAPIView):
     endpoint that retrieces a specific attendance object
     """
     serializer_class = StudentBehaviorSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = StudentBehavior.objects.all()
