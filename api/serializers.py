@@ -17,11 +17,13 @@ class SchoolEventSerializer(serializers.ModelSerializer):
         fields = ('id','name','school', 'description', 'date', 'picture_url')
 
 
+
 ############## PARENT  #####################
 class ParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parent
         fields = ('id', 'user_type','first_name', 'last_name', 'student_set', 'picture_url')
+
 
 
 ############## TEACHER  #####################
@@ -31,11 +33,13 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields = ('id','user_type','first_name', 'last_name', 'picture_url' )
 
 
+
 ##############  CLASS  #####################
 class SchoolClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = SchoolClass
         fields = ('id','name', 'teacher', 'school', 'classevent_set', 'classfee_set', 'student_set')
+
 
 class ClassEventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,7 +56,8 @@ class ClassFeeSerializer(serializers.ModelSerializer):
 class ClassFeePaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassFeePayment
-        fields = ('id', 'student','class_fee','name','description','payment_amount','amount_needed','date', 'picture_url',  'payment_amount','charge_id','refunded','is_paid',)
+        fields = ('id', 'student','class_fee','name','description','payment_amount','amount_needed','date',
+                  'picture_url',  'payment_amount','charge_id','refunded','is_paid',)
 
 
 class ClassHomeworkSerializer(serializers.ModelSerializer):
@@ -67,28 +72,34 @@ class ClassFormSerializer(serializers.ModelSerializer):
         fields =('id','school_class','file','title','subject' ,'message','due_date')
 
 
+
 ############## STUDENT  #####################
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set', 'studentform_set', 'studentattendance_set', 'studentbehavior_set')
+        fields = ('id','first_name', 'last_name','parent', 'school_class', 'classfeepayment_set', 'studenthomework_set',
+                  'studentform_set', 'studentattendance_set', 'studentbehavior_set')
 
 
 class StudentHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentHomework
-        fields = ('id','class_homework','student','title','description','picture_url','due_date','points', 'total_points','grade', )
+        fields = ('id','class_homework','student','title','description','picture_url','due_date','points',
+                  'total_points','grade', )
 
 
 class StudentFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentForm
-        fields = ('id','class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count', 'signed')
+        fields = ('id','class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count',
+                  'signed')
+
 
 class StudentAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAttendance
         fields = ('id','student', 'school_class', 'date', 'absent', 'tardy')
+
 
 class StudentBehaviorSerializer(serializers.ModelSerializer):
     class Meta:
