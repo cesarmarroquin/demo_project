@@ -6,6 +6,7 @@ from schools.models import *
 from teachers.models import Teacher
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
+from datetime import date
 
 #################### PARENT VIEWS TESTS #################################
 class ParentTests(TestCase):
@@ -93,6 +94,19 @@ class SchoolTests(TestCase):
 
 
 #################  SCHOOL EVENTS #####################
+class SchoolEventTests(TestCase):
+
+    def setUp(self):
+        self.school = School.objects.create(name="iron yard")
+
+
+    def test_school_class_list(self):
+        url = reverse('school_event_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+        response_school_event = response.data['results'][0]
+        self.assertEqual(response_school_event['name'], self.school_event.name)
 
 #################  CLASS EVENTS #####################
 
