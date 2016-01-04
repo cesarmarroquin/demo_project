@@ -58,13 +58,13 @@ class ClassFeePaymentSerializer(serializers.ModelSerializer):
 class ClassHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassHomework
-        fields = ('school_class','title','description','picture_url','due_date','points', )
+        fields = ('id','school_class','title','description','picture_url','due_date','points', )
 
 
 class ClassFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassForm
-        fields =('school_class','file','title','subject' ,'message','due_date')
+        fields =('id','school_class','file','title','subject' ,'message','due_date')
 
 
 ############## STUDENT  #####################
@@ -88,9 +88,9 @@ class StudentFormSerializer(serializers.ModelSerializer):
 class StudentAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAttendance
-        fields = ('student', 'school_class', 'date', 'absent', 'tardy')
+        fields = ('id','student', 'school_class', 'date', 'absent', 'tardy')
 
 class StudentBehaviorSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentBehavior
-        fields = ('student','school_class', 'date', 'good_behavior', 'description')
+        fields = ('id','student','school_class', 'date', 'good_behavior', 'description')
