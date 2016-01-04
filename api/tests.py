@@ -77,6 +77,18 @@ class SchoolClassTests(TestCase):
 
 
 #################### SCHOOL VIEWS TESTS #################################
+class SchoolTests(TestCase):
+
+    def setUp(self):
+        self.school = School.objects.create(name="iron yard")
+
+    def test_school_class_list(self):
+        url = reverse('school_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+        response_school = response.data['results'][0]
+        self.assertEqual(response_school['name'], self.school.name)
 
 
 
