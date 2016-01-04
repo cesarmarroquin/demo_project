@@ -18,6 +18,7 @@ import stripe
 stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
 
 
+
 ############## CUSTOM CODE TO SEND BACK USER ID AND USER TYPE BACK WITH A TOKEN ####################
 class ObtainAuthToken2(APIView):
     throttle_classes = ()
@@ -46,8 +47,6 @@ class MyInfo(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        print(user.user_type)
-
         if user.user_type == "parent":
             self.serializer_class = ParentSerializer
             queryset = Parent.objects.filter(id=user.id)
@@ -62,27 +61,24 @@ class MyInfo(generics.ListCreateAPIView):
 #################  PARENTS #####################
 class ParentList(generics.ListCreateAPIView):
     serializer_class = ParentSerializer
-    # queryset = Parent.objects.all()
 
     def get_queryset(self):
         user = self.request.user
         return Parent.objects.all()
 
 
-
 class ParentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ParentSerializer
     queryset = Parent.objects.all()
+
 
 class ParentStudentsList(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
 
     def get_queryset(self):
-        user = self.request.user
         id = self.kwargs['pk']
         queryset = Student.objects.filter(parent__id=id)
         return queryset
-
 
 
 
@@ -92,9 +88,6 @@ class ListTeachers(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Teacher.objects.all()
-        # username = self.request.query_params.get('username', None)
-        # if username is not None:
-        #     queryset = queryset.filter(username=username)
         return queryset
 
 
@@ -107,11 +100,9 @@ class TeacherClassList(generics.ListCreateAPIView):
     serializer_class = SchoolClassSerializer
 
     def get_queryset(self):
-        user = self.request.user
         id = self.kwargs['pk']
         queryset = SchoolClass.objects.filter(teacher__id=id)
         return queryset
-
 
 
 
@@ -120,15 +111,11 @@ class ListClasses(generics.ListCreateAPIView):
     serializer_class = SchoolClassSerializer
     queryset = SchoolClass.objects.all()
 
-    # def perform_create(self, serializer):
-    #     serializer.save()
-
 
 class DetailClasses(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolClassSerializer
     def get_queryset(self):
         id = self.kwargs['pk']
-        print(id)
         queryset = SchoolClass.objects.all()
         return queryset
 
@@ -138,7 +125,6 @@ class ClassEventList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         class_id = self.kwargs['pk']
-        print(id)
         queryset = ClassEvent.objects.filter(school_class__id = class_id )
         return queryset
 
@@ -148,7 +134,6 @@ class ClassFeeList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         class_id = self.kwargs['pk']
-        print(id)
         queryset = ClassFee.objects.filter(school_class__id = class_id )
         return queryset
 
@@ -158,7 +143,6 @@ class ClassStudentList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         class_id = self.kwargs['pk']
-        print(id)
         queryset = Student.objects.filter(school_class__id = class_id )
         return queryset
 
@@ -168,9 +152,6 @@ class ClassStudentList(generics.ListCreateAPIView):
 class ListStudents(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 
 class DetailStudents(generics.RetrieveUpdateDestroyAPIView):
@@ -183,16 +164,15 @@ class StudentFeeList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         fee_id = self.kwargs['pk']
-        print(id)
         queryset = ClassFeePayment.objects.filter(student__id = fee_id )
         return queryset
+
 
 class StudentHomeworkList(generics.ListCreateAPIView):
     serializer_class = StudentHomeworkSerializer
 
     def get_queryset(self):
         homework_id = self.kwargs['pk']
-        print(id)
         queryset = StudentHomework.objects.filter(student__id = homework_id )
         return queryset
 
@@ -202,25 +182,24 @@ class StudentFormList(generics.ListCreateAPIView):
 
     def get_queryset(self):
             id = self.kwargs['pk']
-            print(id)
             queryset = StudentForm.objects.filter(student__id = id )
             return queryset
+
 
 class StudentAttendanceList(generics.ListCreateAPIView):
     serializer_class = StudentAttendanceSerializer
 
     def get_queryset(self):
             id = self.kwargs['pk']
-            print(id)
             queryset = StudentAttendance.objects.filter(student__id = id )
             return queryset
+
 
 class StudentBehaviorList(generics.ListCreateAPIView):
     serializer_class = StudentBehaviorSerializer
 
     def get_queryset(self):
             id = self.kwargs['pk']
-            print(id)
             queryset = StudentBehavior.objects.filter(student__id = id )
             return queryset
 
@@ -229,9 +208,6 @@ class StudentBehaviorList(generics.ListCreateAPIView):
 class ListSchools(generics.ListCreateAPIView):
     serializer_class = SchoolSerializer
     queryset = School.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 
 class DetailSchools(generics.RetrieveUpdateDestroyAPIView):
@@ -258,15 +234,10 @@ class SchoolEventList(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-
-
 #################  SCHOOL EVENTS #####################
 class ListSchoolEvents(generics.ListCreateAPIView):
     serializer_class = SchoolEventSerializer
     queryset = SchoolEvent.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 
 class DetailSchoolEvents(generics.RetrieveUpdateDestroyAPIView):
@@ -280,9 +251,6 @@ class ListClassEvents(generics.ListCreateAPIView):
     serializer_class = ClassEventSerializer
     queryset = ClassEvent.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save()
-
 
 class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ClassEventSerializer
@@ -293,9 +261,6 @@ class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
 class ListClassFees(generics.ListCreateAPIView):
     serializer_class = ClassFeePaymentSerializer
     queryset = ClassFeePayment.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 
 class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
@@ -320,8 +285,6 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
                 serializer.save(is_paid = False)
 
 
-
-
 class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentHomeworkSerializer
     queryset = StudentHomework.objects.all()
@@ -333,22 +296,17 @@ class ListStudentForms(generics.ListCreateAPIView):
     serializer_class = StudentFormSerializer
     queryset = StudentForm.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save()
-
 
 class DetailStudentForms(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentFormSerializer
     queryset = StudentForm.objects.all()
 
 
+
 #################  ATTENDANCE #####################
 class ListStudentAttendance(generics.ListCreateAPIView):
     serializer_class = StudentAttendanceSerializer
     queryset = StudentAttendance.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 
 class DetailStudentAttendance(generics.RetrieveUpdateDestroyAPIView):
@@ -362,15 +320,7 @@ class ListStudentBehavior(generics.ListCreateAPIView):
     serializer_class = StudentBehaviorSerializer
     queryset = StudentBehavior.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save()
-
 
 class DetailStudentBehavior(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentBehaviorSerializer
     queryset = StudentBehavior.objects.all()
-
-
-
-
-
