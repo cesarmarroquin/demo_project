@@ -125,7 +125,7 @@ class StudentBehavior(models.Model):
 class SchoolEvent(models.Model):
     school = models.ForeignKey(School)
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(default="school event description")
     date = models.DateField(default=date.today)
     image = models.ImageField(upload_to='school_event_images', blank=True, null=True)
     picture_url = models.URLField(default="http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png")
@@ -139,8 +139,8 @@ class SchoolEvent(models.Model):
 class ClassEvent(models.Model):
     school_class = models.ForeignKey(SchoolClass)
     name = models.CharField(max_length=255)
-    description = models.TextField()
-    date = models.DateField()
+    description = models.TextField(default="class event description")
+    date = models.DateField(default=date.today)
     image = models.ImageField(upload_to='class_event_images', blank=True, null=True)
     picture_url = models.URLField(default="http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png")
     created_at = models.DateTimeField(auto_now_add=True)
