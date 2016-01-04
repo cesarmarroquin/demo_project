@@ -98,7 +98,7 @@ class SchoolEventTests(TestCase):
 
     def setUp(self):
         self.school = School.objects.create(name="iron yard")
-
+        self.school_event = SchoolEvent.objects.create(name='field day', school=self.school,description="will be fun!",)
 
     def test_school_class_list(self):
         url = reverse('school_event_list')
