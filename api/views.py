@@ -375,9 +375,7 @@ class DetailClassEvents(generics.RetrieveUpdateDestroyAPIView):
     queryset = ClassEvent.objects.all()
 
 
-
-
-#################  CLASS EVENTS #####################
+#################  CLASS FEES #####################
 class ListClassFees(generics.ListCreateAPIView):
     serializer_class = ClassFeePaymentSerializer
     queryset = ClassFeePayment.objects.all()
@@ -413,6 +411,50 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
 class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentHomeworkSerializer
     queryset = StudentHomework.objects.all()
+
+
+
+#################  FORMS #####################
+class ListStudentForms(generics.ListCreateAPIView):
+    serializer_class = StudentFormSerializer
+    queryset = StudentForm.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailStudentForms(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StudentFormSerializer
+    queryset = StudentForm.objects.all()
+
+
+#################  ATTENDANCE #####################
+class ListStudentAttendance(generics.ListCreateAPIView):
+    serializer_class = StudentAttendanceSerializer
+    queryset = StudentAttendance.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailStudentAttendances(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StudentAttendanceSerializer
+    queryset = StudentAttendance.objects.all()
+
+    
+
+#################  BEHAVIOR #####################
+class ListStudentBehavior(generics.ListCreateAPIView):
+    serializer_class = StudentBehaviorSerializer
+    queryset = StudentBehavior.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailStudentBehavior(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StudentBehaviorSerializer
+    queryset = StudentBehavior.objects.all()
 
 
 
