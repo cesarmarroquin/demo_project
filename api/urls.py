@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^parents/(?P<pk>\d+)/students$', ParentStudentsList.as_view(), name='parent_detail'),
 
     ###############   TEACHER ENDPOINTS #################
-    url(r'^teachers/$', ListTeachers.as_view(), name='list_teachers'),
+    url(r'^teachers/$', ListTeachers.as_view(), name='teacher_list'),
     url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),
     url(r'^teachers/(?P<pk>\d+)/classes$', TeacherClassList.as_view(), name='detail_teachers'),
 
