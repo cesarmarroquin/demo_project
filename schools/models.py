@@ -205,7 +205,7 @@ class ClassFee(models.Model):
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     image = models.ImageField(upload_to='class_fee_images', blank=True, null=True)
     picture_url = models.URLField(default="http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png")
-    date = models.DateField()
+    date = models.DateField(default=date.today)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
