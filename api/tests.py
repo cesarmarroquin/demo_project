@@ -58,7 +58,22 @@ class StudentTests(TestCase):
 
 
 #################### SCHOOL_CLASS VIEWS TESTS #################################
+class SchoolClassTests(TestCase):
 
+    def setUp(self):
+        self.school = School.objects.create(name="iron yard")
+        self.teacher = Teacher.objects.create(username='bob', email='bob@bob.com', password='password')
+        self.school_class = SchoolClass.objects.create(name='python', teacher=self.teacher, school=self.school)
+
+    def test_school_class_list(self):
+        url = reverse('school_class_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+        response_school_class = response.data['results'][0]
+        self.assertEqual(response_school_class['name'], self.school_class.name)
+        self.assertEqual(response_school_class['teacher'], self.school_class.teacher.id)
+        self.assertEqual(response_school_class['school'], self.school_class.school.id)
 
 
 #################### SCHOOL VIEWS TESTS #################################

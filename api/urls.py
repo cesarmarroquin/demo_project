@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^students/(?P<pk>\d+)/behavior$', StudentBehaviorList.as_view(), name='detail_students'),
 
     ###############   CLASS ENDPOINTS #################
-    url(r'^classes/$', ListClasses.as_view(), name='list_classes'),
+    url(r'^classes/$', ListClasses.as_view(), name='school_class_list'),
     url(r'^classes/(?P<pk>\d+)$', DetailClasses.as_view(), name='detail_classes'),
     url(r'^classes/(?P<pk>\d+)/events$', ClassEventList.as_view(), name='detail_classes'),
     url(r'^classes/(?P<pk>\d+)/fees$', ClassFeeList.as_view(), name='detail_classes'),
