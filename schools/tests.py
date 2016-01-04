@@ -14,6 +14,10 @@ class ParentTests(TestCase):
 
     def setUp(self):
         self.parent = Parent.objects.create(username='bob', email='bob@bob.com', password='password' ,first_name="bob")
+        self.student1 = Student.objects.create(first_name='bobby', last_name='hill',)
+        self.student1.parent.add(self.parent)
+        self.student2 = Student.objects.create(first_name='peggy', last_name='hill',)
+        self.student2.parent.add(self.parent)
 
     def test_parent_list(self):
         url = reverse('parent_list')
@@ -42,6 +46,13 @@ class ParentTests(TestCase):
         self.assertEqual(response_parent['first_name'], self.parent.first_name)
         self.assertEqual(response_parent['id'], self.parent.id)
 
+    def test_parent_student_list(self):
+        url = reverse('parent_student_list', args=(self.parent.id,))
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 2)
+        response_student = response.data['results'][0]
+        self.assertEqual(response_student['first_name'], self.student1.first_name)
 
 #################### TEACHER VIEWS TESTS #################################
 class TeacherTests(TestCase):
