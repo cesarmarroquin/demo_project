@@ -16,17 +16,29 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 import stripe
 stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
-
+from rest_framework.authtoken.views import ObtainAuthToken
 
 
 ############## CUSTOM CODE TO SEND BACK USER ID AND USER TYPE BACK WITH A TOKEN ####################
-class ObtainAuthToken2(APIView):
-    throttle_classes = ()
-    permission_classes = ()
-    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
-    renderer_classes = (renderers.JSONRenderer,)
-    serializer_class = AuthTokenSerializer
+# class ObtainAuthToken2(APIView):
+#     throttle_classes = ()
+#     permission_classes = ()
+#     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
+#     renderer_classes = (renderers.JSONRenderer,)
+#     serializer_class = AuthTokenSerializer
+#
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['user']
+#         token, created = Token.objects.get_or_create(user=user)
+#         user_type = user.user_type
+#         user_id = user.id
+#         return Response({'token': token.key, 'user_type': user_type, 'id': user_id})
 
+
+############## CUSTOM CODE TO SEND BACK USER ID AND USER TYPE BACK WITH A TOKEN ####################
+class ObtainAuthToken3(ObtainAuthToken):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -35,6 +47,7 @@ class ObtainAuthToken2(APIView):
         user_type = user.user_type
         user_id = user.id
         return Response({'token': token.key, 'user_type': user_type, 'id': user_id})
+
 
 
 
