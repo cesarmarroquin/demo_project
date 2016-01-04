@@ -437,11 +437,11 @@ class ListStudentAttendance(generics.ListCreateAPIView):
         serializer.save()
 
 
-class DetailStudentAttendances(generics.RetrieveUpdateDestroyAPIView):
+class DetailStudentAttendance(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentAttendanceSerializer
     queryset = StudentAttendance.objects.all()
 
-    
+
 
 #################  BEHAVIOR #####################
 class ListStudentBehavior(generics.ListCreateAPIView):
