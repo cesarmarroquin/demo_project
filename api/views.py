@@ -17,6 +17,8 @@ from rest_framework.response import Response
 import stripe
 stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
 
+
+############## CUSTOM CODE TO SEND BACK USER ID AND USER TYPE BACK WITH A TOKEN ####################
 class ObtainAuthToken2(APIView):
     throttle_classes = ()
     permission_classes = ()
@@ -36,7 +38,6 @@ class ObtainAuthToken2(APIView):
 
 
 #################  PARENTS#####################
-
 class MyInfo(generics.ListCreateAPIView):
     """
     This retrieves basic info for a user such as name and user type.
@@ -55,93 +56,6 @@ class MyInfo(generics.ListCreateAPIView):
             self.serializer_class = TeacherSerializer
             queryset = Teacher.objects.filter(id=user.id)
             return queryset
-
-
-class ParentStudentList(generics.ListCreateAPIView):
-    """
-    This retrieves a list of all children for a parent
-    """
-    serializer_class = StudentSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.user_type == "parent":
-            return Student.objects.filter(parent__id=user.id)
-        else:
-            raise exceptions.AuthenticationFailed('You must be signed in')
-
-
-
-class ParentStudentDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    This retrieves a detail of a child for a parent
-    """
-    serializer_class = StudentSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.user_type == "parent":
-            queryset = Student.objects.filter(parent__id=user.id)
-            return queryset
-        else:
-            raise exceptions.AuthenticationFailed('You must be signed in')
-
-class ParentStudentClassList(generics.ListAPIView):
-    """
-    This retrieves a list of all classes for a child if user is parent
-    """
-    serializer_class = SchoolClassSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.user_type == "parent":
-            queryset = SchoolClass.objects.filter(student__parent__id=user.id)
-        else:
-            raise exceptions.AuthenticationFailed('You must be signed in')
-        return queryset
-
-
-class ParentStudentClassDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    This retrieves a list of all classes for a child if user is parent
-    Retrives a list of all classes for a teacher if the user is a teacher
-    """
-    serializer_class = SchoolClassSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.user_type == "parent":
-            queryset = SchoolClass.objects.filter(student__parent__id=user.id)
-        elif user.user_type == "teacher":
-            queryset = SchoolClass.objects.filter(teacher__id=user.id)
-        else:
-            queryset = None
-        return queryset
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
