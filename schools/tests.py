@@ -5,6 +5,7 @@ from parents.models import Parent
 from schools.models import *
 from teachers.models import Teacher
 from rest_framework import status
+from schools.views import *
 from rest_framework.test import APITestCase, APIRequestFactory
 from datetime import date
 
@@ -27,6 +28,18 @@ class ParentTests(TestCase):
         self.assertEqual(response.data['count'], 1)
         response_parent = response.data['results'][0]
         self.assertEqual(response_parent['first_name'], self.parent.first_name)
+
+    def test_parent_list_request(self):
+        url = reverse('parent_list')
+        view = ParentList.as_view()
+        factory = APIRequestFactory()
+        request = factory.get(url, {}, format='json')
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+        response_parent = response.data['results'][0]
+        self.assertEqual(response_parent['first_name'], self.parent.first_name)
+
 
 #################### TEACHER VIEWS TESTS #################################
 class TeacherTests(TestCase):
