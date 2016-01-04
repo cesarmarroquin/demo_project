@@ -14,7 +14,7 @@ urlpatterns = [
     ###############   PARENT ENDPOINTS #################
     url(r'^parents/$', ParentList.as_view(), name='parent_list'),
     url(r'^parents/(?P<pk>\d+)$', ParentDetail.as_view(), name='parent_detail'),
-    url(r'^parents/(?P<pk>\d+)/students$', ParentStudentsList.as_view(), name='parent_detail'),
+    url(r'^parents/(?P<pk>\d+)/students$', ParentStudentsList.as_view(), name='parent_student_list'),
 
     ###############   TEACHER ENDPOINTS #################
     url(r'^teachers/$', ListTeachers.as_view(), name='teacher_list'),

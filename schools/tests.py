@@ -38,9 +38,9 @@ class ParentTests(TestCase):
         url = reverse('parent_detail', args=(self.parent.id,))
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_parent = response.data['results'][0]
+        response_parent = response.data
         self.assertEqual(response_parent['first_name'], self.parent.first_name)
+        self.assertEqual(response_parent['id'], self.parent.id)
 
 
 #################### TEACHER VIEWS TESTS #################################
@@ -210,7 +210,6 @@ class ClassEventTests(TestCase):
 
 #################  CLASS FEES #####################
 class ClassFeeTests(TestCase):
-
     def setUp(self):
         self.school = School.objects.create(name="iron yard")
         self.teacher = Teacher.objects.create(username='bob', email='bob@bob.com', password='password')
