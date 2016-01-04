@@ -124,6 +124,14 @@ class StudentTests(TestCase):
         response_student = response.data['results'][0]
         self.assertEqual(response_student['first_name'], self.student.first_name)
 
+    def test_student_detail(self):
+        url = reverse('student_detail', args=(self.student.id,))
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_student = response.data
+        self.assertEqual(response_student['first_name'], self.student.first_name)
+        self.assertEqual(response_student['id'], self.student.id)
+
 
 #################### SCHOOL_CLASS VIEWS TESTS #################################
 class SchoolClassTests(TestCase):
