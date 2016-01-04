@@ -13,11 +13,6 @@ from datetime import date
 class ParentTests(TestCase):
 
     def setUp(self):
-        # self.school = School.objects.create(name="iron yard")
-        # self.teacher = Teacher.objects.create(username='jeff', email='jeff@jeff.com', password='123')
-        # self.user = Parent.objects.create(username='bob', email='bob@bob.com', password='password')
-        # self.school_class = SchoolClass.objects.create(name = "python backend", teacher = self.teacher, school= self.school)
-        # # self.student = Student.objects.create(first_name="cesar", last_name="marroquin", parent=self.user)
         self.parent = Parent.objects.create(username='bob', email='bob@bob.com', password='password' ,first_name="bob")
 
     def test_parent_list(self):
