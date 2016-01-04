@@ -18,8 +18,8 @@ urlpatterns = [
 
     ###############   TEACHER ENDPOINTS #################
     url(r'^teachers/$', ListTeachers.as_view(), name='teacher_list'),
-    url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='detail_teachers'),
-    url(r'^teachers/(?P<pk>\d+)/classes$', TeacherClassList.as_view(), name='detail_teachers'),
+    url(r'^teachers/(?P<pk>\d+)$', DetailTeachers.as_view(), name='teacher_detail'),
+    url(r'^teachers/(?P<pk>\d+)/classes$', TeacherClassList.as_view(), name='teacher_class_detail'),
 
     ###############   STUDENT ENDPOINTS #################
     url(r'^students/$', ListStudents.as_view(), name='student_list'),
