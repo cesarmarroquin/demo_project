@@ -234,3 +234,5 @@ class ClassFeePayment(models.Model):
 
     def __str__(self):
         return "{}, {}, paid = {}".format(self.class_fee, self.payment_amount, self.is_paid)
+
+import schools.signals

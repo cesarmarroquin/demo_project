@@ -1,4 +1,4 @@
-from api.views import *
+from schools.views import *
 from django.conf.urls import url, include
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -52,7 +52,7 @@ urlpatterns = [
     url(r'^class_events/(?P<pk>\d+)$', DetailClassEvents.as_view(), name='detail_class_events'),
 
     ###############   CLASS FEE ENDPOINTS #################
-    url(r'^class_fees/$', ListClassFees.as_view(), name='list_class_fees'),
+    url(r'^class_fees/$', ListClassFees.as_view(), name='class_fee_list'),
     url(r'^class_fees/(?P<pk>\d+)$', DetailClassFees.as_view(), name='detail_class_fees'),
 
     ###############   HOMEWORK ENDPOINTS #################
