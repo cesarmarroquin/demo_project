@@ -27,7 +27,7 @@ before_script:
   - python manage.py migrate
 
 script:
- - coverage run --source='.' manage.py test api schools parents teachers
+ - coverage run --source='.' manage.py test api
 
 after_success:
  - coveralls
