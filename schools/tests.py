@@ -25,8 +25,14 @@ class BaseApiTestClass(APITestCase):
 
         self.class_fee = ClassFee.objects.create(school_class=self.school_class1,name="art fee",description="fee for paint",amount=10)
         self.fee_payment1 = ClassFeePayment.objects.create(student=self.student1, class_fee = self.class_fee)
-        # self.class_homework = ClassHomework.objects.create()
-        # self.homework1 = StudentHomework.objects.create()
+        self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
+        self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
+        # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
+        # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
+        # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
+        # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
+        # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
+        # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
 
     def list_response(self, url_name,):
         url = reverse(url_name)
@@ -92,7 +98,7 @@ class TeacherTests(BaseApiTestClass):
         self.assertEqual(response.data['count'], len(SchoolClass.objects.filter(teacher__id=self.teacher.id)))
 
 
-#################### Teacher VIEWS TESTS #################################
+#################### STUDENT VIEWS TESTS #################################
 class StudentTests(BaseApiTestClass):
     def test_student_list(self):
         response = self.list_response('student_list')
@@ -112,8 +118,20 @@ class StudentTests(BaseApiTestClass):
         self.nested_resource_list_shared_tests(response, self.homework1,)
         self.assertEqual(response.data['count'], len(StudentHomework.objects.filter(student__id = self.student1.id)))
 
-
+#     def test_student_form_list(self):
+#         response = self.nested_resource_list_response('student_form_list',self.student1,len(StudentForm.objects.filter(student__id = self.student1.id)))
+#         self.nested_resource_list_shared_tests(response, self.form1,)
+#         self.assertEqual(response.data['count'], len(StudentForm.objects.filter(student__id = self.student1.id)))
+# #
+#     def test_student_attendance_list(self):
+#         response = self.nested_resource_list_response('student_attendance_list',self.student1,len(StudentAttendance.objects.filter(student__id = self.student1.id)))
+#         self.nested_resource_list_shared_tests(response, self.attendance1,)
+#         self.assertEqual(response.data['count'], len(StudentAttendance.objects.filter(student__id = self.student1.id)))
 #
+#     def test_student_behavior_list(self):
+#         response = self.nested_resource_list_response('student_behavior_list',self.student1,len(StudentBehavior.objects.filter(student__id = self.student1.id)))
+#         self.nested_resource_list_shared_tests(response, self.behavior1,)
+#         self.assertEqual(response.data['count'], len(StudentBehavior.objects.filter(student__id = self.student1.id)))
 # #################### TEACHER VIEWS TESTS #################################
 # class TeacherTests(BaseApiTestClass):
 #     def test_parent_list(self):
