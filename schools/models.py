@@ -76,7 +76,7 @@ class StudentHomework(models.Model):
     image = models.ImageField(upload_to='class_homework_images', blank=True, null=True)
     file = models.FileField(null=True, upload_to='student_homework/%Y/%m/%d')
     picture_url = models.URLField(default="http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png")
-    due_date = models.DateField()
+    due_date = models.DateField(default=date.today)
     turned_in = models.DateField(null=True)
     points = models.IntegerField(default=0)
     total_points = models.IntegerField(default=0)
