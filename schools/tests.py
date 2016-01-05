@@ -249,5 +249,7 @@ class AttendanceTests(BaseApiTestClass):
         response = self.list_response('attendance_list')
         self.list_shared_tests(response, StudentAttendance, self.attendance1)
 
-
+    def test_attendance_detail(self):
+        response = self.detail_response('attendance_detail',self.attendance1)
+        self.detail_shared_tests(response, self.attendance1)
 # #################  BEHAVIOR #####################
