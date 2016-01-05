@@ -396,6 +396,15 @@ class DetailClassFees(generics.RetrieveUpdateDestroyAPIView):
             except stripe.error.CardError:
                 serializer.save(is_paid = False)
 
+#################  HOMEWORK #####################
+class ListStudentHomework(generics.ListCreateAPIView):
+    """
+    endpoint that lists all student forms
+    """
+    serializer_class = StudentHomeworkSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = StudentHomework.objects.all()
+
 
 class DetailStudentHomework(generics.RetrieveUpdateDestroyAPIView):
     """

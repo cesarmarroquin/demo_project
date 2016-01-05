@@ -129,16 +129,11 @@ class StudentTests(BaseApiTestClass):
         self.nested_resource_list_shared_tests(response, self.homework1,)
         self.assertEqual(response.data['count'], len(StudentHomework.objects.filter(student__id = self.student1.id)))
 
-#     def test_student_form_list(self):
-#         response = self.nested_resource_list_response('student_form_list',self.student1,len(StudentForm.objects.filter(student__id = self.student1.id)))
-#         self.nested_resource_list_shared_tests(response, self.form1,)
-#         self.assertEqual(response.data['count'], len(StudentForm.objects.filter(student__id = self.student1.id)))
-# #
     def test_student_attendance_list(self):
         response = self.nested_resource_list_response('student_attendance_list',self.student1,len(StudentAttendance.objects.filter(student__id = self.student1.id)))
         self.nested_resource_list_shared_tests(response, self.attendance1,)
         self.assertEqual(response.data['count'], len(StudentAttendance.objects.filter(student__id = self.student1.id)))
-#
+
     def test_student_behavior_list(self):
         response = self.nested_resource_list_response('student_behavior_list',self.student1,len(StudentBehavior.objects.filter(student__id = self.student1.id)))
         self.nested_resource_list_shared_tests(response, self.behavior1,)
@@ -161,11 +156,6 @@ class SchoolClassTests(BaseApiTestClass):
         response = self.nested_resource_list_response('school_class_class_event_list',self.school_class1, 1)
         self.nested_resource_list_shared_tests(response, self.class_event1,)
         self.assertEqual(response.data['count'], len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
-
-    # def test_school_event_list(self):
-    #     response = self.nested_resource_list_response('school_school_event_list',self.school,1)
-    #     self.nested_resource_list_shared_tests(response, self.school_event1,)
-    #     self.assertEqual(response.data['count'], len(SchoolEvent.objects.filter(school__id = self.school.id)))
 
     def test_school_class_fee_list(self):
         response = self.nested_resource_list_response('school_class_class_fee_list',self.school_class1,1)
@@ -237,58 +227,8 @@ class SchoolClassFeeTests(BaseApiTestClass):
         response = self.detail_response('school_class_fee_detail',self.class_fee)
         self.detail_shared_tests(response, self.class_fee)
 
-#     def setUp(self):
-#         self.school = School.objects.create(name="iron yard")
-#         self.school_event = SchoolEvent.objects.create(name='field day', school=self.school,description="will be fun!",)
-#
-#     def test_school_event_list(self):
-#         url = reverse('school_event_list')
-#         response = self.client.get(url, {}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['count'], 1)
-#         response_school_event = response.data['results'][0]
-#         self.assertEqual(response_school_event['name'], self.school_event.name)
-#
-#
-# #################  CLASS EVENTS #####################
-# class ClassEventTests(TestCase):
-#
-#     def setUp(self):
-#         self.school = School.objects.create(name="iron yard")
-#         self.teacher = Teacher.objects.create(username='bob', email='bob@bob.com', password='password')
-#         self.school_class = SchoolClass.objects.create(name='python', teacher=self.teacher, school=self.school)
-#         self.class_event = ClassEvent.objects.create(name='field day', school_class=self.school_class)
-#
-#     def test_class_event_list(self):
-#         url = reverse('class_event_list')
-#         response = self.client.get(url, {}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['count'], 1)
-#         response_class_event = response.data['results'][0]
-#         self.assertEqual(response_class_event['name'], self.class_event.name)
-#
-#
-# #################  CLASS FEES #####################
-# class ClassFeeTests(TestCase):
-#     def setUp(self):
-#         self.school = School.objects.create(name="iron yard")
-#         self.teacher = Teacher.objects.create(username='bob', email='bob@bob.com', password='password')
-#         self.school_class = SchoolClass.objects.create(name='python', teacher=self.teacher, school=self.school)
-#         self.student = Student.objects.create(first_name='bobby', last_name='hill',)
-#         self.class_fee = ClassFee.objects.create(school_class=self.school_class, name='field day fee',
-#                                                  description="neccesary cost", amount=10)
-#         self.class_fee_payment = ClassFeePayment.objects.create(student=self.student,
-#                                                                 class_fee=self.class_fee,
-#                                                                 name=self.class_fee.name)
-#
-#     def test_class_fee_list(self):
-#             url = reverse('class_fee_list')
-#             response = self.client.get(url, {}, format='json')
-#             self.assertEqual(response.status_code, status.HTTP_200_OK)
-#             self.assertEqual(response.data['count'], 1)
-#             response_class_fee = response.data['results'][0]
-#             self.assertEqual(response_class_fee['name'], self.class_fee.name)
-#
+
+
 # ###############   HOMEWORK  #################
 #
 # #################  FORMS #####################
