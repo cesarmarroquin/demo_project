@@ -12,10 +12,10 @@ class Migration(migrations.Migration):
         ('schools', '0015_studentform_due_date'),
     ]
 
-    operations = [
-        migrations.AlterField(
-            model_name='studentform',
-            name='signer',
-            field=django.contrib.postgres.fields.jsonb.JSONField(),
-        ),
-    ]
+    # operations = [
+    #     migrations.AlterField(
+    #         model_name='studentform',
+    #         name='signer',
+    #         field=django.contrib.postgres.fields.jsonb.JSONField(),
+    #     ),
+    # ]
