@@ -235,10 +235,10 @@ class SchoolStudentHomeworkTests(BaseApiTestClass):
     def test_homework_list(self):
         response = self.list_response('homework_list')
         self.list_shared_tests(response, StudentHomework, self.homework1)
-    #
-    # def test_homework_detail(self):
-    #     response = self.detail_response('homework_detail',self.homework1)
-    #     self.detail_shared_tests(response, self.homework1)
+    
+    def test_homework_detail(self):
+        response = self.detail_response('homework_detail',self.homework1)
+        self.detail_shared_tests(response, self.homework1)
 #
 # #################  FORMS #####################
 #
