@@ -64,8 +64,8 @@ urlpatterns = [
     url(r'^student_forms/(?P<pk>\d+)$', DetailStudentForms.as_view(), name='detail_class_fee'),
 
     ###############  ATTENDANCE ENDPOINTS #################
-    url(r'^student_attendance/$', ListStudentAttendance.as_view(), name='detail_class_fees'),
-    url(r'^student_attendance/(?P<pk>\d+)$', DetailStudentAttendance.as_view(), name='detail_class_fees'),
+    url(r'^student_attendance/$', ListStudentAttendance.as_view(), name='attendance_list'),
+    url(r'^student_attendance/(?P<pk>\d+)$', DetailStudentAttendance.as_view(), name='attendance_detail'),
 
     ###############  BEHAVIOR ENDPOINTS #################
     url(r'^student_behavior/$', ListStudentBehavior.as_view(), name='detail_class_fees'),
