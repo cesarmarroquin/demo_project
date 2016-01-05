@@ -40,8 +40,8 @@ urlpatterns = [
     ###############   SCHOOL ENDPOINTS #################
     url(r'^schools/$', ListSchools.as_view(), name='school_list'),
     url(r'^schools/(?P<pk>\d+)$', DetailSchools.as_view(), name='school_detail'),
-    url(r'^schools/(?P<pk>\d+)/classes$', SchoolClassList.as_view(), name='detail_schools'),
-    url(r'^schools/(?P<pk>\d+)/events$', SchoolEventList.as_view(), name='detail_schools'),
+    url(r'^schools/(?P<pk>\d+)/classes$', SchoolClassList.as_view(), name='school_school_class_list'),
+    url(r'^schools/(?P<pk>\d+)/events$', SchoolEventList.as_view(), name='school_event_list'),
 
     ###############   SCHOOL EVENT ENDPOINTS #################
     url(r'^school_events/$', ListSchoolEvents.as_view(), name='school_event_list'),
@@ -52,8 +52,8 @@ urlpatterns = [
     url(r'^class_events/(?P<pk>\d+)$', DetailClassEvents.as_view(), name='school_class_event_detail'),
 
     ###############   CLASS FEE ENDPOINTS #################
-    url(r'^class_fees/$', ListClassFees.as_view(), name='class_fee_list'),
-    url(r'^class_fees/(?P<pk>\d+)$', DetailClassFees.as_view(), name='detail_class_fees'),
+    url(r'^class_fees/$', ListClassFees.as_view(), name='school_class_fee_list'),
+    url(r'^class_fees/(?P<pk>\d+)$', DetailClassFees.as_view(), name='school_class_fee_detail'),
 
     ###############   HOMEWORK ENDPOINTS #################
     url(r'^student_homework/(?P<pk>\d+)$', DetailStudentHomework.as_view(), name='detail_class_fees'),

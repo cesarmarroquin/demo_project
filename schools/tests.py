@@ -153,24 +153,25 @@ class SchoolClassTests(BaseApiTestClass):
         response = self.detail_response('school_class_detail',self.school_class1)
         self.detail_shared_tests(response, self.school_class1)
 
-    def test_school_class_event_list(self):
-        response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
-        self.nested_resource_list_shared_tests(response, self.class_event1,)
-        self.assertEqual(response.data['count'], len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
+    # def test_school_class_event_list(self):
+    #     response = self.nested_resource_list_response('school_class_event_list',self.school_class2, 1)
+    #     print("this is the reponse, {}".format(response))
+    #     self.nested_resource_list_shared_tests(response, self.class_event1,)
+    #     self.assertEqual(response.data['count'], len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
 
-    def test_school_class_fee_list(self):
-        response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
-        self.nested_resource_list_shared_tests(response, self.class_fee,)
-        self.assertEqual(response.data['count'], len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
-    #
-    def test_school_class_student_list(self):
-        response = self.nested_resource_list_response('school_class_student_list',self.school_class1,len(Student.objects.filter(school_class__id = self.school_class1.id)))
-        self.nested_resource_list_shared_tests(response, self.student2,)
-        self.assertEqual(response.data['count'], len(Student.objects.filter(school_class__id = self.school_class1.id)))
+    # def test_school_class_fee_list(self):
+    #     response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
+    #     self.nested_resource_list_shared_tests(response, self.class_fee,)
+    #     self.assertEqual(response.data['count'], len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
+    # #
+    # def test_school_class_student_list(self):
+    #     response = self.nested_resource_list_response('school_class_student_list',self.school_class1,len(Student.objects.filter(school_class__id = self.school_class1.id)))
+    #     self.nested_resource_list_shared_tests(response, self.student2,)
+    #     self.assertEqual(response.data['count'], len(Student.objects.filter(school_class__id = self.school_class1.id)))
 
 
 
-#################### SCHOOL_CLASS VIEWS TESTS #################################
+#################### SCHOOL VIEWS TESTS #################################
 class SchoolTests(BaseApiTestClass):
 
     def test_school_list(self):
@@ -180,6 +181,11 @@ class SchoolTests(BaseApiTestClass):
     def test_school_detail(self):
         response = self.detail_response('school_detail',self.school)
         self.detail_shared_tests(response, self.school)
+
+    def test_school_class_list(self):
+        response = self.nested_resource_list_response('school_school_class_list',self.school,1)
+        self.nested_resource_list_shared_tests(response, self.school_class2,)
+        self.assertEqual(response.data['count'], len(SchoolClass.objects.filter(school__id = self.school.id)))
 
 
 #
@@ -204,7 +210,19 @@ class SchoolClassEventTests(BaseApiTestClass):
 
     def test_school_class_event_detail(self):
         response = self.detail_response('school_class_event_detail',self.class_event1)
-        self.detail_shared_tests(response, self.school_event1)
+        self.detail_shared_tests(response, self.class_event1)
+
+
+##################  CLASS FEES #####################
+class SchoolClassFeeTests(BaseApiTestClass):
+
+    def test_school_class_fee_list(self):
+        response = self.list_response('school_class_fee_list')
+        self.list_shared_tests(response, ClassFee, self.class_fee)
+
+    def test_school_class_fee_detail(self):
+        response = self.detail_response('school_class_fee_detail',self.class_fee)
+        self.detail_shared_tests(response, self.class_fee)
 
 #     def setUp(self):
 #         self.school = School.objects.create(name="iron yard")
