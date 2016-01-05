@@ -157,10 +157,10 @@ class SchoolClassTests(BaseApiTestClass):
         self.nested_resource_list_shared_tests(response, self.class_event1,)
         self.assertEqual(response.data['count'], len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
 
-    # def test_school_class_fee_list(self):
-    #     response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
-    #     self.nested_resource_list_shared_tests(response, self.fee_payment1,)
-    #     self.assertEqual(response.data['count'], len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
+    def test_school_class_fee_list(self):
+        response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
+        self.nested_resource_list_shared_tests(response, self.class_fee,)
+        self.assertEqual(response.data['count'], len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
     #
     # def test_school_class_student_list(self):
     #     response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
