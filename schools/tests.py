@@ -22,6 +22,8 @@ class BaseApiTestClass(APITestCase):
 
         self.student1 = Student.objects.create(first_name='cesar', last_name='marroquin',)
         self.student1.parent.add(self.parent)
+        self.student1.school_class.add(self.school_class2)
+        self.student1.save()
 
 
         self.student2 = Student.objects.create(first_name='peggy', last_name='hill',)
@@ -53,7 +55,9 @@ class BaseApiTestClass(APITestCase):
 
     def nested_resource_list_response(self,url_name,model_name,data_count):
         url = reverse(url_name,args=(model_name.id,))
+        # print(url)
         response = self.client.get(url, {}, format='json')
+        # print(response.data)
         return response
 
     def list_shared_tests(self, response_name, model_name, model_instance):
@@ -168,10 +172,10 @@ class SchoolClassTests(BaseApiTestClass):
         self.nested_resource_list_shared_tests(response, self.class_fee,)
         self.assertEqual(response.data['count'], len(ClassFee.objects.filter(school_class__id = self.school_class1.id)))
     # #
-    # def test_school_class_student_list(self):
-    #     response = self.nested_resource_list_response('school_class_student_list',self.school_class1,len(Student.objects.filter(school_class__id = self.school_class1.id)))
-    #     self.nested_resource_list_shared_tests(response, self.student2,)
-    #     self.assertEqual(response.data['count'], len(Student.objects.filter(school_class__id = self.school_class1.id)))
+    def test_school_class_student_list(self):
+        response = self.nested_resource_list_response('school_class_student_list',self.school_class2,1)
+        self.nested_resource_list_shared_tests(response, self.student1,)
+        self.assertEqual(response.data['count'], len(Student.objects.filter(school_class__id = self.school_class2.id)))
 
 
 
