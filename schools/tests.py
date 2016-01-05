@@ -38,6 +38,7 @@ class BaseApiTestClass(APITestCase):
         self.attendance1 = StudentAttendance.objects.create(school_class=self.school_class1,student=self.student1)
         self.behavior1 = StudentBehavior.objects.create(school_class=self.school_class1,student=self.student1)
         self.class_event1 = ClassEvent.objects.create(school_class=self.school_class1,name="field trip")
+        self.school_event1 = SchoolEvent.objects.create(school=self.school,name="field trip")
 
 
     def list_response(self, url_name,):
@@ -181,83 +182,30 @@ class SchoolTests(BaseApiTestClass):
         self.detail_shared_tests(response, self.school)
 
 
-
-
-
-
-# #################### TEACHER VIEWS TESTS #################################
-# class TeacherTests(BaseApiTestClass):
-#     def test_parent_list(self):
-#         response = self.list_test_setup('teacher_list')
-#         self.assertEqual(response['first_name'], self.teacher.first_name)
-#
-#     def test_teacher_detail(self):
-#         response = self.detail_test_setup('teacher_detail',self.teacher)
-#         self.assertEqual(response['first_name'], self.teacher.first_name)
-#         self.assertEqual(response['id'], self.teacher.id)
-#
-#     def test_teacher_class_list(self):
-#         response = self.nested_resource_list_test_setup('teacher_class_list',self.teacher,2)
-#         self.assertEqual(response['name'], self.school_class2.name)
-#
-# #################### STUDENT VIEWS TESTS #################################
-# class StudentTests(TestCase):
-#
-#     def setUp(self):
-#         self.student = Student.objects.create(first_name='bobby', last_name='hill',)
-#
-#     def test_student_list(self):
-#         url = reverse('student_list')
-#         response = self.client.get(url, {}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['count'], 1)
-#         response_student = response.data['results'][0]
-#         self.assertEqual(response_student['first_name'], self.student.first_name)
-#
-#
-#     def test_student_detail(self):
-#         url = reverse('student_detail', args=(self.student.id,))
-#         response = self.client.get(url, {}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         response_student = response.data
-#         self.assertEqual(response_student['first_name'], self.student.first_name)
-#         self.assertEqual(response_student['id'], self.student.id)
-#
-#     # def test_student_fees(self):
-#     #
-#     # def test_student_homework(self):
-#     #
-#     # def test_student_forms(self):
-#     #
-#     # def test_student_attendance(self):
-#     #
-#     # def test_student_behavior(self):
-#
-#
-
-#
-#
-#
-# #################### SCHOOL VIEWS TESTS #################################
-# class SchoolTests(TestCase):
-#
-#     def setUp(self):
-#         self.school = School.objects.create(name="iron yard")
-#
-#     def test_school_list(self):
-#         url = reverse('school_list')
-#         response = self.client.get(url, {}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['count'], 1)
-#         response_school = response.data['results'][0]
-#         self.assertEqual(response_school['name'], self.school.name)
-#
-#
-#
 #
 # #################  SCHOOL EVENTS #####################
-# class SchoolEventTests(TestCase):
+class SchoolEventTests(BaseApiTestClass):
+
+    def test_school_eventlist(self):
+        response = self.list_response('school_event_list')
+        self.list_shared_tests(response, SchoolEvent, self.school)
+
+    def test_school_eventdetail(self):
+        response = self.detail_response('school_event_detail',self.school)
+        self.detail_shared_tests(response, self.school_event1)
+
+
+# # #################  SCHOOL EVENTS #####################
+# class SchoolEventTests(BaseApiTestClass):
 #
+#     def test_school_eventlist(self):
+#         response = self.list_response('school_event_list')
+#         self.list_shared_tests(response, SchoolEvent, self.school)
+#
+#     def test_school_eventdetail(self):
+#         response = self.detail_response('school_event_detail',self.school)
+#         self.detail_shared_tests(response, self.school_event1)
+
 #     def setUp(self):
 #         self.school = School.objects.create(name="iron yard")
 #         self.school_event = SchoolEvent.objects.create(name='field day', school=self.school,description="will be fun!",)

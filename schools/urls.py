@@ -45,7 +45,7 @@ urlpatterns = [
 
     ###############   SCHOOL EVENT ENDPOINTS #################
     url(r'^school_events/$', ListSchoolEvents.as_view(), name='school_event_list'),
-    url(r'^school_events/(?P<pk>\d+)$', DetailSchoolEvents.as_view(), name='detail_school_events'),
+    url(r'^school_events/(?P<pk>\d+)$', DetailSchoolEvents.as_view(), name='school_event_detail'),
 
     ###############   CLASS EVENT ENDPOINTS #################
     url(r'^class_events/$', ListClassEvents.as_view(), name='class_event_list'),
