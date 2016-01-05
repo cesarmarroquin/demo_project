@@ -68,7 +68,7 @@ urlpatterns = [
     url(r'^student_attendance/(?P<pk>\d+)$', DetailStudentAttendance.as_view(), name='attendance_detail'),
 
     ###############  BEHAVIOR ENDPOINTS #################
-    url(r'^student_behavior/$', ListStudentBehavior.as_view(), name='detail_class_fees'),
-    url(r'^student_behavior/(?P<pk>\d+)$', DetailStudentBehavior.as_view(), name='detail_class_fees'),
+    url(r'^student_behavior/$', ListStudentBehavior.as_view(), name='behavior_list'),
+    url(r'^student_behavior/(?P<pk>\d+)$', DetailStudentBehavior.as_view(), name='behavior_detail'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

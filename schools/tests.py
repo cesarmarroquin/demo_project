@@ -253,3 +253,9 @@ class AttendanceTests(BaseApiTestClass):
         response = self.detail_response('attendance_detail',self.attendance1)
         self.detail_shared_tests(response, self.attendance1)
 # #################  BEHAVIOR #####################
+class BehaviorTests(BaseApiTestClass):
+
+    def test_behavior_list(self):
+        response = self.list_response('behavior_list')
+        self.list_shared_tests(response, StudentBehavior, self.behavior1)
+
