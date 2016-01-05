@@ -25,6 +25,7 @@ class BaseApiTestClass(APITestCase):
 
         self.class_fee = ClassFee.objects.create(school_class=self.school_class1,name="art fee",description="fee for paint",amount=10)
         self.fee_payment1 = ClassFeePayment.objects.create(student=self.student1, class_fee = self.class_fee)
+        # self.class_homework = ClassHomework.objects.create()
         # self.homework1 = StudentHomework.objects.create()
 
     def list_response(self, url_name,):
