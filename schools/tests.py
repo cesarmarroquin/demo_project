@@ -195,16 +195,16 @@ class SchoolEventTests(BaseApiTestClass):
         self.detail_shared_tests(response, self.school_event1)
 
 
-# # #################  SCHOOL EVENTS #####################
-# class SchoolEventTests(BaseApiTestClass):
-#
-#     def test_school_eventlist(self):
-#         response = self.list_response('school_event_list')
-#         self.list_shared_tests(response, SchoolEvent, self.school)
-#
-#     def test_school_eventdetail(self):
-#         response = self.detail_response('school_event_detail',self.school)
-#         self.detail_shared_tests(response, self.school_event1)
+##################  CLASS EVENTS #####################
+class SchoolClassEventTests(BaseApiTestClass):
+
+    def test_school_class_event_list(self):
+        response = self.list_response('school_class_event_list')
+        self.list_shared_tests(response, ClassEvent, self.class_event1)
+
+    def test_school_class_event_detail(self):
+        response = self.detail_response('school_class_event_detail',self.class_event1)
+        self.detail_shared_tests(response, self.school_event1)
 
 #     def setUp(self):
 #         self.school = School.objects.create(name="iron yard")
