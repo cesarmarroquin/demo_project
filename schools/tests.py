@@ -13,23 +13,30 @@ from datetime import date
 class BaseApiTestClass(APITestCase):
     def setUp(self):
         self.parent = Parent.objects.create(username='maria', email='maria@maria.com', password='123' ,first_name="maria")
-        self.teacher = self.teacher = Teacher.objects.create(username='jeff', email='jeff@jeff.com', password='123')
+        self.teacher = Teacher.objects.create(username='jeff', email='jeff@jeff.com', password='123')
+        self.school = School.objects.create(name="iron yard")
+        self.school_class1 = SchoolClass.objects.create(name='back-end', teacher=self.teacher, school=self.school)
+
+        self.school_class2 = SchoolClass.objects.create(name='front-end', teacher=self.teacher, school=self.school)
+
+
         self.student1 = Student.objects.create(first_name='cesar', last_name='marroquin',)
         self.student1.parent.add(self.parent)
+
+
         self.student2 = Student.objects.create(first_name='peggy', last_name='hill',)
         self.student2.parent.add(self.parent)
         self.student3 = Student.objects.create(first_name='bart', last_name='simpson',)
-        self.school = School.objects.create(name="iron yard")
-        self.school_class1 = SchoolClass.objects.create(name='back-end', teacher=self.teacher, school=self.school)
-        self.school_class2 = SchoolClass.objects.create(name='front-end', teacher=self.teacher, school=self.school)
+
 
         self.class_fee = ClassFee.objects.create(school_class=self.school_class1,name="art fee",description="fee for paint",amount=10)
         self.fee_payment1 = ClassFeePayment.objects.create(student=self.student1, class_fee = self.class_fee)
         self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
         self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
-        self.class_form = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
-        # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
-        # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
+        # self.class_form = ClassForm.objects.create(school_class=self.school_class1,)
+        # self.student_form1 = StudentForm.objects.create(class_form=self.class_form, student=self.student1, signer=self.parent, file=)
+        self.attendance1 = StudentAttendance.objects.create(school_class=self.school_class1,student=self.student1)
+        self.behavior1 = StudentBehavior.objects.create(school_class=self.school_class1,student=self.student1)
         # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
         # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
         # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
@@ -123,15 +130,15 @@ class StudentTests(BaseApiTestClass):
 #         self.nested_resource_list_shared_tests(response, self.form1,)
 #         self.assertEqual(response.data['count'], len(StudentForm.objects.filter(student__id = self.student1.id)))
 # #
-#     def test_student_attendance_list(self):
-#         response = self.nested_resource_list_response('student_attendance_list',self.student1,len(StudentAttendance.objects.filter(student__id = self.student1.id)))
-#         self.nested_resource_list_shared_tests(response, self.attendance1,)
-#         self.assertEqual(response.data['count'], len(StudentAttendance.objects.filter(student__id = self.student1.id)))
+    def test_student_attendance_list(self):
+        response = self.nested_resource_list_response('student_attendance_list',self.student1,len(StudentAttendance.objects.filter(student__id = self.student1.id)))
+        self.nested_resource_list_shared_tests(response, self.attendance1,)
+        self.assertEqual(response.data['count'], len(StudentAttendance.objects.filter(student__id = self.student1.id)))
 #
-#     def test_student_behavior_list(self):
-#         response = self.nested_resource_list_response('student_behavior_list',self.student1,len(StudentBehavior.objects.filter(student__id = self.student1.id)))
-#         self.nested_resource_list_shared_tests(response, self.behavior1,)
-#         self.assertEqual(response.data['count'], len(StudentBehavior.objects.filter(student__id = self.student1.id)))
+    def test_student_behavior_list(self):
+        response = self.nested_resource_list_response('student_behavior_list',self.student1,len(StudentBehavior.objects.filter(student__id = self.student1.id)))
+        self.nested_resource_list_shared_tests(response, self.behavior1,)
+        self.assertEqual(response.data['count'], len(StudentBehavior.objects.filter(student__id = self.student1.id)))
 # #################### TEACHER VIEWS TESTS #################################
 # class TeacherTests(BaseApiTestClass):
 #     def test_parent_list(self):
