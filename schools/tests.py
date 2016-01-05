@@ -37,9 +37,8 @@ class BaseApiTestClass(APITestCase):
         # self.student_form1 = StudentForm.objects.create(class_form=self.class_form, student=self.student1, signer=self.parent, file=)
         self.attendance1 = StudentAttendance.objects.create(school_class=self.school_class1,student=self.student1)
         self.behavior1 = StudentBehavior.objects.create(school_class=self.school_class1,student=self.student1)
-        # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
-        # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
-        # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
+        self.class_event1 = ClassEvent.objects.create(school_class=self.school_class1,name="field trip")
+
 
     def list_response(self, url_name,):
         url = reverse(url_name)
@@ -139,6 +138,37 @@ class StudentTests(BaseApiTestClass):
         response = self.nested_resource_list_response('student_behavior_list',self.student1,len(StudentBehavior.objects.filter(student__id = self.student1.id)))
         self.nested_resource_list_shared_tests(response, self.behavior1,)
         self.assertEqual(response.data['count'], len(StudentBehavior.objects.filter(student__id = self.student1.id)))
+
+
+
+    #################### SCHOOL_CLASS VIEWS TESTS #################################
+class SchoolClassTests(BaseApiTestClass):
+
+    def test_school_class_list(self):
+        response = self.list_response('school_class_list')
+        self.list_shared_tests(response, SchoolClass, self.school_class1)
+
+    def test_school_class_detail(self):
+        response = self.detail_response('school_class_detail',self.school_class1)
+        self.detail_shared_tests(response, self.school_class1)
+
+    def test_school_class_event_list(self):
+        response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
+        self.nested_resource_list_shared_tests(response, self.class_event1,)
+        self.assertEqual(response.data['count'], len(ClassEvent.objects.filter(school_class__id = self.school_class1.id)))
+
+    # def test_school_class_fee_list(self):
+    #     response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
+    #     self.nested_resource_list_shared_tests(response, self.fee_payment1,)
+    #     self.assertEqual(response.data['count'], len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
+    #
+    # def test_school_class_student_list(self):
+    #     response = self.nested_resource_list_response('school_class_fee_list',self.school_class1,len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
+    #     self.nested_resource_list_shared_tests(response, self.fee_payment1,)
+    #     self.assertEqual(response.data['count'], len(ClassFeePayment.objects.filter(school_class__id = self.school_class1.id)))
+
+
+
 # #################### TEACHER VIEWS TESTS #################################
 # class TeacherTests(BaseApiTestClass):
 #     def test_parent_list(self):
@@ -188,26 +218,7 @@ class StudentTests(BaseApiTestClass):
 #     # def test_student_behavior(self):
 #
 #
-# #################### SCHOOL_CLASS VIEWS TESTS #################################
-# class SchoolClassTests(TestCase):
-#
-#     def setUp(self):
-#         self.school = School.objects.create(name="iron yard")
-#         self.teacher = Teacher.objects.create(username='bob', email='bob@bob.com', password='password')
-#         self.school_class = SchoolClass.objects.create(name='python', teacher=self.teacher, school=self.school)
-#
-#     def test_school_class_list(self):
-#         url = reverse('school_class_list')
-#         view = ListClasses.as_view()
-#         factory = APIRequestFactory()
-#         request = factory.get(url, {}, format='json')
-#         response = view(request)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['count'], 1)
-#         response_school_class = response.data['results'][0]
-#         self.assertEqual(response_school_class['name'], self.school_class.name)
-#         self.assertEqual(response_school_class['teacher'], self.school_class.teacher.id)
-#         self.assertEqual(response_school_class['school'], self.school_class.school.id)
+
 #
 #
 #
