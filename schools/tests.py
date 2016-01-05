@@ -187,6 +187,11 @@ class SchoolTests(BaseApiTestClass):
         self.nested_resource_list_shared_tests(response, self.school_class2,)
         self.assertEqual(response.data['count'], len(SchoolClass.objects.filter(school__id = self.school.id)))
 
+    def test_school_event_list(self):
+        response = self.nested_resource_list_response('school_school_event_list',self.school,1)
+        self.nested_resource_list_shared_tests(response, self.school_event1,)
+        self.assertEqual(response.data['count'], len(SchoolEvent.objects.filter(school__id = self.school.id)))
+
 
 #
 # #################  SCHOOL EVENTS #####################

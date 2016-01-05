@@ -300,7 +300,7 @@ class SchoolClassList(generics.ListCreateAPIView):
         return queryset
 
 
-class SchoolEventList(generics.RetrieveUpdateDestroyAPIView):
+class SchoolEventList(generics.ListCreateAPIView):
     """
     endpoint that lists all events for a specific school
     """
