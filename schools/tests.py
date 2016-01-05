@@ -16,27 +16,18 @@ class BaseApiTestClass(APITestCase):
         self.teacher = Teacher.objects.create(username='jeff', email='jeff@jeff.com', password='123')
         self.school = School.objects.create(name="iron yard")
         self.school_class1 = SchoolClass.objects.create(name='back-end', teacher=self.teacher, school=self.school)
-
         self.school_class2 = SchoolClass.objects.create(name='front-end', teacher=self.teacher, school=self.school)
-
-
         self.student1 = Student.objects.create(first_name='cesar', last_name='marroquin',)
         self.student1.parent.add(self.parent)
         self.student1.school_class.add(self.school_class2)
         self.student1.save()
-
-
         self.student2 = Student.objects.create(first_name='peggy', last_name='hill',)
         self.student2.parent.add(self.parent)
         self.student3 = Student.objects.create(first_name='bart', last_name='simpson',)
-
-
         self.class_fee = ClassFee.objects.create(school_class=self.school_class1,name="art fee",description="fee for paint",amount=10)
         self.fee_payment1 = ClassFeePayment.objects.create(student=self.student1, class_fee = self.class_fee)
         self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
         self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
-        # self.class_form = ClassForm.objects.create(school_class=self.school_class1,)
-        # self.student_form1 = StudentForm.objects.create(class_form=self.class_form, student=self.student1, signer=self.parent, file=)
         self.attendance1 = StudentAttendance.objects.create(school_class=self.school_class1,student=self.student1)
         self.behavior1 = StudentBehavior.objects.create(school_class=self.school_class1,student=self.student1)
         self.class_event1 = ClassEvent.objects.create(school_class=self.school_class1,name="field trip")
@@ -239,9 +230,8 @@ class SchoolStudentHomeworkTests(BaseApiTestClass):
     def test_homework_detail(self):
         response = self.detail_response('homework_detail',self.homework1)
         self.detail_shared_tests(response, self.homework1)
-#
-# #################  FORMS #####################
-#
+
+
 # #################  ATTENDANCE #####################
 class AttendanceTests(BaseApiTestClass):
 
