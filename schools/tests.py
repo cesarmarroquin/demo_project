@@ -27,7 +27,7 @@ class BaseApiTestClass(APITestCase):
         self.fee_payment1 = ClassFeePayment.objects.create(student=self.student1, class_fee = self.class_fee)
         self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
         self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
-        # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
+        self.class_form = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
         # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
         # self.class_homework = ClassHomework.objects.create(school_class=self.school_class1,title="math hw", description="addition", points=10)
         # self.homework1 = StudentHomework.objects.create(class_homework=self.class_homework,student=self.student1)
