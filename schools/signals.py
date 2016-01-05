@@ -151,6 +151,13 @@ def create_student_fees(sender, instance=None, created=False, **kwargs):
                                                                                                  instance.amount,
                                                                                                  instance.date),
                 send_text_email(subject,message,parent)
+    else:
+        for student_fee in ClassFeePayment.objects.filter(class_fee=instance):
+            student_fee.name=instance.name
+            student_fee.description = instance.description
+            student_fee.image = instance.description
+            student_fee.date = instance.date
+            student_fee.amount_needed = instance.amount
 
 
 

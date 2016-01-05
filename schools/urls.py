@@ -24,11 +24,11 @@ urlpatterns = [
     ###############   STUDENT ENDPOINTS #################
     url(r'^students/$', ListStudents.as_view(), name='student_list'),
     url(r'^students/(?P<pk>\d+)$', DetailStudents.as_view(), name='student_detail'),
-    url(r'^students/(?P<pk>\d+)/fees$', StudentFeeList.as_view(), name='detail_students'),
-    url(r'^students/(?P<pk>\d+)/homework$', StudentHomeworkList.as_view(), name='detail_students'),
-    url(r'^students/(?P<pk>\d+)/forms$', StudentFormList.as_view(), name='detail_students'),
-    url(r'^students/(?P<pk>\d+)/attendance$', StudentAttendanceList.as_view(), name='detail_students'),
-    url(r'^students/(?P<pk>\d+)/behavior$', StudentBehaviorList.as_view(), name='detail_students'),
+    url(r'^students/(?P<pk>\d+)/fees$', StudentFeeList.as_view(), name='student_fee_list'),
+    url(r'^students/(?P<pk>\d+)/homework$', StudentHomeworkList.as_view(), name='student_homework_list'),
+    url(r'^students/(?P<pk>\d+)/forms$', StudentFormList.as_view(), name='student_form_list'),
+    url(r'^students/(?P<pk>\d+)/attendance$', StudentAttendanceList.as_view(), name='student_attendance_list'),
+    url(r'^students/(?P<pk>\d+)/behavior$', StudentBehaviorList.as_view(), name='student_behavior_list'),
 
     ###############   CLASS ENDPOINTS #################
     url(r'^classes/$', ListClasses.as_view(), name='school_class_list'),
