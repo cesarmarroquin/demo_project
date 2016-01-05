@@ -10,94 +10,71 @@ from rest_framework.test import APITestCase, APIRequestFactory
 from datetime import date
 
 #################### PARENT VIEWS TESTS #################################
-class ParentTests(TestCase):
-
+class BaseApiTestClass(APITestCase):
     def setUp(self):
-        self.parent = Parent.objects.create(username='bob', email='bob@bob.com', password='password' ,first_name="bob")
-        self.student1 = Student.objects.create(first_name='bobby', last_name='hill',)
+        self.parent = Parent.objects.create(username='maria', email='maria@maria.com', password='123' ,first_name="maria")
+        self.teacher = self.teacher = Teacher.objects.create(username='jeff', email='jeff@jeff.com', password='123')
+        self.student1 = Student.objects.create(first_name='cesar', last_name='marroquin',)
         self.student1.parent.add(self.parent)
         self.student2 = Student.objects.create(first_name='peggy', last_name='hill',)
         self.student2.parent.add(self.parent)
-
-    def test_parent_list(self):
-        url = reverse('parent_list')
-        response = self.client.get(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_parent = response.data['results'][0]
-        self.assertEqual(response_parent['first_name'], self.parent.first_name)
-
-    def test_parent_list_request(self):
-        url = reverse('parent_list')
-        view = ParentList.as_view()
-        factory = APIRequestFactory()
-        request = factory.get(url, {}, format='json')
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_parent = response.data['results'][0]
-        self.assertEqual(response_parent['first_name'], self.parent.first_name)
-
-    def test_parent_detail(self):
-        url = reverse('parent_detail', args=(self.parent.id,))
-        response = self.client.get(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        response_parent = response.data
-        self.assertEqual(response_parent['first_name'], self.parent.first_name)
-        self.assertEqual(response_parent['id'], self.parent.id)
-
-    def test_parent_student_list(self):
-        url = reverse('parent_student_list', args=(self.parent.id,))
-        response = self.client.get(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 2)
-        response_student = response.data['results'][0]
-        self.assertEqual(response_student['first_name'], self.student1.first_name)
-
-#################### TEACHER VIEWS TESTS #################################
-class TeacherTests(TestCase):
-
-    def setUp(self):
-        self.teacher = Teacher.objects.create(username='bob', email='bob@bob.com', password='password')
         self.school = School.objects.create(name="iron yard")
         self.school_class1 = SchoolClass.objects.create(name='back-end', teacher=self.teacher, school=self.school)
         self.school_class2 = SchoolClass.objects.create(name='front-end', teacher=self.teacher, school=self.school)
 
-    def test_teacher_list(self):
-        url = reverse('teacher_list')
+    def list_test_setup(self, url_name,):
+        url = reverse(url_name)
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 1)
-        response_teacher = response.data['results'][0]
-        self.assertEqual(response_teacher['first_name'], self.teacher.first_name)
+        response = response.data['results'][0]
+        return response
 
-    def test_teacher_list_request(self):
-        url = reverse('teacher_list')
-        view = ListTeachers.as_view()
-        factory = APIRequestFactory()
-        request = factory.get(url, {}, format='json')
-        response = view(request)
+    def detail_test_setup(self,url_name,model_name):
+        url = reverse(url_name, args=(model_name.id,))
+        response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_teacher = response.data['results'][0]
-        self.assertEqual(response_teacher['first_name'], self.teacher.first_name)
+        response = response.data
+        return response
+
+    def nested_resource_list_test_setup(self,url_name,model_name,data_count):
+        url = reverse(url_name,args=(model_name.id,))
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], data_count)
+        response = response.data['results'][0]
+        return response
+
+    # def assert_equal_tests(self,response_name,model_name,field_name):
+    # def
+class ParentTests(BaseApiTestClass):
+    def test_parent_list(self):
+        response = self.list_test_setup('parent_list')
+        self.assertEqual(response['first_name'], self.parent.first_name)
+
+    def test_parent_detail(self):
+        response = self.detail_test_setup('parent_detail',self.parent)
+        self.assertEqual(response['first_name'], self.parent.first_name)
+        self.assertEqual(response['id'], self.parent.id)
+
+    def test_parent_student_list(self):
+        response = self.nested_resource_list_test_setup('parent_student_list',self.parent,2)
+        self.assertEqual(response['first_name'], self.student1.first_name)
+
+#################### TEACHER VIEWS TESTS #################################
+class TeacherTests(BaseApiTestClass):
+    def test_parent_list(self):
+        response = self.list_test_setup('teacher_list')
+        self.assertEqual(response['first_name'], self.teacher.first_name)
 
     def test_teacher_detail(self):
-        url = reverse('teacher_detail', args=(self.teacher.id,))
-        response = self.client.get(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        response_teacher = response.data
-        self.assertEqual(response_teacher['first_name'], self.teacher.first_name)
-        self.assertEqual(response_teacher['id'], self.teacher.id)
+        response = self.detail_test_setup('teacher_detail',self.teacher)
+        self.assertEqual(response['first_name'], self.teacher.first_name)
+        self.assertEqual(response['id'], self.teacher.id)
 
     def test_teacher_class_list(self):
-        url = reverse('teacher_class_list', args=(self.teacher.id,))
-        response = self.client.get(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 2)
-        response_teacher_class = response.data['results'][0]
-        self.assertEqual(response_teacher_class['name'], self.school_class2.name)
-
+        response = self.nested_resource_list_test_setup('teacher_class_list',self.teacher,2)
+        self.assertEqual(response['name'], self.school_class2.name)
 
 #################### STUDENT VIEWS TESTS #################################
 class StudentTests(TestCase):
@@ -113,16 +90,6 @@ class StudentTests(TestCase):
         response_student = response.data['results'][0]
         self.assertEqual(response_student['first_name'], self.student.first_name)
 
-    def test_student_list_request(self):
-        url = reverse('student_list')
-        view = ListStudents.as_view()
-        factory = APIRequestFactory()
-        request = factory.get(url, {}, format='json')
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_student = response.data['results'][0]
-        self.assertEqual(response_student['first_name'], self.student.first_name)
 
     def test_student_detail(self):
         url = reverse('student_detail', args=(self.student.id,))
@@ -131,6 +98,16 @@ class StudentTests(TestCase):
         response_student = response.data
         self.assertEqual(response_student['first_name'], self.student.first_name)
         self.assertEqual(response_student['id'], self.student.id)
+
+    # def test_student_fees(self):
+    #
+    # def test_student_homework(self):
+    #
+    # def test_student_forms(self):
+    #
+    # def test_student_attendance(self):
+    #
+    # def test_student_behavior(self):
 
 
 #################### SCHOOL_CLASS VIEWS TESTS #################################
@@ -154,15 +131,6 @@ class SchoolClassTests(TestCase):
         self.assertEqual(response_school_class['teacher'], self.school_class.teacher.id)
         self.assertEqual(response_school_class['school'], self.school_class.school.id)
 
-    def test_school_class_list_request(self):
-        url = reverse('school_class_list')
-        response = self.client.get(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_school_class = response.data['results'][0]
-        self.assertEqual(response_school_class['name'], self.school_class.name)
-        self.assertEqual(response_school_class['teacher'], self.school_class.teacher.id)
-        self.assertEqual(response_school_class['school'], self.school_class.school.id)
 
 
 #################### SCHOOL VIEWS TESTS #################################
@@ -179,16 +147,6 @@ class SchoolTests(TestCase):
         response_school = response.data['results'][0]
         self.assertEqual(response_school['name'], self.school.name)
 
-    def test_school_list_request(self):
-        url = reverse('school_list')
-        view = ListSchools.as_view()
-        factory = APIRequestFactory()
-        request = factory.get(url, {}, format='json')
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_school = response.data['results'][0]
-        self.assertEqual(response_school['name'], self.school.name)
 
 
 
@@ -207,16 +165,6 @@ class SchoolEventTests(TestCase):
         response_school_event = response.data['results'][0]
         self.assertEqual(response_school_event['name'], self.school_event.name)
 
-    def test_school_event_list_request(self):
-        url = reverse('school_event_list')
-        view = ListSchoolEvents.as_view()
-        factory = APIRequestFactory()
-        request = factory.get(url, {}, format='json')
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_school_event = response.data['results'][0]
-        self.assertEqual(response_school_event['name'], self.school_event.name)
 
 #################  CLASS EVENTS #####################
 class ClassEventTests(TestCase):
@@ -235,16 +183,6 @@ class ClassEventTests(TestCase):
         response_class_event = response.data['results'][0]
         self.assertEqual(response_class_event['name'], self.class_event.name)
 
-    def test_class_event_list_request(self):
-        url = reverse('class_event_list')
-        view = ListClassEvents.as_view()
-        factory = APIRequestFactory()
-        request = factory.get(url, {}, format='json')
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        response_class_event = response.data['results'][0]
-        self.assertEqual(response_class_event['name'], self.class_event.name)
 
 #################  CLASS FEES #####################
 class ClassFeeTests(TestCase):
