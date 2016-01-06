@@ -6,7 +6,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     ###############   TOKEN ENDPOINT USED FOR LOGIN AND USER AUTHENTICATION #################
-    url(r'^api-token-auth/', ObtainAuthToken3.as_view()),
+    url(r'^api-token-auth/', ObtainAuthToken3.as_view(), name="token_auth"),
 
     ###############   RETRIEVE USERS BASIC INFORMATION #################
     url(r'^my_info/$', MyInfo.as_view(), name='my_info'),

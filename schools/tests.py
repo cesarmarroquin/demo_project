@@ -6,8 +6,22 @@ from schools.models import *
 from teachers.models import Teacher
 from rest_framework import status
 from schools.views import *
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase, APIRequestFactory, APIClient
 from datetime import date
+
+
+###### AUTH TOKEN TEST ###################
+class AuthTest(APITestCase):
+    def test_ObtainAuthToken3(self):
+        self.client = APIClient()
+        self.url = reverse("token_auth")
+        self.parent = Parent.objects.create(username='maria', email='maria@maria.com', password='123' ,first_name="maria")
+        get = self.client.get(self.url, {}, format='json')
+        post = self.client.post(self.url, {"username": self.parent.username, "password": self.parent.password}, format='json')
+        self.assertEqual(get.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        print(post.content)
+
+        # print(view(post))
 
 #################### PARENT VIEWS TESTS #################################
 class BaseApiTestClass(APITestCase):
