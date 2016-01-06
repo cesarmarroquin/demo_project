@@ -30,7 +30,7 @@ class ParentSerializer(serializers.ModelSerializer):
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('id','user_type','first_name', 'last_name', 'picture_url', 'phone_number' )
+        fields = ('id','user_type','first_name', 'last_name', 'picture_url', 'phone_number','email')
 
 
 
