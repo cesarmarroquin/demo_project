@@ -114,16 +114,6 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle'
     ),
-    # 'DEFAULT_THROTTLE_RATES': {
-    #     'anon': '10/day',
-    #     'user': '1000/day',
-    #     'states': '100000/day'
-    # },
-    # 'DEFAULT_FILTER_BACKENDS': (
-    #     'rest_framework_filters.backends.DjangoFilterBackend',
-    # ),
-
-
 }
 
 
@@ -163,3 +153,8 @@ cloudinary.config(
 
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
+
+TWILIO_ACCOUNT_ID= os.environ['TWILIO_ACCOUNT_ID']
+TWILIO_TOKEN= os.environ['TWILIO_TOKEN']
+
+HELLO_SIGN_API_KEY=os.environ['HELLO_SIGN_API_KEY']

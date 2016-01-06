@@ -12,9 +12,7 @@ import cloudinary.uploader
 import cloudinary.api
 from django.core.mail import send_mail
 from twilio.rest import TwilioRestClient
-account = "ACcc7711574bd107f0b0dca098020b4b67"
-token = "709fd183d70712788b8fc6c1ac045625"
-client = TwilioRestClient(account, token)
+
 
 
 ###################  Text/Email Notification Function #################################
@@ -30,6 +28,7 @@ def send_text_email(subject,message,stu_parent):
     ### send email to parent when child is absent
     send_mail(subject, message, "Cesar Marroquin <cesarm2333@gmail.com>",["{}".format(stu_parent.email)])
     #### send text to parent when child is absent
+    client = TwilioRestClient(os.environ['TWILIO_ACCOUNT_ID'], os.environ['TWILIO_TOKEN'])
     text = client.messages.create(to="+1{}".format(stu_parent.phone_number.national_number),from_="+17023235267",body=message)
 
 
@@ -180,7 +179,7 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
 
 @receiver(post_save, sender=StudentForm)
 def check_form_signed(sender, instance=None, created=False, **kwargs):
-    client = HSClient(api_key='7d4094db9ecdb9a58f0edb6a5473755ae8e9968ae354a119f11c4779fd86ae26')
+    client = HSClient(api_key=os.environ['HELLO_SIGN_API_KEY'])
     if created:
         client.send_signature_request(
                 test_mode=True,title=instance.title,
