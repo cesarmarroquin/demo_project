@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework.filters',
-    'auth',
     'corsheaders',
     'parents',
     'teachers',
