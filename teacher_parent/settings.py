@@ -162,5 +162,4 @@ cloudinary.config(
 )
 
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
-# SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
-SENDGRID_API_KEY = "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"
+SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
