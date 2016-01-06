@@ -156,9 +156,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 cloudinary.config(
-  cloud_name = "dpkceqvfi",
-  api_key = "119488914611177",
-  api_secret = "qzqbr-FrJvYemSoGXLJS6f2yECw"
+  cloud_name = os.environ['CLOUDINARY_CLOUD_NAME'],
+  api_key = os.environ['CLOUDINARY_API_KEY'],
+  api_secret = os.environ['CLOUDINARY_SECRET_KEY']
 )
 
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
