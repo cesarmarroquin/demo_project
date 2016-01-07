@@ -46,7 +46,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 ####################  Users ##########################################
 @receiver(post_save)
 def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
-    list_of_models = ('Teacher', 'Parent',)
+    list_of_models = ('Teacher', 'Parent','Student')
     if sender.__name__ in list_of_models:
         if created:
             if instance.profile_picture and (hasattr(instance.profile_picture, 'path')):

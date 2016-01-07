@@ -1,19 +1,7 @@
 from datetime import date
-
-from django.contrib.auth.models import User
-from django.db import models
-
 from parents.models import *
 from teachers.models import *
 import stripe
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-import os
-# CLOUDINARY_API_KEY = os.environ['CLOUDINARY_API_KEY']
-# CLOUDINARY_SECRET_KEY = os.environ['CLOUDINARY_SECRET_KEY']
-
-
 
 class School(models.Model):
     name = models.CharField(max_length=255)
@@ -41,8 +29,6 @@ class Student(models.Model):
     last_name = models.CharField(max_length=255)
     parent = models.ManyToManyField(Parent)
     school_class = models.ManyToManyField(SchoolClass)
-    # school_fee = models.ForeignKey(SchoolFee)
-    # class_fee = models.ForeignKey(ClassFee)
     profile_picture = models.ImageField(upload_to='student_profile_pictures', blank=True, null=True)
     picture_url = models.URLField(default="http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,9 +36,6 @@ class Student(models.Model):
 
     def __str__(self):
         return "{}, {}".format(self.last_name, self.first_name)
-
-# class StudentBehavior(models.Model):
-
 
 
 class ClassHomework(models.Model):
@@ -185,22 +168,6 @@ class StudentForm(models.Model):
         return "{}".format(self.title)
 
 
-
-# class SchoolFee(models.Model):
-#     school = models.ForeignKey(School)
-#     name = models.CharField(max_length=255)
-#     description = models.TextField()
-#     amount = models.DecimalField(max_digits=9, decimal_places=2)
-#     charge_id = models.CharField(max_length=255, null=True)
-#     refunded = models.BooleanField(default=False)
-#     image = models.ImageField(upload_to='school_fee_images', blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     modified_at = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return "{}".format(self.name)
-
-#
 class ClassFee(models.Model):
     school_class = models.ForeignKey(SchoolClass)
     name = models.CharField(max_length=255)
