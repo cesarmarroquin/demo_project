@@ -144,7 +144,7 @@ def create_student_fees(sender, instance=None, created=False, **kwargs):
                                            )
             for parent in student.parent.filter(student=student):
                 subject = "new fee"
-                message = "{}, has a new {}. \n{}. It will be {}, and it is due on {},  ".format(student.first_name,
+                message = "{}, has a new {}. \n{}. It will be ${}, and it is due on {},  ".format(student.first_name,
                                                                                                  instance.name,
                                                                                                  instance.description,
                                                                                                  instance.amount,
