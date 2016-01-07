@@ -144,11 +144,13 @@ def create_student_fees(sender, instance=None, created=False, **kwargs):
                                            )
             for parent in student.parent.filter(student=student):
                 subject = "new fee"
-                message = "{}, has a new {}. \n{}. It will be ${}, and it is due on {},  ".format(student.first_name,
-                                                                                                 instance.name,
-                                                                                                 instance.description,
-                                                                                                 instance.amount,
-                                                                                                 instance.date),
+                message = "{}, has a new {} in his {} class. \n{}. It will be ${}, and it is due on {}," \
+                          "  ".format(student.first_name,
+                                     instance.name,
+                                     instance.school_class.name,
+                                     instance.description,
+                                     instance.amount,
+                                     instance.date),
                 send_text_email(subject,message,parent)
     else:
         for student_fee in ClassFeePayment.objects.filter(class_fee=instance):
