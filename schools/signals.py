@@ -53,7 +53,7 @@ def upload_picture_cloudinary(sender, instance=None, created=False, **kwargs):
                 image = cloudinary.uploader.upload(instance.profile_picture.path)
                 if instance.profile_picture != "http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png":
                     instance.picture_url = image.get('url')
-                    instance.save()
+                    instance.save(update_fields=["picture_url"])
 
 
 
@@ -182,27 +182,12 @@ def create_student_form(sender, instance=None, created=False, **kwargs):
             )
             form.sign_url = hsign.json_data.get('signing_url')
             form.save(update_fields=["sign_url"])
-            print(form.sign_url)
+
             for parent in student.parent.filter(student=student):
                 subject = "new form"
                 message = "{}, has a new form that requires a signature. \n{}. Please check your email for a hello sign " \
                           "email and sign the form online".format(student.first_name,instance.message,),
                 send_text_email(subject,message,parent)
-
-
-# @receiver(post_save, sender=StudentForm)
-# def check_form_signed(sender, instance=None, created=False, **kwargs):
-#     client = HSClient(api_key=os.environ['HELLO_SIGN_API_KEY'])
-#     if created:
-#         hsign = client.send_signature_request(
-#                 test_mode=True,title=instance.title,
-#                 subject=instance.subject,message=instance.message,
-#                 signers=[{'email_address': instance.signer.email, 'name': instance.signer.first_name}],files=[instance.file.path]
-#         )
-#         hsign.json_data.get('signing_url')
-#     instance.sign_url = hsign.json_data.get('signing_url')
-#     instance.save()
-
 
 
 ####################  Events ##########################################
