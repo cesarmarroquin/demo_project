@@ -167,6 +167,7 @@ class StudentForm(models.Model):
     class_form = models.ForeignKey(ClassForm)
     student = models.ForeignKey(Student, default=1)
     file = models.FileField(upload_to='student_forms/%Y/%m/%d')
+    sign_url = models.URLField(null=True)
     title = models.CharField(max_length=255, default="title goes here")
     subject = models.TextField(default="subject goes here")
     message = models.TextField(default="message goes here")

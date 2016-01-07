@@ -91,7 +91,7 @@ class StudentHomeworkSerializer(serializers.ModelSerializer):
 class StudentFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentForm
-        fields = ('id','class_form', 'student','file','title','subject' ,'message','signer', 'viewed', 'view_count',
+        fields = ('id','class_form', 'student','sign_url','file','title','subject' ,'message','signer', 'viewed', 'view_count',
                   'signed')
 
 

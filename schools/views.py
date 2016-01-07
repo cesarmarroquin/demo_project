@@ -268,6 +268,20 @@ class StudentBehaviorList(generics.ListCreateAPIView):
             return queryset
 
 
+class StudentParentList(generics.ListCreateAPIView):
+    """
+    This view retrieves all the behavior objects for a student
+    """
+    serializer_class = ParentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+            id = self.kwargs['pk']
+            # queryset = Parent.objects.filter(id_in= id )
+            queryset = Parent.objects.filter(id_in=Student.objects.filter(id=id).parent)
+            return queryset
+
+
 #################  SCHOOLS #####################
 class ListSchools(generics.ListCreateAPIView):
     """

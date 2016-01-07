@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^students/(?P<pk>\d+)/forms$', StudentFormList.as_view(), name='student_form_list'),
     url(r'^students/(?P<pk>\d+)/attendance$', StudentAttendanceList.as_view(), name='student_attendance_list'),
     url(r'^students/(?P<pk>\d+)/behavior$', StudentBehaviorList.as_view(), name='student_behavior_list'),
+    url(r'^students/(?P<pk>\d+)/parent$', StudentParentList.as_view(), name='student_parent_list'),
 
     ###############   CLASS ENDPOINTS #################
     url(r'^classes/$', ListClasses.as_view(), name='school_class_list'),
