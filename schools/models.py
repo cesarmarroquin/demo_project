@@ -43,6 +43,8 @@ class Student(models.Model):
     school_class = models.ManyToManyField(SchoolClass)
     # school_fee = models.ForeignKey(SchoolFee)
     # class_fee = models.ForeignKey(ClassFee)
+    profile_picture = models.ImageField(upload_to='student_profile_pictures', blank=True, null=True)
+    picture_url = models.URLField(default="http://res.cloudinary.com/dpkceqvfi/image/upload/v1450429700/default_profile_ru96fo.png")
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
